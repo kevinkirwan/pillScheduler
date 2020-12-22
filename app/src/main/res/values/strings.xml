@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">capsule</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="date">Monday, May 26</string>
+    <string name="item_a">Today</string>
+    <string name="item_b">Medicine Inventory</string>
+    <string name="item_c">Schedule Medicine</string>
+    <string name="item_d">Settings</string>
+    <string name="single_a">Single Item A</string>
+    <string name="single_b">Single Item B</string>
+</resources>

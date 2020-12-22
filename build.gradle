@@ -1,0 +1,44 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        google()
+        jcenter()
+        
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.6.1'
+        
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url { "https://jitpack.io" }
+        }
+        
+    }
+}
+
+ext {
+    sdk = 29
+    minSdk = 16
+
+    github = 'https://github.com/florent37/SingleDateAndTimePicker'
+
+    libraryGroup = 'com.github.florent37'
+    libraryName = 'singledateandtimepicker'
+    libraryVersion = "2.2.8"
+    libraryDescription = 'SingleDateAndTimePicker'
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

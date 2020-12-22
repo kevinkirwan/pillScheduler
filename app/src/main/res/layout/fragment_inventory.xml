@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/black">
+
+    <!--
+    <View
+        android:id="@+id/card_divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorSecondary" />
+        -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/inventoryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp"
+        android:scrollbars="vertical"
+        android:background="@color/colorPrimary"/>
+
+    <ImageView
+        android:id="@+id/addMedicineItem"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/theme_background"
+        android:tint="@color/colorPrimary"
+        app:backgroundTint="@color/colorSecondary"
+        android:src="@drawable/ic_add_black_24dp" />
+
+    <ImageView
+        android:id="@+id/throwaway1"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="132dp"
+        android:layout_marginRight="132dp"
+        android:layout_marginBottom="132dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/theme_background"
+        android:tint="@color/colorPrimary"
+        app:backgroundTint="@color/colorSecondary"
+        android:src="@drawable/abc_vector_test" />
+
+</RelativeLayout>
