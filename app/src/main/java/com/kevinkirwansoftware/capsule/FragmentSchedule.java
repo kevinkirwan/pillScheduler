@@ -101,7 +101,7 @@ public class FragmentSchedule extends Fragment {
 
                     @Override
                     public void onDeleteClick(int position) {
-                        showDeleteOption();
+                        showDeleteOption(position);
                     }
 
                     @Override
@@ -125,8 +125,8 @@ public class FragmentSchedule extends Fragment {
 
     }
 
-    public void showDeleteOption(){
-
+    public void showDeleteOption(int position){
+        removeItem(position);
     }
 
     public void launchEditMenu(int position){
@@ -138,6 +138,8 @@ public class FragmentSchedule extends Fragment {
                 if((scheduleDialog.getScheduleItem() != null) && scheduleDialog.getUpdateNeeded()){
                     mScheduleItems.add(scheduleDialog.getScheduleItem());
                     mScheduleAdapter.notifyItemInserted(mScheduleItems.size());
+                    ApplicationFlags.SetReminderDatasetItemAddedFlag((scheduleDialog.getScheduleItem().getScheduleID()));
+                    Log.d("Kevin", "New Item UUID" + scheduleDialog.getScheduleItem().getScheduleID());
                 }
             }
         });
@@ -179,6 +181,7 @@ public class FragmentSchedule extends Fragment {
 
 
     private void removeItem(int position){
+        ApplicationFlags.SetReminderDatasetItemRemovedFlag(mScheduleItems.get(position).getScheduleID());
         mScheduleItems.remove(position);
         mScheduleAdapter.notifyItemRemoved(position);
     }
@@ -200,6 +203,8 @@ public class FragmentSchedule extends Fragment {
                         if((scheduleDialog.getScheduleItem() != null) && scheduleDialog.getUpdateNeeded()){
                             mScheduleItems.add(scheduleDialog.getScheduleItem());
                             mScheduleAdapter.notifyItemInserted(mScheduleItems.size());
+                            ApplicationFlags.SetReminderDatasetItemAddedFlag(scheduleDialog.getScheduleItem().getScheduleID());
+                            Log.d("Kevin", "New Item UUID" + scheduleDialog.getScheduleItem().getScheduleID());
                         }
                     }
                 });
@@ -287,17 +292,112 @@ public class FragmentSchedule extends Fragment {
 
      */
 
-    private void saveDatabase(){
-        /*
-        ContentValues cv = new ContentValues();
-        cv.put(ReminderColumns.ReminderEntry.COLUMN_NAME, name);
-        cv.put(ReminderColumns.ReminderEntry.COLUMN_DESCRIPTION, desc);
-        cv.put(ReminderColumns.ReminderEntry.COLUMN_TYPE, type);
-        cv.put(ReminderColumns.ReminderEntry.COLUMN_DAILY_REMINDERS, dailyReminders);
+    private void loadScheduleItemsToDatabase(){
+        if(!ApplicationFlags.GetReminderDatasetNeedsUpdate()){
+            ApplicationFlags.ResetReminderDatasetFlags();
+            return;
+        }
+        int flagCounter = 0;
+        boolean dbResetNeeded = false;
+        if(ApplicationFlags.GetReminderDatasetItemAdded()){
+            Log.d("Kevin", "ADDED 1");
+            flagCounter++;
+        }
+        if(ApplicationFlags.GetReminderDatasetItemRemoved()){
+            Log.d("Kevin", "REMOVED 1");
+            flagCounter++;
+        }
+        if(ApplicationFlags.GetReminderDatasetItemChanged()){
+            Log.d("Kevin", "CHANGED 1");
+            flagCounter++;
+        }
 
-        mReminderDatabase.insert(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
-        mScheduleAdapter.swapCursor(getAllItems());
-         */
+        if(flagCounter > 1){
+            dbResetNeeded = true;
+        }
+
+        if(!dbResetNeeded){
+            Log.d("Kevin", "NOT DB NEEDED");
+            if(ApplicationFlags.GetReminderDatasetItemAdded()){
+                Log.d("Kevin", "ADDED");
+                for(int i = 0; i < ApplicationFlags.GetRemindersAddedList().size(); i++){
+                    Log.d("Kevin", "ADDED " + i);
+                    for(int j = 0; j < mScheduleItems.size(); j++){
+                        if(ApplicationFlags.GetRemindersAddedList().get(i).equals(mScheduleItems.get(j).getScheduleID())){
+                            Log.d("Kevin", "ADDED i " + i + " ADDED j " + j);
+                            ContentValues cv = new ContentValues();
+                            ScheduleItem holderItem = mScheduleItems.get(j);
+                            cv.put(ReminderColumns.ReminderEntry.COLUMN_NAME, holderItem.getReminderName());
+                            cv.put(ReminderColumns.ReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
+                            cv.put(ReminderColumns.ReminderEntry.COLUMN_TYPE, holderItem.getTypeString());
+                            cv.put(ReminderColumns.ReminderEntry.COLUMN_DAILY_REMINDERS, holderItem.getNumDailyReminders());
+
+                            mReminderDatabase.insert(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
+                            Log.d("Kevin", "Added: " + holderItem.getReminderName());
+                        }
+                    }
+                }
+            }
+            if(ApplicationFlags.GetReminderDatasetItemRemoved()){
+                Cursor cursor = getAllItems();
+                cursor.moveToFirst();
+                for(int i = 0; i < ApplicationFlags.GetRemindersRemovedList().size(); i++){
+                    for(int j = 0; j < cursor.getCount(); j++){
+                        cursor.moveToPosition(j);
+                        if(cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_NAME)).equals(ApplicationFlags.GetRemindersRemovedList().get(i))){
+                            long id = cursor.getLong(cursor.getColumnIndex(ReminderColumns.ReminderEntry._ID));
+                            mReminderDatabase.delete(ReminderColumns.ReminderEntry.TABLE_NAME,
+                                    ReminderColumns.ReminderEntry._ID + "=" + id,
+                                    null);
+                        }
+                    }
+                }
+            }
+            if(ApplicationFlags.GetReminderDatasetItemChanged()){
+
+            }
+        } else {
+
+        }
+
+
+
+
+        if(ApplicationFlags.GetRemindersChangedList() != null){
+            for(int i = 0; i < ApplicationFlags.GetRemindersChangedList().size(); i++){
+                String currentID = ApplicationFlags.GetRemindersChangedList().get(i);
+            }
+        }
+
+
+        Cursor cursor = getAllItems();
+        cursor.moveToFirst();
+        //cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_NAME));
+        for(int i = 0; i < scheduleList.size(); i++){
+            if(i < cursor.getCount()){
+                cursor.moveToPosition(i);
+                String dbID = cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID));
+                if(!dbID.equals(scheduleList.get(i).getScheduleID()) || (dbID == null)){
+                    ContentValues cv = new ContentValues();
+                    ScheduleItem holderItem = scheduleList.get(i);
+                    cv.put(ReminderColumns.ReminderEntry.COLUMN_NAME, holderItem.getReminderName());
+                    cv.put(ReminderColumns.ReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
+                    cv.put(ReminderColumns.ReminderEntry.COLUMN_TYPE, holderItem.getTypeString());
+                    cv.put(ReminderColumns.ReminderEntry.COLUMN_DAILY_REMINDERS, holderItem.getNumDailyReminders());
+                    // DELETE AFTER FIRST RUN
+                    if(holderItem.getScheduleID() == null){
+                        cv.put(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID, Integer.toString(i));
+                    } else {
+                        cv.put(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
+                    }
+                    mReminderDatabase.replace(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
+                    mReminderDatabase.insert(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
+                }
+            }
+        }
+        //mReminderDatabase.insert(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
+        ApplicationFlags.ResetReminderDatasetFlags();
+
     }
 
     /*
@@ -470,6 +570,7 @@ public class FragmentSchedule extends Fragment {
     @Override
     public void onDestroyView() {
         Log.d("Kevin", "View Destroyed");
+        loadScheduleItemsToDatabase();
         super.onDestroyView();
     }
 }

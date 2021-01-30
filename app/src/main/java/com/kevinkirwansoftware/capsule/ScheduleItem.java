@@ -2,12 +2,15 @@ package com.kevinkirwansoftware.capsule;
 
 import android.view.View;
 
+import java.util.UUID;
+
 public class ScheduleItem {
     private String mReminderName;
     private String mReminderDescription;
     private ReminderType mReminderType;
     private int mDailyReminders;
     private boolean menuVisible;
+    private String scheduleID;
 
     public String getReminderName(){
         return mReminderName;
@@ -35,6 +38,10 @@ public class ScheduleItem {
         }
     }
 
+    public String getScheduleID(){
+        return scheduleID;
+    }
+
     public void setReminderName(String name){
         mReminderName = name;
     }
@@ -54,6 +61,10 @@ public class ScheduleItem {
 
     public void setMenuVisible(boolean visible){
         menuVisible = visible;
+    }
+
+    public void setScheduleID(String id){
+        scheduleID = id;
     }
 
     public boolean isMenuVisible(){

@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ReminderEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 ReminderEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
                 ReminderEntry.COLUMN_DAILY_REMINDERS + " INTEGER NOT NULL, " +
+                ReminderEntry.COLUMN_SCHEDULE_ID + " TEXT NOT NULL, " +
                 ReminderEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 ");";
 

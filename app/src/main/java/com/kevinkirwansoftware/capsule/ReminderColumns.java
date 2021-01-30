@@ -14,5 +14,6 @@ public class ReminderColumns {
         public static final String COLUMN_DAILY_REMINDERS = "daily_reminders";
         public static final String COLUMN_MENU_VISIBLE = "menu_visible";
         public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_SCHEDULE_ID = "schedule_id";
     }
 }

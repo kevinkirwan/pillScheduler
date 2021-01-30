@@ -20,6 +20,7 @@ import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class ScheduleDialog extends Dialog {
     View scheduleView;
@@ -279,6 +280,7 @@ public class ScheduleDialog extends Dialog {
         }
 
         int dailyReminders = 6;
+        newScheduleItem.setScheduleID(UUID.randomUUID().toString());
         setScheduleItem(newScheduleItem);
         updateNeeded = true;
         //mScheduleAdapter.notifyItemInserted(mScheduleItems.size());
