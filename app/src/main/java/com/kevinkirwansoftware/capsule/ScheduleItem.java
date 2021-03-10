@@ -8,9 +8,9 @@ public class ScheduleItem {
     private String mReminderName;
     private String mReminderDescription;
     private ReminderType mReminderType;
-    private int mDailyReminders;
     private boolean menuVisible;
     private String scheduleID;
+    private int reminderHourOne, reminderMinuteOne;
 
     public String getReminderName(){
         return mReminderName;
@@ -20,21 +20,30 @@ public class ScheduleItem {
         return mReminderDescription;
     }
 
-    public int getNumDailyReminders(){
-        return mDailyReminders;
+    public int[][] getMultiRemindersArray(){
+        int[][] tempArray = new int[2][4];
+        tempArray[0][0] = 1;
+        tempArray[1][0] = 2;
+        tempArray[0][1] = 3;
+        tempArray[1][1] = 4;
+        tempArray[0][2] = 5;
+        tempArray[1][2] = 6;
+        tempArray[0][3] = 7;
+        tempArray[1][3] = 8;
+        return tempArray;
     }
 
     public ReminderType getReminderType(){
         return mReminderType;
     }
 
-    public String getTypeString(){
+    public int getTypeInt(){
         if(mReminderType == ReminderType.ONE_TIME){
-            return "One-Time";
+            return 0;
         } else if(mReminderType == ReminderType.RECURRING){
-            return "Recurring";
+            return 1;
         } else{
-            return "None";
+            return 2;
         }
     }
 
@@ -53,11 +62,6 @@ public class ScheduleItem {
     public void setReminderType(ReminderType rt){
         mReminderType = rt;
     }
-
-    public void setDailyReminders(int reminders){
-        mDailyReminders = reminders;
-    }
-
 
     public void setMenuVisible(boolean visible){
         menuVisible = visible;

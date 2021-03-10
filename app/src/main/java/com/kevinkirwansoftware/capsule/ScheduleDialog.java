@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -17,8 +19,10 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -41,9 +45,12 @@ public class ScheduleDialog extends Dialog {
     LinearLayout testLL;
     RadioButton oneTimeRB, recurringRB, dailyRB, customRB;
     RelativeLayout oneTimeSC, recurringSC, dailyRL, customRL;
+    RelativeLayout dailyRL1, dailyRL2, dailyRL3, dailyRL4;
+
 
     Button newReminderAccept, cancelNewReminder;
     SingleDateAndTimePicker sdtp;
+    SingleDateAndTimePicker dailySdtp1, dailySdtp2, dailySdtp3, dailySdtp4;
     public ScheduleDialog(@NonNull Context context, SchedulePopOutType spotIn, ScheduleItem scheduleItemIn) {
         super(context);
         mContext = context;
@@ -60,6 +67,15 @@ public class ScheduleDialog extends Dialog {
         customRB = this.findViewById(R.id.custom_rb);
         sdtp = this.findViewById(R.id.single_day_picker);
 
+        dailySdtp1 = this.findViewById(R.id.first_daily_reminder);
+        dailySdtp2 = this.findViewById(R.id.second_daily_reminder);
+        dailySdtp3 = this.findViewById(R.id.third_daily_reminder);
+        dailySdtp4 = this.findViewById(R.id.fourth_daily_reminder);
+
+        dailyRL1 = this.findViewById(R.id.first_daily_reminder_rl);
+        dailyRL2 = this.findViewById(R.id.second_daily_reminder_rl);
+        dailyRL3 = this.findViewById(R.id.third_daily_reminder_rl);
+        dailyRL4 = this.findViewById(R.id.fourth_daily_reminder_rl);
 
         reminderNameET = this.findViewById(R.id.reminderNameET);
         reminderDescET = this.findViewById(R.id.reminderDescET);
@@ -69,6 +85,8 @@ public class ScheduleDialog extends Dialog {
         dailyRL = this.findViewById(R.id.daily_rl);
         customRL = this.findViewById(R.id.custom_rl);
 
+
+
         reminderPlus = this.findViewById(R.id.reminder_plus);
         reminderMinus = this.findViewById(R.id.reminder_minus);
         dailyReminderCounterTV = this.findViewById(R.id.reminders_per_day_counter);
@@ -77,12 +95,14 @@ public class ScheduleDialog extends Dialog {
 
         recurringSC.setVisibility(View.GONE);
         customRL.setVisibility(View.GONE);
-
+        
         this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         if(spotIn == SchedulePopOutType.EDIT){
             updateWithScheduleInfo();
         }
+
+        updateReminderCounter();
 
 
         //this.dismiss();
@@ -226,12 +246,13 @@ public class ScheduleDialog extends Dialog {
         reminderPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dailyReminderCounter < 10){
+                if(dailyReminderCounter < 4){
                     dailyReminderCounter++;
                     updateReminderCounter();
                 } else {
-                    Toast.makeText(mContext, "Maximum 10 Reminders Per Day", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Maximum 4 Reminders Per Day", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }
@@ -242,6 +263,23 @@ public class ScheduleDialog extends Dialog {
 
     private void updateReminderCounter(){
         dailyReminderCounterTV.setText(Integer.toString(dailyReminderCounter));
+
+        if(dailyReminderCounter > 1){
+            dailyRL2.setVisibility(View.VISIBLE);
+        } else {
+            dailyRL2.setVisibility(View.GONE);
+        }
+        if(dailyReminderCounter > 2){
+            dailyRL3.setVisibility(View.VISIBLE);
+        } else {
+            dailyRL3.setVisibility(View.GONE);
+        }
+        if(dailyReminderCounter > 3){
+            dailyRL4.setVisibility(View.VISIBLE);
+        } else {
+            dailyRL4.setVisibility(View.GONE);
+        }
+
     }
 
     public enum SchedulePopOutType{

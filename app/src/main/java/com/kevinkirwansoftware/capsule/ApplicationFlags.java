@@ -1,5 +1,7 @@
 package com.kevinkirwansoftware.capsule;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -53,6 +55,7 @@ public class ApplicationFlags {
             RemindersRemovedList = new ArrayList<>();
         }
         RemindersRemovedList.add(reminderID);
+        Log.d("Kevin", "AppFlag removed: " + reminderID + " arraylist: " + RemindersRemovedList.get(RemindersRemovedList.size()-1));
     }
 
     public static void ResetReminderDatasetFlags(){

@@ -39,11 +39,11 @@ public class FragmentInventory extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ArrayList<MedicineItem> medicineItems = new ArrayList<>();
-        medicineItems.add(new MedicineItem("Lamotrigine", 25));
+        medicineItems.add(new MedicineItem("Tylenol", 25));
         medicineItems.add(new MedicineItem("Hydroxyzine", 120));
         medicineItems.add(new MedicineItem("Vitamin D", 50));
-        medicineItems.add(new MedicineItem("Vyvanse", 120));
-        medicineItems.add(new MedicineItem("Hydroxyzine", 120));
+        medicineItems.add(new MedicineItem("Advil", 120));
+        medicineItems.add(new MedicineItem("Melatonin", 120));
         addMedicineItem = view.findViewById(R.id.addMedicineItem);
 
         addMedicineItem.setOnClickListener(new View.OnClickListener() {

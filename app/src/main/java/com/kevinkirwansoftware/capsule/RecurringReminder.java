@@ -1,30 +1,51 @@
 package com.kevinkirwansoftware.capsule;
 
+import android.util.Log;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class RecurringReminder extends ScheduleItem {
-    boolean mDaily;
-    int mTimesDay;
-    ArrayList<LocalTime> dailyAlarms;
+    public boolean mDaily;
+    private int mDailyReminders;
+    private int[][] mMultiRemindersArray;
 
-    public RecurringReminder(String name, String description, boolean daily, int timesDay){
+    public RecurringReminder(){
         super();
-        mTimesDay = timesDay;
+    }
+
+    public int[][] getMultiRemindersArray(){
+        return mMultiRemindersArray;
+    }
+
+    public int getNumDailyReminders(){
+        return mDailyReminders;
+    }
+
+    public boolean isDaily(){
+        return mDaily;
+    }
+
+
+    public void setDaily(boolean daily){
         mDaily = daily;
+    }
+
+    public void setDailyReminders(int reminders){
+        mDailyReminders = reminders;
+    }
+
+    public void setMultiRemindersArray(int[][] remindersArray){
+        Log.d("Kevin", "Length: " + remindersArray[0].length);
+        for(int i = 0; i < remindersArray[0].length; i++){
+            Log.d("Kevin", "i: " + i + " val: " + remindersArray[0][i]);
+        }
     }
 
     enum FrequencyType{
         EVERY_DAY,
         WEEKDAY,
         WEEKEND,
-        MONDAY,
-        TUESDAY,
-        WEDNESDAY,
-        THURSDAY,
-        FRIDAY,
-        SATURDAY,
-        SUNDAY,
         CUSTOM
     }
 

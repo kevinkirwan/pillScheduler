@@ -360,13 +360,13 @@
                                         android:layout_height="wrap_content"
                                         android:layout_below="@+id/daily_reminder_increment_widget"
                                         android:background="@drawable/layout_border"
-                                        android:layout_marginVertical="10dp">
+                                        android:layout_marginTop="10dp">
 
                                         <TextView
                                             android:id="@+id/first_daily_reminder_text"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="Daily Reminder #2"
+                                            android:text="Daily Reminder #1"
                                             android:layout_centerHorizontal="true"/>
 
                                         <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
@@ -379,13 +379,14 @@
                                             app:picker_textColor="@color/colorPrimary"
                                             app:picker_selectorColor="@color/colorPrimary"
                                             app:picker_selectedTextColor="#000000"
+                                            app:picker_displayDays="false"
                                             app:picker_curved="false"
                                             app:picker_cyclic="false"
                                             app:picker_dayCount="90"
                                             app:picker_textSize="15sp"
                                             app:picker_itemSpacing="5dp"
                                             app:picker_selectorHeight="20dp"
-                                            app:picker_mustBeOnFuture="true"
+                                            app:picker_mustBeOnFuture="false"
                                             app:picker_textAlign="left"
                                             app:picker_visibleItemCount="5" />
 
@@ -416,13 +417,88 @@
                                             app:picker_textColor="@color/colorPrimary"
                                             app:picker_selectorColor="@color/colorPrimary"
                                             app:picker_selectedTextColor="#000000"
+                                            app:picker_displayDays="false"
                                             app:picker_curved="false"
                                             app:picker_cyclic="false"
                                             app:picker_dayCount="90"
                                             app:picker_textSize="15sp"
                                             app:picker_itemSpacing="5dp"
                                             app:picker_selectorHeight="20dp"
-                                            app:picker_mustBeOnFuture="true"
+                                            app:picker_mustBeOnFuture="false"
+                                            app:picker_textAlign="left"
+                                            app:picker_visibleItemCount="5" />
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:id="@+id/third_daily_reminder_rl"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/second_daily_reminder_rl"
+                                        android:background="@drawable/layout_border"
+                                        android:layout_marginTop="10dp">
+
+                                        <TextView
+                                            android:id="@+id/third_daily_reminder_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Daily Reminder #3"
+                                            android:layout_centerHorizontal="true"/>
+
+                                        <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+                                            android:id="@+id/third_daily_reminder"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="120dp"
+                                            android:layout_marginVertical="10dp"
+                                            android:layout_marginHorizontal="0dp"
+                                            android:layout_below="@+id/third_daily_reminder_text"
+                                            app:picker_textColor="@color/colorPrimary"
+                                            app:picker_selectorColor="@color/colorPrimary"
+                                            app:picker_selectedTextColor="#000000"
+                                            app:picker_displayDays="false"
+                                            app:picker_curved="false"
+                                            app:picker_cyclic="false"
+                                            app:picker_dayCount="90"
+                                            app:picker_textSize="15sp"
+                                            app:picker_itemSpacing="5dp"
+                                            app:picker_selectorHeight="20dp"
+                                            app:picker_mustBeOnFuture="false"
+                                            app:picker_textAlign="left"
+                                            app:picker_visibleItemCount="5" />
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:id="@+id/fourth_daily_reminder_rl"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/third_daily_reminder_rl"
+                                        android:background="@drawable/layout_border"
+                                        android:layout_marginTop="10dp">
+
+                                        <TextView
+                                            android:id="@+id/fourth_daily_reminder_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Daily Reminder #4"
+                                            android:layout_centerHorizontal="true"/>
+
+                                        <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+                                            android:id="@+id/fourth_daily_reminder"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="120dp"
+                                            android:layout_marginVertical="10dp"
+                                            android:layout_marginHorizontal="0dp"
+                                            android:layout_below="@+id/fourth_daily_reminder_text"
+                                            app:picker_textColor="@color/colorPrimary"
+                                            app:picker_selectorColor="@color/colorPrimary"
+                                            app:picker_selectedTextColor="#000000"
+                                            app:picker_displayDays="false"
+                                            app:picker_curved="false"
+                                            app:picker_cyclic="false"
+                                            app:picker_dayCount="90"
+                                            app:picker_textSize="15sp"
+                                            app:picker_itemSpacing="5dp"
+                                            app:picker_selectorHeight="20dp"
+                                            app:picker_mustBeOnFuture="false"
                                             app:picker_textAlign="left"
                                             app:picker_visibleItemCount="5" />
                                     </RelativeLayout>

@@ -1130,6 +1130,7 @@ drawable ic_launcher_foreground
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
+drawable ic_right_arrow_24dp
 drawable ic_trash
 drawable inventory
 drawable layout_border
@@ -1227,6 +1228,10 @@ id activity_chooser_view_content
 id add
 id addAlarmButton
 id addMedicineItem
+id addReminderArrowIV
+id addReminderArrowTV
+id addReminderButton
+id addReminderInfoLL
 id alertTitle
 id all
 id always
@@ -1303,6 +1308,9 @@ id first_daily_reminder_text
 id fixed
 id forever
 id fourthHeaderLL
+id fourth_daily_reminder
+id fourth_daily_reminder_rl
+id fourth_daily_reminder_text
 id fragment_container
 id ghost_view
 id gone
@@ -1473,6 +1481,9 @@ id themeDropdownLL
 id themeHeaderLL
 id themeRL
 id thirdHeaderLL
+id third_daily_reminder
+id third_daily_reminder_rl
+id third_daily_reminder_text
 id throwaway1
 id time
 id title

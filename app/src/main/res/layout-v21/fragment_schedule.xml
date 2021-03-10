@@ -22,8 +22,43 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"/>
 
+    <LinearLayout
+        android:id="@+id/addReminderInfoLL"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="6dp"
+        android:layout_marginEnd="0dp"
+        android:layout_alignBottom="@+id/addReminderButton"
+        android:layout_alignTop="@+id/addReminderButton"
+        android:layout_toStartOf="@+id/addReminderButton">
+
+        <TextView
+            android:id="@+id/addReminderArrowTV"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:textSize="16sp"
+            android:alpha="125"
+            android:gravity="center"
+            android:tint="@color/colorSecondary"
+            android:textColor="@color/colorSecondary"
+            android:text="Create New Reminder" />
+
+        <ImageView
+            android:id="@+id/addReminderArrowIV"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:tint="@color/colorSecondary"
+            app:srcCompat="@drawable/ic_right_arrow_24dp" />
+
+    </LinearLayout>
+
+
+
     <ImageView
-        android:id="@+id/addAlarmButton"
+        android:id="@+id/addReminderButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginEnd="32dp"

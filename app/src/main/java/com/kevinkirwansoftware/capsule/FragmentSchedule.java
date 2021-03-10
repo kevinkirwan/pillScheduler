@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,35 +42,29 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class FragmentSchedule extends Fragment {
     private SQLiteDatabase mReminderDatabase;
     ArrayList<ScheduleItem> mScheduleItems;
 
     private View scheduleView;
-    private Dialog newSchedule;
 
-    private TextView  reminderPlus, reminderMinus, dailyReminderCounterTV;
-    private TextInputEditText reminderNameET, reminderDescET;
+    private boolean timerNeeded = true, addReminderInfoNeeded = false;
 
-    private Date singleDate;
-    private boolean isOneTime = true;
-
-    private LinearLayout testLL;
-    private RadioButton oneTimeRB, recurringRB, dailyRB, customRB;
-    private RelativeLayout oneTimeSC, recurringSC, dailyRL, customRL;
-
-    private Button newReminderAccept, cancelNewReminder;
-    private SingleDateAndTimePicker sdtp;
-
+    private LinearLayout addReminderInfoLL;
     private RecyclerView mScheduleRecyclerView;
     private ScheduleAdapter mScheduleAdapter;
     private RecyclerView.LayoutManager mScheduleLayoutManager;
 
     ArrayList<ScheduleItem> scheduleList = new ArrayList<>();
-    int dailyReminderCounter = 1;
+    private int dailyReminderCounter = 1;
+    private int addReminderInfoCounter = 0;
+    private int addReminderVisibilityCounter = 40;
 
-    private ImageView addAlarmButton;
+    private ImageView addReminderButton, addReminderArrowIV;
+    private TextView addReminderArrowTV;
 
     @Nullable
     @Override
@@ -83,6 +78,7 @@ public class FragmentSchedule extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getScheduleItemsFromDb();
+        timingHandler();
 
         mScheduleRecyclerView = view.findViewById(R.id.scheduleRecyclerView);
         mScheduleRecyclerView.setHasFixedSize(true);
@@ -91,6 +87,10 @@ public class FragmentSchedule extends Fragment {
 
         mScheduleRecyclerView.setLayoutManager(mScheduleLayoutManager);
         mScheduleRecyclerView.setAdapter(mScheduleAdapter);
+
+        addReminderInfoLL = view.findViewById(R.id.addReminderInfoLL);
+        addReminderArrowTV = view.findViewById(R.id.addReminderArrowTV);
+        addReminderArrowIV = view.findViewById(R.id.addReminderArrowIV);
 
         mScheduleAdapter.setOnItemClickListener(
                 new ScheduleAdapter.OnItemClickListener() {
@@ -110,6 +110,20 @@ public class FragmentSchedule extends Fragment {
                     }
                 }
         );
+
+        mScheduleRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(1)) {
+                    addReminderButton.setVisibility(View.INVISIBLE);
+                    addReminderVisibilityCounter = 0;
+                } else {
+                    addReminderButton.setVisibility(View.VISIBLE);
+                }
+                timerNeeded = true;
+            }
+        });
     }
 
     public void toggleMenu(int position){
@@ -148,12 +162,15 @@ public class FragmentSchedule extends Fragment {
     private void getScheduleItemsFromDb(){
         mScheduleItems = new ArrayList<>();
         Cursor cursor = getAllItems();
-        for(int i = 0; i < cursor.getCount(); i++){
+        if(cursor.getCount() == 0){
+            addReminderInfoNeeded = true;
+            return;
+        }
+        int j = 0;
+        Log.d("Kevin", "Count: " + cursor.getCount());
+        for(int i = cursor.getCount() - 1; i >= 0; i--){
+            Log.d("Kevin", "DB row: " + i + " AR row: " + j);
             cursor.moveToPosition(i);
-            mScheduleItems.add(new ScheduleItem());
-            mScheduleItems.get(i).setReminderName(cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_NAME)));
-            mScheduleItems.get(i).setReminderDescription(cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_DESCRIPTION)));
-            mScheduleItems.get(i).setDailyReminders(cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_DAILY_REMINDERS)));
 
             int rt_int = cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_TYPE));
             ScheduleItem.ReminderType rt_enum;
@@ -161,20 +178,54 @@ public class FragmentSchedule extends Fragment {
             switch (rt_int){
                 case 0:
                     rt_enum = ScheduleItem.ReminderType.ONE_TIME;
+                    mScheduleItems.add(new ScheduleItem());
                     break;
                 case 1:
                     rt_enum = ScheduleItem.ReminderType.RECURRING;
+                    mScheduleItems.add(new RecurringReminder());
+                    int[][] tempArray = new int[2][4];
+
+                    Log.d("Kevin", "Index: " + cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_TWO));
+                    tempArray[0][0] = cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_ONE));
+                    tempArray[1][0] = cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_REMINDER_MINUTE_ONE));
+                    tempArray[0][1] = cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_TWO));
+                    tempArray[1][1] = cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_REMINDER_MINUTE_TWO));
+                    tempArray[0][2] = cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_THREE));
+                    tempArray[1][2] = cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_REMINDER_MINUTE_THREE));
+                    tempArray[0][3] = cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_FOUR));
+                    tempArray[1][3] = cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_REMINDER_MINUTE_FOUR));
+                     /*
+                    tempArray[0][0] = 0;
+                    tempArray[1][0] = 0;
+                    tempArray[0][1] = 0;
+                    tempArray[1][1] = 0;
+                    tempArray[0][2] = 0;
+                    tempArray[1][2] = 0;
+                    tempArray[0][3] = 0;
+                    tempArray[1][3] = 0;
+
+                      */
+                    ((RecurringReminder) mScheduleItems.get(j)).setMultiRemindersArray(tempArray);
+                    ((RecurringReminder) mScheduleItems.get(j)).setDailyReminders(cursor.getInt(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_DAILY_REMINDERS)));
+
                     break;
                 default:
                     rt_enum = ScheduleItem.ReminderType.NONE;
+                    Toast.makeText(getContext(),"Kevin THIS SHOULD NOT BE POSSIBLE", Toast.LENGTH_SHORT).show();
 
             }
-            mScheduleItems.get(i).setReminderType(rt_enum);
-            ScheduleItem testItem = mScheduleItems.get(i);
+            mScheduleItems.get(j).setReminderType(rt_enum);
 
-            Log.d("Kevin", "name: " + testItem.getReminderName());
-            Log.d("Kevin", "desc: " + testItem.getReminderDescription());
-            Log.d("Kevin", "type: " + testItem.getTypeString());
+
+
+
+            mScheduleItems.get(j).setReminderName(cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_NAME)));
+            mScheduleItems.get(j).setReminderDescription(cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_DESCRIPTION)));
+            mScheduleItems.get(j).setScheduleID(cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID)));
+
+
+            ScheduleItem testItem = mScheduleItems.get(j);
+            j++;
 
         }
     }
@@ -182,6 +233,10 @@ public class FragmentSchedule extends Fragment {
 
     private void removeItem(int position){
         ApplicationFlags.SetReminderDatasetItemRemovedFlag(mScheduleItems.get(position).getScheduleID());
+        Log.d("Kevin", "Deleted Items: ");
+        for (int i = 0; i < ApplicationFlags.GetRemindersRemovedList().size(); i++){
+            Log.d("Kevin", "Removed name: " + ApplicationFlags.GetRemindersRemovedList().get(i));
+        }
         mScheduleItems.remove(position);
         mScheduleAdapter.notifyItemRemoved(position);
     }
@@ -190,11 +245,12 @@ public class FragmentSchedule extends Fragment {
         DatabaseHelper dbHelper = new DatabaseHelper(getContext());
         mReminderDatabase = dbHelper.getWritableDatabase();
 
-        addAlarmButton = scheduleView.findViewById(R.id.addAlarmButton);
-        addAlarmButton.setOnClickListener(new View.OnClickListener() {
+        addReminderButton = scheduleView.findViewById(R.id.addReminderButton);
+        addReminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //launchNewReminderPopOut();
+                addReminderInfoNeeded = false;
                 final ScheduleDialog scheduleDialog = new ScheduleDialog(getContext(), ScheduleDialog.SchedulePopOutType.NEW, null);
                 scheduleDialog.show();
                 scheduleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -212,85 +268,6 @@ public class FragmentSchedule extends Fragment {
             }
         });
     }
-
-    /*
-    private void launchNewReminderPopOut(){
-        newSchedule = new Dialog(getContext());
-        newSchedule.setContentView(R.layout.popout_new_reminder);
-
-        cancelNewReminder = newSchedule.findViewById(R.id.new_reminder_cancel);
-        newReminderAccept = newSchedule.findViewById(R.id.new_reminder_create);
-
-        oneTimeRB = newSchedule.findViewById(R.id.one_time_rb);
-        recurringRB = newSchedule.findViewById(R.id.recurring_rb);
-        dailyRB = newSchedule.findViewById(R.id.daily_rb);
-        customRB = newSchedule.findViewById(R.id.custom_rb);
-        sdtp = newSchedule.findViewById(R.id.single_day_picker);
-
-        reminderNameET = newSchedule.findViewById(R.id.reminderNameET);
-        reminderDescET = newSchedule.findViewById(R.id.reminderDescET);
-
-        oneTimeSC = newSchedule.findViewById(R.id.one_time_reminder_rl);
-        recurringSC = newSchedule.findViewById(R.id.recurring_reminder_rl);
-        dailyRL = newSchedule.findViewById(R.id.daily_rl);
-        customRL = newSchedule.findViewById(R.id.custom_rl);
-
-        reminderPlus = newSchedule.findViewById(R.id.reminder_plus);
-        reminderMinus = newSchedule.findViewById(R.id.reminder_minus);
-        dailyReminderCounterTV = newSchedule.findViewById(R.id.reminders_per_day_counter);
-
-        testLL = newSchedule.findViewById(R.id.test_ll);
-
-        recurringSC.setVisibility(View.GONE);
-        customRL.setVisibility(View.GONE);
-
-        newSchedule.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        newSchedule.show();
-
-        initNewScheduleClicks();
-    }
-
-    private void updateReminderCounter(){
-        dailyReminderCounterTV.setText(Integer.toString(dailyReminderCounter));
-    }
-
-    private void createNewReminder(){
-        boolean validInput = true;
-        String errorMessage = "";
-
-        mScheduleItems.add(new ScheduleItem());
-        int position = mScheduleItems.size() - 1;
-        if(isOneTime){
-            singleDate = sdtp.getDate();
-            mScheduleItems.get(position).setReminderType(ScheduleItem.ReminderType.ONE_TIME);
-        } else {
-            mScheduleItems.get(position).setReminderType(ScheduleItem.ReminderType.RECURRING);
-            Toast.makeText(getContext(), "Recurring", Toast.LENGTH_SHORT).show();
-        }
-        if((reminderNameET.getText() != null) || (reminderNameET.getText().toString().length() > 0)){
-            String name = reminderNameET.getText().toString();
-            mScheduleItems.get(position).setReminderName(name);
-        } else {
-            validInput = false;
-            errorMessage.concat("Invalid name\n");
-            return;
-        }
-
-        if((reminderDescET.getText() != null)){
-            String desc = reminderDescET.getText().toString();
-            mScheduleItems.get(position).setReminderName(desc);
-        } else {
-            validInput = false;
-            errorMessage.concat("Invalid description\n");
-            return;
-        }
-
-        int dailyReminders = 6;
-        mScheduleAdapter.notifyItemInserted(mScheduleItems.size());
-
-    }
-
-     */
 
     private void loadScheduleItemsToDatabase(){
         if(!ApplicationFlags.GetReminderDatasetNeedsUpdate()){
@@ -317,20 +294,24 @@ public class FragmentSchedule extends Fragment {
         }
 
         if(!dbResetNeeded){
-            Log.d("Kevin", "NOT DB NEEDED");
             if(ApplicationFlags.GetReminderDatasetItemAdded()){
                 Log.d("Kevin", "ADDED");
                 for(int i = 0; i < ApplicationFlags.GetRemindersAddedList().size(); i++){
                     Log.d("Kevin", "ADDED " + i);
                     for(int j = 0; j < mScheduleItems.size(); j++){
                         if(ApplicationFlags.GetRemindersAddedList().get(i).equals(mScheduleItems.get(j).getScheduleID())){
-                            Log.d("Kevin", "ADDED i " + i + " ADDED j " + j);
                             ContentValues cv = new ContentValues();
                             ScheduleItem holderItem = mScheduleItems.get(j);
+                            if(mScheduleItems.get(j) instanceof RecurringReminder){
+                                assert holderItem instanceof RecurringReminder;
+                                int[][] tempArray = holderItem.getMultiRemindersArray();
+                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_ONE, holderItem.getReminderName());
+                            }
+
                             cv.put(ReminderColumns.ReminderEntry.COLUMN_NAME, holderItem.getReminderName());
                             cv.put(ReminderColumns.ReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
-                            cv.put(ReminderColumns.ReminderEntry.COLUMN_TYPE, holderItem.getTypeString());
-                            cv.put(ReminderColumns.ReminderEntry.COLUMN_DAILY_REMINDERS, holderItem.getNumDailyReminders());
+                            cv.put(ReminderColumns.ReminderEntry.COLUMN_TYPE, holderItem.getTypeInt());
+                            cv.put(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
 
                             mReminderDatabase.insert(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
                             Log.d("Kevin", "Added: " + holderItem.getReminderName());
@@ -342,9 +323,11 @@ public class FragmentSchedule extends Fragment {
                 Cursor cursor = getAllItems();
                 cursor.moveToFirst();
                 for(int i = 0; i < ApplicationFlags.GetRemindersRemovedList().size(); i++){
+                    Log.d("Kevin", "Item removed: " + ApplicationFlags.GetRemindersRemovedList().get(i));
                     for(int j = 0; j < cursor.getCount(); j++){
                         cursor.moveToPosition(j);
-                        if(cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_NAME)).equals(ApplicationFlags.GetRemindersRemovedList().get(i))){
+                        Log.d("Kevin: " , "AR val: " + ApplicationFlags.GetRemindersRemovedList() + " DB val: " + cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID)));
+                        if(cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID)).equals(ApplicationFlags.GetRemindersRemovedList().get(i))){
                             long id = cursor.getLong(cursor.getColumnIndex(ReminderColumns.ReminderEntry._ID));
                             mReminderDatabase.delete(ReminderColumns.ReminderEntry.TABLE_NAME,
                                     ReminderColumns.ReminderEntry._ID + "=" + id,
@@ -355,8 +338,28 @@ public class FragmentSchedule extends Fragment {
             }
             if(ApplicationFlags.GetReminderDatasetItemChanged()){
 
+
             }
         } else {
+            Cursor cursor = getAllItems();
+            for(int i = cursor.getCount() - 1; i >= 0; i--){
+                cursor.moveToPosition(i);
+                long id = cursor.getLong(cursor.getColumnIndex(ReminderColumns.ReminderEntry._ID));
+                mReminderDatabase.delete(ReminderColumns.ReminderEntry.TABLE_NAME,
+                        ReminderColumns.ReminderEntry._ID + "=" + id,
+                        null);
+            }
+            for(int j = mScheduleItems.size() - 1; j >= 0; j--){
+                    ContentValues cv = new ContentValues();
+                    ScheduleItem holderItem = mScheduleItems.get(j);
+                    cv.put(ReminderColumns.ReminderEntry.COLUMN_NAME, holderItem.getReminderName());
+                    cv.put(ReminderColumns.ReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
+                    cv.put(ReminderColumns.ReminderEntry.COLUMN_TYPE, holderItem.getTypeInt());
+                    cv.put(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
+
+                    mReminderDatabase.insert(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
+            }
+
 
         }
 
@@ -372,7 +375,6 @@ public class FragmentSchedule extends Fragment {
 
         Cursor cursor = getAllItems();
         cursor.moveToFirst();
-        //cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_NAME));
         for(int i = 0; i < scheduleList.size(); i++){
             if(i < cursor.getCount()){
                 cursor.moveToPosition(i);
@@ -382,8 +384,7 @@ public class FragmentSchedule extends Fragment {
                     ScheduleItem holderItem = scheduleList.get(i);
                     cv.put(ReminderColumns.ReminderEntry.COLUMN_NAME, holderItem.getReminderName());
                     cv.put(ReminderColumns.ReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
-                    cv.put(ReminderColumns.ReminderEntry.COLUMN_TYPE, holderItem.getTypeString());
-                    cv.put(ReminderColumns.ReminderEntry.COLUMN_DAILY_REMINDERS, holderItem.getNumDailyReminders());
+                    cv.put(ReminderColumns.ReminderEntry.COLUMN_TYPE, holderItem.getTypeInt());
                     // DELETE AFTER FIRST RUN
                     if(holderItem.getScheduleID() == null){
                         cv.put(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID, Integer.toString(i));
@@ -397,162 +398,55 @@ public class FragmentSchedule extends Fragment {
         }
         //mReminderDatabase.insert(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
         ApplicationFlags.ResetReminderDatasetFlags();
-
     }
 
-    /*
-    private void initNewScheduleClicks(){
-        cancelNewReminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                newSchedule.dismiss();
+
+    private void timingHandler(){
+        final Handler timeDateHandler = new Handler();
+        Timer timeDateScheduler = new Timer();
+        final TimerTask timeDateUpdate = new TimerTask() {
+            public void run() {
+                timeDateHandler.post(new Runnable() {
+                    public void run() {
+                        if (timerNeeded) {
+                            if (addReminderVisibilityCounter < 40)  {
+                                if(addReminderButton.getVisibility() == View.VISIBLE){
+                                    addReminderButton.setVisibility(View.INVISIBLE);
+                                }
+                                addReminderVisibilityCounter++;
+                            } else {
+                                addReminderButton.setVisibility(View.VISIBLE);
+                            }
+
+                            // Logic to display flashing Add Reminder Button
+                            if (addReminderInfoNeeded){
+                                addReminderInfoLL.setVisibility(View.VISIBLE);
+                                int testColor = getContext().getResources().getColor(R.color.colorSecondary);
+                            if (addReminderInfoCounter < 2250) {
+                                if ((addReminderInfoCounter % 500) < 250) {
+                                    addReminderArrowIV.setImageAlpha(250 - (addReminderInfoCounter % 500));
+                                    addReminderArrowTV.setTextColor(Color.argb(250 - (addReminderInfoCounter % 500), Color.red(testColor), Color.green(testColor), Color.blue(testColor)));
+                                } else {
+                                    addReminderArrowIV.setImageAlpha(addReminderInfoCounter % 250);
+                                    addReminderArrowTV.setTextColor(Color.argb(addReminderInfoCounter % 250, Color.red(testColor), Color.green(testColor), Color.blue(testColor)));
+                                }
+                                addReminderInfoCounter = addReminderInfoCounter + 10;
+                            } else if (addReminderInfoCounter == 2250) {
+                                addReminderInfoLL.setVisibility(View.GONE);
+                                addReminderInfoNeeded = false;
+                            }
+                        } else {
+                                addReminderInfoLL.setVisibility(View.GONE);
+                            }
+
+                    }
+                    }
+                });
             }
-        });
-
-        newReminderAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createNewReminder();
-                newSchedule.dismiss();
-            }
-        });
-
-        recurringRB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isOneTime = false;
-                oneTimeSC.setVisibility(View.GONE);
-                recurringSC.setVisibility(View.VISIBLE);
-                oneTimeRB.setBackgroundResource(R.drawable.theme_background_none);
-                ViewCompat.setBackgroundTintList(
-                        oneTimeRB,
-                        ContextCompat.getColorStateList(
-                                getContext(),
-                                R.color.colorSecondary
-                        )
-                );
-                oneTimeRB.setTextColor(getResources().getColor(R.color.gray));
-                recurringRB.setBackgroundResource(R.drawable.theme_background);
-                ViewCompat.setBackgroundTintList(
-                        recurringRB,
-                        ContextCompat.getColorStateList(
-                                getContext(),
-                                R.color.colorPrimary
-                        )
-                );
-                recurringRB.setTextColor(getResources().getColor(R.color.white));
-
-            }
-        });
-
-        oneTimeRB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isOneTime = true;
-                oneTimeSC.setVisibility(View.VISIBLE);
-                recurringSC.setVisibility(View.GONE);
-                oneTimeRB.setBackgroundResource(R.drawable.theme_background);
-                ViewCompat.setBackgroundTintList(
-                        oneTimeRB,
-                        ContextCompat.getColorStateList(
-                                getContext(),
-                                R.color.colorPrimary
-                        )
-                );
-                oneTimeRB.setTextColor(getResources().getColor(R.color.white));
-                ViewCompat.setBackgroundTintList(
-                        recurringRB,
-                        ContextCompat.getColorStateList(
-                                getContext(),
-                                R.color.colorSecondary
-                        )
-                );
-                recurringRB.setTextColor(getResources().getColor(R.color.gray));
-
-            }
-        });
-
-        dailyRB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isOneTime = false;
-                customRL.setVisibility(View.GONE);
-                dailyRL.setVisibility(View.VISIBLE);
-                customRB.setBackgroundResource(R.drawable.theme_background_none);
-                ViewCompat.setBackgroundTintList(
-                        customRB,
-                        ContextCompat.getColorStateList(
-                                getContext(),
-                                R.color.colorSecondary
-                        )
-                );
-                customRB.setTextColor(getResources().getColor(R.color.gray));
-                dailyRB.setBackgroundResource(R.drawable.theme_background);
-                ViewCompat.setBackgroundTintList(
-                        dailyRB,
-                        ContextCompat.getColorStateList(
-                                getContext(),
-                                R.color.colorPrimary
-                        )
-                );
-                dailyRB.setTextColor(getResources().getColor(R.color.white));
-
-            }
-        });
-
-        customRB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isOneTime = true;
-                customRL.setVisibility(View.VISIBLE);
-                dailyRL.setVisibility(View.GONE);
-                customRB.setBackgroundResource(R.drawable.theme_background);
-                ViewCompat.setBackgroundTintList(
-                        customRB,
-                        ContextCompat.getColorStateList(
-                                getContext(),
-                                R.color.colorPrimary
-                        )
-                );
-                customRB.setTextColor(getResources().getColor(R.color.white));
-                ViewCompat.setBackgroundTintList(
-                        dailyRB,
-                        ContextCompat.getColorStateList(
-                                getContext(),
-                                R.color.colorSecondary
-                        )
-                );
-                dailyRB.setTextColor(getResources().getColor(R.color.gray));
-
-            }
-        });
-
-        reminderMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(dailyReminderCounter > 1){
-                    dailyReminderCounter--;
-                    updateReminderCounter();
-                } else {
-                    Toast.makeText(getContext(), "Can't Have 0 Reminders", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        reminderPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(dailyReminderCounter < 10){
-                    dailyReminderCounter++;
-                    updateReminderCounter();
-                } else {
-                    Toast.makeText(getContext(), "Maximum 10 Reminders Per Day", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        };
+        timeDateScheduler.scheduleAtFixedRate(timeDateUpdate, 100, 50);
 
     }
-     */
 
     private Cursor getAllItems(){
         return mReminderDatabase.query(
@@ -570,7 +464,10 @@ public class FragmentSchedule extends Fragment {
     @Override
     public void onDestroyView() {
         Log.d("Kevin", "View Destroyed");
+        timerNeeded = false;
         loadScheduleItemsToDatabase();
         super.onDestroyView();
     }
+
+
 }
