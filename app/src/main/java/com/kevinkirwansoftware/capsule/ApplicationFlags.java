@@ -6,76 +6,76 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class ApplicationFlags {
-    private static boolean ReminderDatasetItemChanged = false;
-    private static boolean ReminderDatasetItemAdded = false;
-    private static boolean ReminderDatasetItemRemoved = false;
-    private static boolean ReminderDatasetNeedsUpdate = false;
-    private static ArrayList<String> RemindersChangedList;
-    private static ArrayList<String> RemindersAddedList;
-    private static ArrayList<String> RemindersRemovedList;
+    private static boolean reminderDatasetItemChanged = false;
+    private static boolean reminderDatasetItemAdded = false;
+    private static boolean reminderDatasetItemRemoved = false;
+    private static boolean reminderDatasetNeedsUpdate = false;
+    private static ArrayList<String> remindersChangedList;
+    private static ArrayList<String> remindersAddedList;
+    private static ArrayList<String> remindersRemovedList;
 
     public static boolean GetReminderDatasetItemChanged(){
-        return ReminderDatasetItemChanged;
+        return reminderDatasetItemChanged;
     }
 
     public static boolean GetReminderDatasetItemAdded(){
-        return ReminderDatasetItemAdded;
+        return reminderDatasetItemAdded;
     }
 
     public static boolean GetReminderDatasetItemRemoved(){
-        return ReminderDatasetItemRemoved;
+        return reminderDatasetItemRemoved;
     }
 
     public static boolean GetReminderDatasetNeedsUpdate(){
-        return ReminderDatasetNeedsUpdate;
+        return reminderDatasetNeedsUpdate;
     }
 
     public static void SetReminderDatasetItemChangedFlag(String reminderID){
-        ReminderDatasetItemChanged = true;
-        ReminderDatasetNeedsUpdate = true;
-        if(RemindersChangedList == null){
-            RemindersChangedList = new ArrayList<>();
+        reminderDatasetItemChanged = true;
+        reminderDatasetNeedsUpdate = true;
+        if(remindersChangedList == null){
+            remindersChangedList = new ArrayList<>();
         }
-        RemindersChangedList.add(reminderID);
+        remindersChangedList.add(reminderID);
     }
 
     public static void SetReminderDatasetItemAddedFlag(String reminderID){
-        ReminderDatasetItemAdded = true;
-        ReminderDatasetNeedsUpdate = true;
-        if(RemindersAddedList == null){
-            RemindersAddedList = new ArrayList<>();
+        reminderDatasetItemAdded = true;
+        reminderDatasetNeedsUpdate = true;
+        if(remindersAddedList == null){
+            remindersAddedList = new ArrayList<>();
         }
-        RemindersAddedList.add(reminderID);
+        remindersAddedList.add(reminderID);
     }
 
     public static void SetReminderDatasetItemRemovedFlag(String reminderID){
-        ReminderDatasetItemRemoved = true;
-        ReminderDatasetNeedsUpdate = true;
-        if(RemindersRemovedList == null){
-            RemindersRemovedList = new ArrayList<>();
+        reminderDatasetItemRemoved = true;
+        reminderDatasetNeedsUpdate = true;
+        if(remindersRemovedList == null){
+            remindersRemovedList = new ArrayList<>();
         }
-        RemindersRemovedList.add(reminderID);
-        Log.d("Kevin", "AppFlag removed: " + reminderID + " arraylist: " + RemindersRemovedList.get(RemindersRemovedList.size()-1));
+        remindersRemovedList.add(reminderID);
+        Log.d("Kevin", "AppFlag removed: " + reminderID + " arraylist: " + remindersRemovedList.get(remindersRemovedList.size()-1));
     }
 
     public static void ResetReminderDatasetFlags(){
-        ReminderDatasetItemChanged = false;
-        ReminderDatasetItemRemoved = false;
-        ReminderDatasetItemAdded = false;
-        RemindersChangedList = null;
-        RemindersRemovedList = null;
-        RemindersAddedList = null;
+        reminderDatasetItemChanged = false;
+        reminderDatasetItemRemoved = false;
+        reminderDatasetItemAdded = false;
+        remindersChangedList = null;
+        remindersRemovedList = null;
+        remindersAddedList = null;
     }
 
     public static ArrayList<String> GetRemindersChangedList(){
-        return RemindersChangedList;
+        return remindersChangedList;
     }
 
     public static ArrayList<String> GetRemindersAddedList(){
-        return RemindersAddedList;
+        return remindersAddedList;
     }
 
     public static ArrayList<String> GetRemindersRemovedList(){
-        return RemindersRemovedList;
+        return remindersRemovedList;
     }
 }

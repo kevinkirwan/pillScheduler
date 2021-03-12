@@ -80,6 +80,7 @@ public class FragmentSchedule extends Fragment {
         getScheduleItemsFromDb();
         timingHandler();
 
+
         mScheduleRecyclerView = view.findViewById(R.id.scheduleRecyclerView);
         mScheduleRecyclerView.setHasFixedSize(true);
         mScheduleLayoutManager = new LinearLayoutManager(getContext());
@@ -269,7 +270,8 @@ public class FragmentSchedule extends Fragment {
         });
     }
 
-    private void loadScheduleItemsToDatabase(){
+    private void saveScheduleItemsToDatabase(){
+        Log.d("Kevin", "Items loaded to DB");
         if(!ApplicationFlags.GetReminderDatasetNeedsUpdate()){
             ApplicationFlags.ResetReminderDatasetFlags();
             return;
@@ -303,9 +305,15 @@ public class FragmentSchedule extends Fragment {
                             ContentValues cv = new ContentValues();
                             ScheduleItem holderItem = mScheduleItems.get(j);
                             if(mScheduleItems.get(j) instanceof RecurringReminder){
-                                assert holderItem instanceof RecurringReminder;
-                                int[][] tempArray = holderItem.getMultiRemindersArray();
-                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_ONE, holderItem.getReminderName());
+                                int[][] multiRemindersArray = holderItem.getMultiRemindersArray();
+                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_ONE, multiRemindersArray[0][0]);
+                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_MINUTE_ONE, multiRemindersArray[1][0]);
+                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_TWO, multiRemindersArray[0][1]);
+                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_MINUTE_TWO, multiRemindersArray[1][1]);
+                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_THREE, multiRemindersArray[0][2]);
+                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_MINUTE_THREE, multiRemindersArray[1][2]);
+                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_HOUR_FOUR, multiRemindersArray[0][3]);
+                                cv.put(ReminderColumns.ReminderEntry.COLUMN_REMINDER_MINUTE_FOUR, multiRemindersArray[1][3]);
                             }
 
                             cv.put(ReminderColumns.ReminderEntry.COLUMN_NAME, holderItem.getReminderName());
@@ -359,12 +367,7 @@ public class FragmentSchedule extends Fragment {
 
                     mReminderDatabase.insert(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
             }
-
-
         }
-
-
-
 
         if(ApplicationFlags.GetRemindersChangedList() != null){
             for(int i = 0; i < ApplicationFlags.GetRemindersChangedList().size(); i++){
@@ -379,7 +382,7 @@ public class FragmentSchedule extends Fragment {
             if(i < cursor.getCount()){
                 cursor.moveToPosition(i);
                 String dbID = cursor.getString(cursor.getColumnIndex(ReminderColumns.ReminderEntry.COLUMN_SCHEDULE_ID));
-                if(!dbID.equals(scheduleList.get(i).getScheduleID()) || (dbID == null)){
+                if(!dbID.equals(scheduleList.get(i).getScheduleID())){
                     ContentValues cv = new ContentValues();
                     ScheduleItem holderItem = scheduleList.get(i);
                     cv.put(ReminderColumns.ReminderEntry.COLUMN_NAME, holderItem.getReminderName());
@@ -396,7 +399,7 @@ public class FragmentSchedule extends Fragment {
                 }
             }
         }
-        //mReminderDatabase.insert(ReminderColumns.ReminderEntry.TABLE_NAME, null, cv);
+
         ApplicationFlags.ResetReminderDatasetFlags();
     }
 
@@ -465,8 +468,30 @@ public class FragmentSchedule extends Fragment {
     public void onDestroyView() {
         Log.d("Kevin", "View Destroyed");
         timerNeeded = false;
-        loadScheduleItemsToDatabase();
+        saveScheduleItemsToDatabase();
         super.onDestroyView();
+    }
+
+
+    @Override
+    public void onPause(){
+        Log.d("Kevin", "View Paused");
+        timerNeeded = false;
+        saveScheduleItemsToDatabase();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        Log.d("Kevin", "onResume Called");
+        getScheduleItemsFromDb();
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        Log.d("Kevin", "onStart Called");
+        super.onStart();
     }
 
 
