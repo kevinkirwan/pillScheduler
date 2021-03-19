@@ -26,7 +26,6 @@ public class RecurringReminder extends ScheduleItem {
         return mDaily;
     }
 
-
     public void setDaily(boolean daily){
         mDaily = daily;
     }

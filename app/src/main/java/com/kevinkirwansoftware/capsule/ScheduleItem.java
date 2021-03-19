@@ -10,7 +10,6 @@ public class ScheduleItem {
     private ReminderType mReminderType;
     private boolean menuVisible;
     private String scheduleID;
-    private int reminderHourOne, reminderMinuteOne;
 
     public String getReminderName(){
         return mReminderName;

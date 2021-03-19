@@ -1,13 +1,10 @@
 package com.kevinkirwansoftware.capsule;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,10 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.sql.*;
 
 public class FragmentInventory extends Fragment {
     private RecyclerView mInventoryRecyclerView;
@@ -27,7 +21,7 @@ public class FragmentInventory extends Fragment {
     private ImageView addMedicineItem;
     private static final String TAG = "FragmentInventory";
 
-    private DatabaseHelper mDatabaseHelper;
+    private RecurringDbHelper mRecurringDbHelper;
 
     @Nullable
     @Override
@@ -49,8 +43,6 @@ public class FragmentInventory extends Fragment {
         addMedicineItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
             }
         });

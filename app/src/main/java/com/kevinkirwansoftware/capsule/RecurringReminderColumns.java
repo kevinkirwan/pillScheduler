@@ -2,12 +2,12 @@ package com.kevinkirwansoftware.capsule;
 
 import android.provider.BaseColumns;
 
-public class ReminderColumns {
+public class RecurringReminderColumns {
 
-    private ReminderColumns(){}
+    private RecurringReminderColumns(){}
 
-    public static final class ReminderEntry implements BaseColumns{
-        public static final String TABLE_NAME = "reminderList";
+    public static final class RecurringReminderEntry implements BaseColumns{
+        public static final String TABLE_NAME = "recurringReminderList";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_TYPE = "type";
@@ -22,8 +22,5 @@ public class ReminderColumns {
         public static final String COLUMN_REMINDER_MINUTE_FOUR = "reminder_minute_four";
         public static final String COLUMN_SCHEDULE_ID = "schedule_id";
         public static final String COLUMN_TIMESTAMP = "timestamp";
-
-
-
     }
 }
