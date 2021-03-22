@@ -18,10 +18,14 @@ public class RecurringDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String SQL_CREATE_REMINDER_TABLE = "CREATE TABLE " +
                 RecurringReminderEntry.TABLE_NAME + " (" +
+
+                // For all items
                 RecurringReminderEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 RecurringReminderEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 RecurringReminderEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 RecurringReminderEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
+
+                // Only for recurring reminders
                 RecurringReminderEntry.COLUMN_DAILY_REMINDERS + " INTEGER NOT NULL, " +
                 RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE + " INTEGER NOT NULL, " +
                 RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE + " INTEGER NOT NULL, " +
@@ -31,6 +35,15 @@ public class RecurringDbHelper extends SQLiteOpenHelper {
                 RecurringReminderEntry.COLUMN_REMINDER_MINUTE_THREE + " INTEGER NOT NULL, " +
                 RecurringReminderEntry.COLUMN_REMINDER_HOUR_FOUR + " INTEGER NOT NULL, " +
                 RecurringReminderEntry.COLUMN_REMINDER_MINUTE_FOUR + " INTEGER NOT NULL, " +
+
+                // Only for single reminders
+                RecurringReminderEntry.COLUMN_YEAR + " INTEGER NOT NULL, " +
+                RecurringReminderEntry.COLUMN_MONTH + " INTEGER NOT NULL, " +
+                RecurringReminderEntry.COLUMN_DAY + " INTEGER NOT NULL, " +
+                RecurringReminderEntry.COLUMN_HOUR + " INTEGER NOT NULL, " +
+                RecurringReminderEntry.COLUMN_MINUTE + " INTEGER NOT NULL, " +
+
+
                 RecurringReminderEntry.COLUMN_SCHEDULE_ID + " TEXT NOT NULL, " +
                 RecurringReminderEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 ");";

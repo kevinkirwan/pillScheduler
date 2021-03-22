@@ -1,7 +1,11 @@
 package com.kevinkirwansoftware.capsule;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -18,15 +22,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class FragmentSchedule extends Fragment {
+    private static String TAG = "FragmentSchedule.java";
     private SQLiteDatabase mRecurringDatabase;
     private ArrayList<ScheduleItem> mScheduleItems;
 
@@ -130,17 +140,23 @@ public class FragmentSchedule extends Fragment {
     public void launchEditMenu(int position){
         final ScheduleDialog scheduleDialog = new ScheduleDialog(getContext(), ScheduleDialog.SchedulePopOutType.EDIT, mScheduleItems.get(position));
         scheduleDialog.show();
+
         scheduleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
+                /*
                 if((scheduleDialog.getScheduleItem() != null) && scheduleDialog.getUpdateNeeded()){
                     mScheduleItems.add(scheduleDialog.getScheduleItem());
                     mScheduleAdapter.notifyItemInserted(mScheduleItems.size());
                     ApplicationFlags.SetReminderDatasetItemAddedFlag((scheduleDialog.getScheduleItem().getScheduleID()));
                     Log.d("Kevin", "New Item UUID" + scheduleDialog.getScheduleItem().getScheduleID());
                 }
+
+                 */
             }
         });
+
+
     }
 
     private void getScheduleItemsFromDb(){
@@ -165,14 +181,19 @@ public class FragmentSchedule extends Fragment {
             switch (rt_int){
                 case 0:
                     rt_enum = ScheduleItem.ReminderType.ONE_TIME;
-                    mScheduleItems.add(new ScheduleItem());
+                    mScheduleItems.add(new SingleReminder(
+                            cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_YEAR)),
+                            cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MONTH)),
+                            cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAY)),
+                            cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_HOUR)),
+                            cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MINUTE))
+                    ));
                     break;
                 case 1:
                     rt_enum = ScheduleItem.ReminderType.RECURRING;
                     mScheduleItems.add(new RecurringReminder());
                     int[][] tempArray = new int[2][4];
 
-                    Log.d("Kevin", "Index: " + cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_TWO));
                     tempArray[0][0] = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE));
                     tempArray[1][0] = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE));
                     tempArray[0][1] = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_TWO));
@@ -211,8 +232,6 @@ public class FragmentSchedule extends Fragment {
             mScheduleItems.get(j).setReminderDescription(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)));
             mScheduleItems.get(j).setScheduleID(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)));
 
-
-            ScheduleItem testItem = mScheduleItems.get(j);
             j++;
 
         }
@@ -230,8 +249,10 @@ public class FragmentSchedule extends Fragment {
     }
 
     private void fragmentScheduleInit(){
-        RecurringDbHelper dbHelper = new RecurringDbHelper(getContext());
-        mRecurringDatabase = dbHelper.getWritableDatabase();
+        RecurringDbHelper recurringDbHelper = new RecurringDbHelper(getContext());
+        mRecurringDatabase = recurringDbHelper.getWritableDatabase();
+
+
 
         addReminderButton = scheduleView.findViewById(R.id.addReminderButton);
 
@@ -247,13 +268,27 @@ public class FragmentSchedule extends Fragment {
                 scheduleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        if((scheduleDialog.getScheduleItem() != null) && scheduleDialog.getUpdateNeeded()){
-                            mScheduleItems.add(scheduleDialog.getScheduleItem());
+
+                        if(scheduleDialog.getUpdateNeeded()){
+                            String id;
+                            if(scheduleDialog.isOneTime){
+                                mScheduleItems.add(scheduleDialog.getSingleItem());
+                                id = scheduleDialog.getSingleItem().getScheduleID();
+                            } else {
+                                mScheduleItems.add(scheduleDialog.getRecurringItem());
+                                id = scheduleDialog.getRecurringItem().getScheduleID();
+                            }
+
                             mScheduleAdapter.notifyItemInserted(mScheduleItems.size() - 1);
-                            ApplicationFlags.SetReminderDatasetItemAddedFlag(scheduleDialog.getScheduleItem().getScheduleID());
-                            Log.d("Kevin", "New Item UUID" + scheduleDialog.getScheduleItem().getScheduleID());
-                            Log.d("Kevin", "Size of array list: " + mScheduleItems.size());
+                            ApplicationFlags.SetReminderDatasetItemAddedFlag(id);
+                            for (int i = 0; i < mScheduleItems.size(); i++){
+                                Log.d("Kevin", "class: " + i + mScheduleItems.get(i).getClass().toString());
+                            }
+
+
                         }
+
+
                     }
                 });
 
@@ -266,69 +301,44 @@ public class FragmentSchedule extends Fragment {
     private void saveScheduleItemsToDatabase(){
         Log.d("Kevin", "Items loaded to DB");
         if(!ApplicationFlags.GetReminderDatasetNeedsUpdate()){
+            Log.d(TAG, "saveScheduleItemsToDatabase(), Database does not need updating...");
             ApplicationFlags.ResetReminderDatasetFlags();
             return;
         }
         int flagCounter = 0;
         boolean dbResetNeeded = false;
         if(ApplicationFlags.GetReminderDatasetItemAdded()){
-            Log.d("Kevin", "ADDED 1");
+            Log.d(TAG, "saveScheduleItemsToDatabase(), Items need to be added to database...");
             flagCounter++;
         }
         if(ApplicationFlags.GetReminderDatasetItemRemoved()){
-            Log.d("Kevin", "REMOVED 1");
+            Log.d(TAG, "saveScheduleItemsToDatabase(), Items need to be removed from database...");
             flagCounter++;
         }
         if(ApplicationFlags.GetReminderDatasetItemChanged()){
-            Log.d("Kevin", "CHANGED 1");
+            Log.d(TAG, "saveScheduleItemsToDatabase(), Items need to be changed in database...");
             flagCounter++;
         }
 
         if(flagCounter > 1){
             dbResetNeeded = true;
+            Log.d(TAG, "saveScheduleItemsToDatabase(), Hard reset of database needed...");
         }
 
         if(!dbResetNeeded){
             if(ApplicationFlags.GetReminderDatasetItemAdded()){
-                Log.d("Kevin", "ADDED");
                 for(int i = 0; i < ApplicationFlags.GetRemindersAddedList().size(); i++){
-                    Log.d("Kevin", "ADDED " + i);
                     for(int j = 0; j < mScheduleItems.size(); j++){
                         if(ApplicationFlags.GetRemindersAddedList().get(i).equals(mScheduleItems.get(j).getScheduleID())){
-                            ContentValues cv = new ContentValues();
-                            ScheduleItem holderItem = mScheduleItems.get(j);
                             if(mScheduleItems.get(j) instanceof RecurringReminder){
-                                int[][] multiRemindersArray = holderItem.getMultiRemindersArray();
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE, multiRemindersArray[0][0]);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, multiRemindersArray[1][0]);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_TWO, multiRemindersArray[0][1]);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_TWO, multiRemindersArray[1][1]);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_THREE, multiRemindersArray[0][2]);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_THREE, multiRemindersArray[1][2]);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_FOUR, multiRemindersArray[0][3]);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_FOUR, multiRemindersArray[1][3]);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS, -1);
-                            } else {
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE, -1);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, -1);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_TWO, -1);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_TWO, -1);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_THREE, -1);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_THREE, -1);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_FOUR, -1);
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_FOUR, -1);
-                                // TODO Add in the specific number of reminders
-                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS, 5);
+                                mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
+                                        null,
+                                        ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(j)));
+                            } else if(mScheduleItems.get(j) instanceof SingleReminder){
+                                mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
+                                        null,
+                                        ApplicationTools.setSingleReminderCV((SingleReminder) mScheduleItems.get(j)));
                             }
-
-
-                            cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME, holderItem.getReminderName());
-                            cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
-                            cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getTypeInt());
-                            cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
-
-                            mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME, null, cv);
-                            Log.d("Kevin", "Added: " + holderItem.getReminderName());
                         }
                     }
                 }
@@ -352,7 +362,29 @@ public class FragmentSchedule extends Fragment {
                 }
             }
             if(ApplicationFlags.GetReminderDatasetItemChanged()){
-
+                Cursor cursor = getAllItems();
+                cursor.moveToFirst();
+                for(int i = 0; i < mScheduleItems.size(); i++){
+                    if(i < cursor.getCount()){
+                        cursor.moveToPosition(i);
+                        String dbID = cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID));
+                        if(!dbID.equals(mScheduleItems.get(i).getScheduleID())){
+                            ContentValues cv = new ContentValues();
+                            ScheduleItem holderItem = mScheduleItems.get(i);
+                            if(mScheduleItems.get(i) instanceof RecurringReminder){
+                                cv = ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(i));
+                            } else if(mScheduleItems.get(i) instanceof SingleReminder){
+                                cv = ApplicationTools.setSingleReminderCV((SingleReminder) mScheduleItems.get(i));
+                            }
+                            if(holderItem.getScheduleID() == null){
+                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, UUID.randomUUID().toString());
+                            } else {
+                                cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
+                            }
+                            mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME, null, cv);
+                        }
+                    }
+                }
 
             }
         } else {
@@ -365,48 +397,18 @@ public class FragmentSchedule extends Fragment {
                         null);
             }
             for(int j = mScheduleItems.size() - 1; j >= 0; j--){
-                    ContentValues cv = new ContentValues();
-                    ScheduleItem holderItem = mScheduleItems.get(j);
-                    cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME, holderItem.getReminderName());
-                    cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
-                    cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getTypeInt());
-                    cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
-
-                    mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME, null, cv);
-            }
-        }
-
-        if(ApplicationFlags.GetRemindersChangedList() != null){
-            for(int i = 0; i < ApplicationFlags.GetRemindersChangedList().size(); i++){
-                String currentID = ApplicationFlags.GetRemindersChangedList().get(i);
-            }
-        }
-
-
-
-        Cursor cursor = getAllItems();
-        cursor.moveToFirst();
-        for(int i = 0; i < mScheduleItems.size(); i++){
-            if(i < cursor.getCount()){
-                cursor.moveToPosition(i);
-                String dbID = cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID));
-                if(!dbID.equals(mScheduleItems.get(i).getScheduleID())){
-                    ContentValues cv = new ContentValues();
-                    ScheduleItem holderItem = mScheduleItems.get(i);
-                    cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME, holderItem.getReminderName());
-                    cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
-                    cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getTypeInt());
-                    // DELETE AFTER FIRST RUN
-                    if(holderItem.getScheduleID() == null){
-                        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, Integer.toString(i));
-                    } else {
-                        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
-                    }
-                    mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME, null, cv);
+                if(mScheduleItems.get(j) instanceof RecurringReminder){
+                    mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
+                            null,
+                            ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(j)));
+                }
+                if(mScheduleItems.get(j) instanceof SingleReminder){
+                    mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
+                            null,
+                            ApplicationTools.setSingleReminderCV((SingleReminder) mScheduleItems.get(j)));
                 }
             }
         }
-
         ApplicationFlags.ResetReminderDatasetFlags();
     }
 
@@ -460,12 +462,28 @@ public class FragmentSchedule extends Fragment {
     }
 
     private void reminderSetUp(){
+        ApplicationTools.showNotification(getView(), Objects.requireNonNull(getContext()));
+        displayNotification(getContext());
         for (int i = 0; i < mScheduleItems.size(); i++){
+            Log.d("Kevin", "Class" + mScheduleItems.get(i).getClass().toString());
             if(mScheduleItems.get(i) instanceof SingleReminder){
+                Log.d("Kevin", "Single");
                 SingleReminder singleReminder = (SingleReminder) mScheduleItems.get(i);
-                Toast.makeText(getContext(), "Time: " + singleReminder.getHour() + ":" + singleReminder.getMinute() + "  Date: "  + singleReminder.getDate().toString(), Toast.LENGTH_SHORT).show();
+                Calendar c = singleReminder.getReminderCalendar();
+
+                AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+                Intent intent = new Intent(getContext(), ReminderBroadcast.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 1, intent, 0);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
             }
         }
+    }
+
+    private void displayNotification(Context context){
+        Log.d(TAG, "displayNotification() Notification displayed...");
+        NotificationHelper notificationHelper = new NotificationHelper(context);
+        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
+        notificationHelper.getManager().notify(1, nb.build());
     }
 
     private Cursor getAllItems(){
@@ -496,7 +514,6 @@ public class FragmentSchedule extends Fragment {
         timerNeeded = false;
         reminderSetUp();
         saveScheduleItemsToDatabase();
-        //dbViewer();
         super.onPause();
     }
 

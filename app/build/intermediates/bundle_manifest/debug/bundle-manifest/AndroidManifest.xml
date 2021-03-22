@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name="com.kevinkirwansoftware.capsule.App"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
@@ -35,6 +36,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <receiver android:name="com.kevinkirwansoftware.capsule.ReminderBroadcast" />
+        <receiver android:name="com.kevinkirwansoftware.capsule.NotificationReceiver" />
     </application>
 
 </manifest>

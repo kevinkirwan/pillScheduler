@@ -7,42 +7,44 @@
 
 
     <RelativeLayout
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:padding="0dp"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:padding="0dp">
 
         <LinearLayout
             android:id="@+id/scheduleItemMenuLL"
-            android:visibility="gone"
-            android:background="@color/colorSecondary"
             android:layout_width="64dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:background="@color/colorSecondary"
             android:gravity="center"
-            android:layout_marginRight="0dp">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/editIcon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_edit"
-                android:tint="@color/colorPrimary"/>
+                android:foregroundTint="@color/colorPrimary"
+                android:tint="@color/colorPrimary"
+                android:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/ic_edit" />
 
             <ImageView
                 android:id="@+id/deleteIcon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/trash_can_2"
-                android:tint="@color/colorPrimary"/>
-
+                android:backgroundTint="@color/colorPrimary"
+                android:tint="@color/colorPrimary"
+                app:srcCompat="@drawable/trash_can_2" />
 
 
         </LinearLayout>
@@ -50,42 +52,96 @@
 
         <ImageView
             android:id="@+id/imageView"
-            app:srcCompat="@drawable/wrench"
-            android:tint="@color/colorSecondary"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:foregroundGravity="center_vertical"
-            android:layout_centerVertical="true"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:padding="2dp" />
-
-        <TextView
-            android:id="@+id/reminderName"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
-            android:layout_marginStart="80dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:textColor="@color/colorSecondary"
-            android:textSize="16sp" />
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:foregroundGravity="center_vertical"
+            android:padding="2dp"
+            android:tint="@color/colorSecondary"
+            app:srcCompat="@drawable/wrench" />
 
-        <TextView
-            android:id="@+id/reminderDesc"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
+        <LinearLayout
+            android:id="@+id/nameDescInfo"
+            android:layout_width="180dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/imageView"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/reminderName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:text="Name name name"
+                android:textColor="@color/colorSecondary"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/reminderDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:text="Des crip tio n de scri ptio n de sc ripti on"
+                android:textColor="@color/colorSecondary"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
             android:layout_marginStart="0dp"
-            android:layout_centerVertical="true"
-            android:textColor="@color/colorSecondary"
-            android:text="test test"
-            android:textSize="12sp"
+            android:padding="8dp"
+            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true" />
+            android:layout_toRightOf="@+id/nameDescInfo"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/reminderTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:text="8:27 PM"
+                android:gravity="center"
+                android:textColor="@color/colorSecondary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/reminderDataLineTwo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:text="July 14 2021"
+                android:gravity="center"
+                android:textColor="@color/colorSecondary"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+
 
         <View
             android:id="@+id/card_divider"
@@ -96,15 +152,7 @@
             android:layout_marginHorizontal="0dp"
             android:background="@color/colorSecondary" />
 
-        </RelativeLayout>
-
-
-
-
-
-
-
-
+    </RelativeLayout>
 
 
 </androidx.cardview.widget.CardView>

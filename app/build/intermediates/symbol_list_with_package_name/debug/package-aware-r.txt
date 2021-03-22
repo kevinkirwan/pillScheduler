@@ -1352,6 +1352,7 @@ id monthPicker
 id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
+id nameDescInfo
 id nav_view
 id navigation_header_container
 id never
@@ -1359,6 +1360,8 @@ id new_reminder_cancel
 id new_reminder_create
 id none
 id normal
+id notificationText1
+id notificationText2
 id notification_background
 id notification_main_column
 id notification_main_column_container
@@ -1387,6 +1390,7 @@ id radio
 id recurring_rb
 id recurring_reminder_rl
 id recurring_rg
+id reminderDataLineTwo
 id reminderDesc
 id reminderDescET
 id reminderDescRL
@@ -1397,6 +1401,7 @@ id reminderNameET
 id reminderNameRL
 id reminderNameTIL
 id reminderNameTV
+id reminderTime
 id reminder_minus
 id reminder_plus
 id reminders_per_day_counter
@@ -1569,6 +1574,7 @@ layout bottom_sheet_double_picker_bottom_sheet
 layout bottom_sheet_picker
 layout bottom_sheet_picker_bottom_sheet
 layout card_inventory
+layout collapsed_notification
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -1584,6 +1590,7 @@ layout design_navigation_item_subheader
 layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
+layout expanded_notification
 layout fragment_inventory
 layout fragment_schedule
 layout fragment_settings

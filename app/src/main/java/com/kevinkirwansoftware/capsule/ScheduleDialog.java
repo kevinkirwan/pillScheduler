@@ -2,8 +2,10 @@ package com.kevinkirwansoftware.capsule;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +23,13 @@ import androidx.core.view.ViewCompat;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -32,10 +39,12 @@ public class ScheduleDialog extends Dialog {
     Context mContext;
     SchedulePopOutType mSpot;
     int mPosition;
-    ScheduleItem mScheduleItem;
+    RecurringReminder mRecurringItem;
+    SingleReminder mSingleItem;
     boolean updateNeeded = false;
 
     TextView reminderPlus, reminderMinus, dailyReminderCounterTV;
+    TextInputLayout reminderNameTIL;
     TextInputEditText reminderNameET, reminderDescET;
 
     Date singleDate;
@@ -80,6 +89,8 @@ public class ScheduleDialog extends Dialog {
         reminderNameET = this.findViewById(R.id.reminderNameET);
         reminderDescET = this.findViewById(R.id.reminderDescET);
 
+        reminderNameTIL = this.findViewById(R.id.reminderNameTIL);
+
         oneTimeSC = this.findViewById(R.id.one_time_reminder_rl);
         recurringSC = this.findViewById(R.id.recurring_reminder_rl);
         dailyRL = this.findViewById(R.id.daily_rl);
@@ -117,7 +128,12 @@ public class ScheduleDialog extends Dialog {
         newReminderAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNewReminder();
+                if(isOneTime){
+                    createSingleReminder();
+                } else {
+                    createRecurringReminder();
+                }
+
             }
         });
 
@@ -287,39 +303,24 @@ public class ScheduleDialog extends Dialog {
         EDIT
     }
 
-    private void createNewReminder(){
+    private void createRecurringReminder(){
         boolean validInput = true;
         String errorMessage = "";
-        ScheduleItem newScheduleItem;
-        newScheduleItem = new ScheduleItem();
+        RecurringReminder newRecurringItem;
+        newRecurringItem = new RecurringReminder();
         if(isOneTime){
             singleDate = sdtp.getDate();
-            newScheduleItem.setReminderType(ScheduleItem.ReminderType.ONE_TIME);
+            newRecurringItem.setReminderType(ScheduleItem.ReminderType.ONE_TIME);
         } else {
-            newScheduleItem.setReminderType(ScheduleItem.ReminderType.RECURRING);
+            newRecurringItem.setReminderType(ScheduleItem.ReminderType.RECURRING);
             Toast.makeText(getContext(), "Recurring", Toast.LENGTH_SHORT).show();
         }
-        if((reminderNameET.getText() != null) || (reminderNameET.getText().toString().length() > 0)){
-            String name = reminderNameET.getText().toString();
-            newScheduleItem.setReminderName(name);
-        } else {
-            validInput = false;
-            errorMessage.concat("Invalid name\n");
-            return;
-        }
 
-        if((reminderDescET.getText() != null)){
-            String desc = reminderDescET.getText().toString();
-            newScheduleItem.setReminderDescription(desc);
-        } else {
-            validInput = false;
-            errorMessage.concat("Invalid description\n");
-            return;
-        }
 
         int dailyReminders = 6;
-        newScheduleItem.setScheduleID(UUID.randomUUID().toString());
-        setScheduleItem(newScheduleItem);
+        newRecurringItem.setScheduleID(UUID.randomUUID().toString());
+        setScheduleItem(newRecurringItem);
+        mRecurringItem = newRecurringItem;
         updateNeeded = true;
         //mScheduleAdapter.notifyItemInserted(mScheduleItems.size());
 
@@ -327,15 +328,96 @@ public class ScheduleDialog extends Dialog {
 
     }
 
+    private void createSingleReminder(){
+        if(!commonCheckPass()){
+            return;
+        }
+        singleDate = sdtp.getDate();
+        singleDate.getTime();
+        Timestamp ts = new java.sql.Timestamp(singleDate.getTime());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh-mm");
+        String[] timeArray = formatter.format(ts).split("-");
+        mSingleItem = new SingleReminder(Integer.parseInt(timeArray[0]),
+                Integer.parseInt(timeArray[1]),
+                Integer.parseInt(timeArray[2]),
+                Integer.parseInt(timeArray[3]),
+                Integer.parseInt(timeArray[4]));
+        mSingleItem.setScheduleID(UUID.randomUUID().toString());
+        mSingleItem.setReminderName(reminderNameET.getText().toString());
+        mSingleItem.setReminderDescription(reminderDescET.getText().toString());
+        mSingleItem.setReminderType(ScheduleItem.ReminderType.ONE_TIME);
+        updateNeeded = true;
+        this.dismiss();
+    }
+
+    private boolean commonCheckPass(){
+        boolean validInputName = true;
+        boolean validInputDesc = true;
+        String errorMessageName = "";
+        String errorMessageDesc = "";
+        String[] charList = ApplicationTools.getListOfInvalidSQLiteChars();
+        if((reminderNameET.getText().toString().length() == 0)){
+            validInputName = false;
+            errorMessageName = errorMessageName.concat("Required Field\n");
+        }
+        if((reminderNameET.getText().toString().length() > ApplicationTools.MAX_REMINDER_NAME_STRING_LENGTH)){
+            validInputName = false;
+            errorMessageName = errorMessageName.concat("Maxiumum name length: "  +  ApplicationTools.MAX_REMINDER_NAME_STRING_LENGTH + " characters\n");
+        }
+
+        if(!ApplicationTools.isSQLiteStringValid(reminderNameET.getText().toString())){
+            validInputName = false;
+            errorMessageName = errorMessageName.concat("Invalid characters: ");
+
+            for (String s : charList) {
+                errorMessageName = errorMessageName.concat(s + " ");
+            }
+            errorMessageName = errorMessageName.concat("\n");
+        }
+
+
+
+        if((reminderDescET.getText().toString().length() > ApplicationTools.MAX_REMINDER_DESC_STRING_LENGTH)){
+            validInputDesc = false;
+            errorMessageDesc = errorMessageDesc.concat("Maxiumum description length: "  +  ApplicationTools.MAX_REMINDER_DESC_STRING_LENGTH + " characters\n");
+        }
+
+        if(!ApplicationTools.isSQLiteStringValid(reminderDescET.getText().toString())){
+            validInputDesc = false;
+            errorMessageDesc = errorMessageDesc.concat("Invalid characters: ");
+            for (String s : charList) {
+                errorMessageDesc = errorMessageDesc.concat(s);
+            }
+            errorMessageDesc = errorMessageDesc.concat("\n");
+        }
+
+        if(!validInputName){
+            reminderNameET.setError(errorMessageName);
+        }
+        if(!validInputDesc){
+            reminderDescET.setError(errorMessageDesc);
+        }
+
+        return (validInputName && validInputDesc);
+    }
+
+
+
+
+
     public boolean getUpdateNeeded(){
         return updateNeeded;
     }
 
     private void setScheduleItem(ScheduleItem scheduleItemIn){
-        mScheduleItem = scheduleItemIn;
+        //mScheduleItem = scheduleItemIn;
     }
 
-    public ScheduleItem getScheduleItem(){
-        return mScheduleItem;
+    public RecurringReminder getRecurringItem(){
+        return mRecurringItem;
+    }
+
+    public SingleReminder getSingleItem(){
+        return mSingleItem;
     }
 }

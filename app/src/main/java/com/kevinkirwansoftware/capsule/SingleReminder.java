@@ -10,27 +10,19 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class SingleReminder extends ScheduleItem {
-    private int hour, minute;
-    private Date date;
     private Calendar reminderCalendar;
 
-    SingleReminder(int minute, int hour, Date date){
-        this.minute = minute;
-        this.hour = hour;
-        this.date = date;
+    SingleReminder(int year, int month, int day, int hour, int minute){
         reminderCalendar = Calendar.getInstance();
+        reminderCalendar.set(Calendar.MINUTE, minute);
+        reminderCalendar.set(Calendar.HOUR, hour);
+        reminderCalendar.set(Calendar.DAY_OF_MONTH, day);
+        reminderCalendar.set(Calendar.MONTH, month);
+        reminderCalendar.set(Calendar.YEAR, year);
     }
 
-    public int getMinute(){
-        return minute;
-    }
-
-    public int getHour(){
-        return hour;
-    }
-
-    public Date getDate() {
-        return date;
+    public Calendar getReminderCalendar(){
+        return reminderCalendar;
     }
 }
 

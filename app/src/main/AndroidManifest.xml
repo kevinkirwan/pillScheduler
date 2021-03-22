@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/capsule"
@@ -27,6 +28,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
         <receiver android:name=".ReminderBroadcast"/>
+        <receiver android:name=".NotificationReceiver" />
     </application>
 
 </manifest>
