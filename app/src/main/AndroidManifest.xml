@@ -2,10 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kevinkirwansoftware.capsule">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".App"
+        android:name=".general.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/capsule"
@@ -15,7 +17,7 @@
 
 
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".general.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,8 +29,8 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <receiver android:name=".ReminderBroadcast"/>
-        <receiver android:name=".NotificationReceiver" />
+        <receiver android:name=".notifications.ReminderBroadcast"/>
+        <receiver android:name=".notifications.NotificationReceiver" />
     </application>
 
 </manifest>

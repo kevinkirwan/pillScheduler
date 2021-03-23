@@ -2,13 +2,10 @@ package com.kevinkirwansoftware.capsule;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -21,15 +18,12 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
-import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -48,7 +42,7 @@ public class ScheduleDialog extends Dialog {
     TextInputEditText reminderNameET, reminderDescET;
 
     Date singleDate;
-    boolean isOneTime = true;
+    public boolean isOneTime = true;
     int dailyReminderCounter = 1;
 
     LinearLayout testLL;
@@ -75,6 +69,7 @@ public class ScheduleDialog extends Dialog {
         dailyRB = this.findViewById(R.id.daily_rb);
         customRB = this.findViewById(R.id.custom_rb);
         sdtp = this.findViewById(R.id.single_day_picker);
+        //sdtp.setIsAmPm(false);
 
         dailySdtp1 = this.findViewById(R.id.first_daily_reminder);
         dailySdtp2 = this.findViewById(R.id.second_daily_reminder);
@@ -333,9 +328,9 @@ public class ScheduleDialog extends Dialog {
             return;
         }
         singleDate = sdtp.getDate();
-        singleDate.getTime();
+        Log.d("Kevin", "is AM PM " + sdtp);
         Timestamp ts = new java.sql.Timestamp(singleDate.getTime());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-hh-mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
         String[] timeArray = formatter.format(ts).split("-");
         mSingleItem = new SingleReminder(Integer.parseInt(timeArray[0]),
                 Integer.parseInt(timeArray[1]),

@@ -1,0 +1,30 @@
+package com.kevinkirwansoftware.capsule.notifications;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+
+import com.kevinkirwansoftware.capsule.general.ApplicationTools;
+import com.kevinkirwansoftware.capsule.notifications.NotificationHelper;
+
+import java.util.Objects;
+
+public class ReminderBroadcast extends BroadcastReceiver {
+    private static String TAG = "ReminderBroadcast.java";
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        //displayNotification(context);
+        ApplicationTools.showNotification(Objects.requireNonNull(context));
+        Log.d(TAG, "Received");
+    }
+
+    private void displayNotification(Context context){
+        NotificationHelper notificationHelper = new NotificationHelper(context);
+        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
+        notificationHelper.getManager().notify(1, nb.build());
+    }
+}
