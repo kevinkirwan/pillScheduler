@@ -1113,6 +1113,7 @@ drawable button_round
 drawable calender
 drawable capsule
 drawable clipboard
+drawable cloud
 drawable dark
 drawable design_bottom_navigation_item_background
 drawable design_fab_background
@@ -1133,7 +1134,10 @@ drawable ic_launcher_foreground
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
+drawable ic_noun_snow_24499
+drawable ic_rain_unlicensed
 drawable ic_right_arrow_24dp
+drawable ic_sun
 drawable ic_trash
 drawable inventory
 drawable layout_border
@@ -1268,6 +1272,7 @@ id content
 id contentPanel
 id coordinator
 id currentTimeDisplay
+id currentWeatherSummary
 id custom
 id customPanel
 id custom_rb
@@ -1312,6 +1317,7 @@ id first_daily_reminder_rl
 id first_daily_reminder_text
 id fixed
 id forever
+id fourthDivider
 id fourthHeaderLL
 id fourth_daily_reminder
 id fourth_daily_reminder_rl
@@ -1363,6 +1369,10 @@ id navigation_header_container
 id never
 id new_reminder_cancel
 id new_reminder_create
+id newsContent
+id newsHeadline
+id newsIcon
+id newsLinearLayout
 id none
 id normal
 id notificationText1
@@ -1434,6 +1444,7 @@ id search_mag_icon
 id search_plate
 id search_src_text
 id search_voice_btn
+id secondDivider
 id secondHeaderLL
 id second_daily_reminder
 id second_daily_reminder_rl
@@ -1481,6 +1492,7 @@ id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id tag_window_insets_animation_callback
+id temperature
 id test_ll
 id text
 id text2
@@ -1495,6 +1507,7 @@ id themeDropdownArrow
 id themeDropdownLL
 id themeHeaderLL
 id themeRL
+id thirdDivider
 id thirdHeaderLL
 id third_daily_reminder
 id third_daily_reminder_rl
@@ -1522,6 +1535,8 @@ id up
 id useLogo
 id view_offset_helper
 id visible
+id weatherIcon
+id weatherLinearLayout
 id withText
 id wrap
 id wrap_content

@@ -44,6 +44,10 @@
         "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\menu\\drawer_menu.xml"
     },
     {
+        "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_noun_snow_24499.xml.flat",
+        "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\ic_noun_snow_24499.xml"
+    },
+    {
         "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_clipboard.xml.flat",
         "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\clipboard.xml"
     },
@@ -74,6 +78,10 @@
     {
         "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_moon.xml.flat",
         "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\moon.xml"
+    },
+    {
+        "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_rain_unlicensed.xml.flat",
+        "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\ic_rain_unlicensed.xml"
     },
     {
         "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_trash_can_2.xml.flat",
@@ -130,6 +138,10 @@
     {
         "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_right_arrow_24dp.xml.flat",
         "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\ic_right_arrow_24dp.xml"
+    },
+    {
+        "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_cloud.xml.flat",
+        "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\cloud.xml"
     },
     {
         "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\layout_nav_header.xml.flat",
@@ -202,6 +214,10 @@
     {
         "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_theme_background_none.xml.flat",
         "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\theme_background_none.xml"
+    },
+    {
+        "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_sun.xml.flat",
+        "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\ic_sun.xml"
     },
     {
         "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_black_white.jpg.flat",

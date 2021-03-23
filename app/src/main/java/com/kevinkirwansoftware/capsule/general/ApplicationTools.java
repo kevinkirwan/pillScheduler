@@ -28,6 +28,9 @@ public class ApplicationTools {
     private static String WEATHER_URL = "http://api.openweathermap.org/";
     private static String POST_MOCK_URL_BOOKS = "https://www.googleapis.com/books/v1/";
     private static String POST_MOCK_URL_LATIN = "https://jsonplaceholder.typicode.com/";
+    private static String POST_MOCK_URL_NEWS = "https://newsapi.org/v2/";
+    private static String POST_NEWS_API_KEY = "0e340a8de1494e5f87634a3506ee3300";
+
 
     public static String getApplicationId(){
         return APPLICATION_ID;
@@ -37,8 +40,20 @@ public class ApplicationTools {
         return WEATHER_URL;
     }
 
+    public static String getMockLatinDataUrl(){
+        return POST_MOCK_URL_LATIN;
+    }
+
     public static String getMockDataUrl(){
         return POST_MOCK_URL_BOOKS;
+    }
+
+    public static String getNewsUrl(){
+        return POST_MOCK_URL_NEWS;
+    }
+
+    public static String getNewsApiKey() {
+        return POST_NEWS_API_KEY;
     }
 
     public static void showNotification(Context context){
@@ -55,6 +70,13 @@ public class ApplicationTools {
                 .setCustomBigContentView(expandedView)
                 .build();
         notificationManager.notify(1, notification);
+    }
+
+    public static String getDateForApiCall(){
+        SimpleDateFormat twoCharDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        String day = twoCharDateFormat.format(new Date());
+        Log.d("Kevin", "Date for API:" + day + ":");
+        return day;
     }
 
     public static String getDateData(){

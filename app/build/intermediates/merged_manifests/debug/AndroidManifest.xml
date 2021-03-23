@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/capsule"
         android:supportsRtl="true"
         android:testOnly="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true" >
         <activity
             android:name="com.kevinkirwansoftware.capsule.general.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >

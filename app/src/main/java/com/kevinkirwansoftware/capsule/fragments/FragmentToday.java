@@ -26,12 +26,15 @@ import com.kevinkirwansoftware.capsule.R;
 import com.kevinkirwansoftware.capsule.RetrofitApiInterface;
 import com.kevinkirwansoftware.capsule.RetrofitClient;
 import com.kevinkirwansoftware.capsule.general.ApplicationTools;
+import com.kevinkirwansoftware.capsule.throwaway.Headlines;
+import com.kevinkirwansoftware.capsule.throwaway.Post;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,9 +47,9 @@ public class FragmentToday extends Fragment {
     private View todayView;
     private static String TAG = "FragmentToday.java";
     private TextClock currentTimeDisplay;
-    private TextView ampm, alarmAmpm, alarm, timeZone, date;
+    private TextView ampm, alarmAmpm, alarm, timeZone, date, newsHeadline, newsContent;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    RetrofitApiInterface retrofitAPI;
+    private RetrofitApiInterface retrofitAPI;
     private static int STORAGE_PERMISSION_CODE = 1;
 
 
@@ -65,6 +68,9 @@ public class FragmentToday extends Fragment {
         timeZone = view.findViewById(R.id.timeZone);
         date = view.findViewById(R.id.date);
 
+        newsHeadline = view.findViewById(R.id.newsHeadline);
+        newsContent = view.findViewById(R.id.newsContent);
+
         Retrofit retrofit = RetrofitClient.getInstance();
         retrofitAPI = retrofit.create(RetrofitApiInterface.class);
         fragmentTodayInit();
@@ -74,6 +80,7 @@ public class FragmentToday extends Fragment {
         date.setText(ApplicationTools.getDateData());
         timeZone.setText(ApplicationTools.getTimeZoneData());
 
+        ApplicationTools.getDateForApiCall();
         fetchData();
 
 
@@ -83,6 +90,19 @@ public class FragmentToday extends Fragment {
 
     }
 
+    private void populateNewsStories(Headlines headlines) {
+        newsHeadline.setText(headlines.getTitle(0));
+        newsContent.setText(headlines.getContent(0));
+        Log.d("Kevin", "Author: " + headlines.getTotalResults() + " \n" +
+                "Text: " + headlines.getTotalResults());
+
+        //ArrayList<String> sources = new ArrayList<>();
+        for (int i = 0; i < headlines.getArticles().size(); i++){
+            Log.d("Kevin", "Source: " + headlines.getArticles().get(i).getSource().name);
+        }
+
+
+    }
 
 
     private void displayData(JSONObject response) throws JSONException {
@@ -93,7 +113,6 @@ public class FragmentToday extends Fragment {
         String description = object.getString("description");
         String city = response.getString("name");
 
-        Log.d("Kevin", "city: " + city + " desc: " + description + " temp" + temp);
     }
 
     private void fetchData() {
@@ -123,7 +142,57 @@ public class FragmentToday extends Fragment {
  */
 
 
-            compositeDisposable.add(retrofitAPI.getCurrentWeatherData("40", "74", ApplicationTools.getApplicationId())
+
+
+
+            compositeDisposable.add(retrofitAPI.getRawData(ApplicationTools.getNewsApiKey(),
+                        "to",
+                        null,
+                        "en",
+                        ApplicationTools.getDateForApiCall())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Headlines>() {
+                                   @Override
+                                   public void accept(Headlines headlines) throws Exception {
+                                       populateNewsStories(headlines);
+                                   }
+
+                               }));
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+
+            compositeDisposable.add(retrofitAPI.getPosts("saepe")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<List<Post>>() {
+                        @Override
+                        public void accept(List<Post> posts) throws Exception {
+                            Log.d("Kevin", "Text: " + posts.get(3).getText());
+                        }
+                    }));
+
+ */
+
+
+
+
+/*
+
+            compositeDisposable.add(retrofitAPI.getCurrentWeatherData("40.0", "74.0", ApplicationTools.getApplicationId())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<JSONObject>() {
@@ -135,7 +204,7 @@ public class FragmentToday extends Fragment {
                     }));
 
 
-
+ */
 
 
         } else {
