@@ -35,6 +35,10 @@ public class Headlines {
         return articles.get(index).getContent();
     }
 
+    public String getImageUrl(int index){
+        return articles.get(index).getUrlToImage();
+    }
+
     public int getTotalResults(){
         return totalResults;
     }

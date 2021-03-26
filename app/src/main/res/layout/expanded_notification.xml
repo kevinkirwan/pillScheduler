@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="This is a custom notif"
-        android:textColor="@color/colorPrimary"
-        android:background="@color/colorSecondary"
+        android:textColor="@color/colorTwo"
+        android:background="@color/colorThree"
         style="@style/TextAppearance.Compat.Notification"/>
 
     <ImageView

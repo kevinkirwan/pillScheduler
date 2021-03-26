@@ -24,6 +24,7 @@ import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
@@ -127,6 +128,7 @@ public class ScheduleDialog extends Dialog {
                     createSingleReminder();
                 } else {
                     createRecurringReminder();
+                    Toast.makeText(getContext(), "Recurring", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -143,7 +145,7 @@ public class ScheduleDialog extends Dialog {
                         oneTimeRB,
                         ContextCompat.getColorStateList(
                                 mContext,
-                                R.color.colorSecondary
+                                R.color.colorThree
                         )
                 );
                 oneTimeRB.setTextColor(mContext.getResources().getColor(R.color.gray));
@@ -179,7 +181,7 @@ public class ScheduleDialog extends Dialog {
                         recurringRB,
                         ContextCompat.getColorStateList(
                                 mContext,
-                                R.color.colorSecondary
+                                R.color.colorThree
                         )
                 );
                 recurringRB.setTextColor(mContext.getResources().getColor(R.color.gray));
@@ -198,7 +200,7 @@ public class ScheduleDialog extends Dialog {
                         customRB,
                         ContextCompat.getColorStateList(
                                 mContext,
-                                R.color.colorSecondary
+                                R.color.colorThree
                         )
                 );
                 customRB.setTextColor(mContext.getResources().getColor(R.color.gray));
@@ -234,7 +236,7 @@ public class ScheduleDialog extends Dialog {
                         dailyRB,
                         ContextCompat.getColorStateList(
                                 mContext,
-                                R.color.colorSecondary
+                                R.color.colorThree
                         )
                 );
                 dailyRB.setTextColor(mContext.getResources().getColor(R.color.gray));
@@ -299,26 +301,60 @@ public class ScheduleDialog extends Dialog {
     }
 
     private void createRecurringReminder(){
-        boolean validInput = true;
-        String errorMessage = "";
-        RecurringReminder newRecurringItem;
-        newRecurringItem = new RecurringReminder();
-        if(isOneTime){
-            singleDate = sdtp.getDate();
-            newRecurringItem.setReminderType(ScheduleItem.ReminderType.ONE_TIME);
-        } else {
-            newRecurringItem.setReminderType(ScheduleItem.ReminderType.RECURRING);
-            Toast.makeText(getContext(), "Recurring", Toast.LENGTH_SHORT).show();
+        if(!commonCheckPass()){
+            return;
+        }
+        mRecurringItem = new RecurringReminder();
+        mRecurringItem.setScheduleID(UUID.randomUUID().toString());
+        mRecurringItem.setReminderName(reminderNameET.getText().toString());
+        mRecurringItem.setReminderDescription(reminderDescET.getText().toString());
+        mRecurringItem.setReminderType(ScheduleItem.ReminderType.RECURRING);
+        int dailyReminders = Integer.parseInt(dailyReminderCounterTV.getText().toString());
+        mRecurringItem.setDailyReminders(dailyReminders);
+
+        int[][] timeArray = new int[2][4];
+        for (int[] row: timeArray){
+            Arrays.fill(row, -1);
         }
 
 
-        int dailyReminders = 6;
-        newRecurringItem.setScheduleID(UUID.randomUUID().toString());
-        setScheduleItem(newRecurringItem);
-        mRecurringItem = newRecurringItem;
-        updateNeeded = true;
-        //mScheduleAdapter.notifyItemInserted(mScheduleItems.size());
+        Date tempDate = dailySdtp1.getDate();
+        Timestamp ts = new java.sql.Timestamp(tempDate.getTime());
+        SimpleDateFormat formatter = new SimpleDateFormat("HH-mm");
+        String[] timeArrayString = formatter.format(ts).split("-");
+        timeArray[0][0] = Integer.parseInt(timeArrayString[0]);
+        timeArray[1][0] = Integer.parseInt(timeArrayString[1]);
 
+        if(dailyReminders > 1){
+            tempDate = dailySdtp2.getDate();
+            ts.setTime(tempDate.getTime());
+            timeArrayString = formatter.format(ts).split("-");
+            timeArray[0][1] = Integer.parseInt(timeArrayString[0]);
+            timeArray[1][1] = Integer.parseInt(timeArrayString[1]);
+        }
+        if(dailyReminders > 2){
+            tempDate = dailySdtp3.getDate();
+            ts.setTime(tempDate.getTime());
+            timeArrayString = formatter.format(ts).split("-");
+            timeArray[0][2] = Integer.parseInt(timeArrayString[0]);
+            timeArray[1][2] = Integer.parseInt(timeArrayString[1]);
+        }
+        if(dailyReminders > 3){
+            tempDate = dailySdtp4.getDate();
+            ts.setTime(tempDate.getTime());
+            timeArrayString = formatter.format(ts).split("-");
+            timeArray[0][3] = Integer.parseInt(timeArrayString[0]);
+            timeArray[1][3] = Integer.parseInt(timeArrayString[1]);
+        }
+        mRecurringItem.setMultiRemindersArray(timeArray);
+
+        Log.d("Kevin", "Time 1: " + mRecurringItem.getMultiRemindersArray()[0][0] + ":" + mRecurringItem.getMultiRemindersArray()[1][0]);
+        Log.d("Kevin", "Time 2: " + mRecurringItem.getMultiRemindersArray()[0][1] + ":" + mRecurringItem.getMultiRemindersArray()[1][1]);
+        Log.d("Kevin", "Time 3: " + mRecurringItem.getMultiRemindersArray()[0][2] + ":" + mRecurringItem.getMultiRemindersArray()[1][2]);
+        Log.d("Kevin", "Time 4: " + mRecurringItem.getMultiRemindersArray()[0][3] + ":" + mRecurringItem.getMultiRemindersArray()[1][3]);
+
+
+        updateNeeded = true;
         this.dismiss();
 
     }
@@ -327,8 +363,9 @@ public class ScheduleDialog extends Dialog {
         if(!commonCheckPass()){
             return;
         }
-        singleDate = sdtp.getDate();
-        Log.d("Kevin", "is AM PM " + sdtp);
+        //singleDate = sdtp.getDate();
+        //Log.d("Kevin", "is AM PM " + sdtp);
+        /*
         Timestamp ts = new java.sql.Timestamp(singleDate.getTime());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
         String[] timeArray = formatter.format(ts).split("-");
@@ -337,6 +374,9 @@ public class ScheduleDialog extends Dialog {
                 Integer.parseInt(timeArray[2]),
                 Integer.parseInt(timeArray[3]),
                 Integer.parseInt(timeArray[4]));
+
+         */
+        mSingleItem = new SingleReminder(sdtp.getDate());
         mSingleItem.setScheduleID(UUID.randomUUID().toString());
         mSingleItem.setReminderName(reminderNameET.getText().toString());
         mSingleItem.setReminderDescription(reminderDescET.getText().toString());
@@ -396,16 +436,8 @@ public class ScheduleDialog extends Dialog {
         return (validInputName && validInputDesc);
     }
 
-
-
-
-
     public boolean getUpdateNeeded(){
         return updateNeeded;
-    }
-
-    private void setScheduleItem(ScheduleItem scheduleItemIn){
-        //mScheduleItem = scheduleItemIn;
     }
 
     public RecurringReminder getRecurringItem(){

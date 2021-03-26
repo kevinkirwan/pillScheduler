@@ -13,66 +13,69 @@
 11    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 11-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:6:5-81
 11-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:6:22-78
-12    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-12-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:7:5-81
-12-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:7:22-78
-13    <uses-permission android:name="android.permission.INTERNET" />
-13-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:8:5-67
-13-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:8:22-64
-14
-15    <application
-15-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:10:5-37:19
-16        android:name="com.kevinkirwansoftware.capsule.general.App"
-16-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:11:9-36
-17        android:allowBackup="true"
-17-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:12:9-35
-18        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-18-->[androidx.core:core:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\965a5b9134c92bc3c68883eff32d98a3\core-1.5.0-beta03\AndroidManifest.xml:24:18-86
-19        android:debuggable="true"
-20        android:icon="@mipmap/ic_launcher"
-20-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:14:9-43
-21        android:label="@string/app_name"
-21-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:17:9-41
-22        android:roundIcon="@mipmap/capsule"
-22-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:15:9-44
-23        android:supportsRtl="true"
-23-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:16:9-35
-24        android:testOnly="true"
-25        android:theme="@style/AppTheme"
-25-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:18:9-40
-26        android:usesCleartextTraffic="true" >
-26-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:13:9-44
-27        <activity
-27-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:23:9-30:20
-28            android:name="com.kevinkirwansoftware.capsule.general.MainActivity"
-28-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:23:19-55
-29            android:theme="@style/AppTheme.NoActionBar" >
-29-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:24:13-56
-30            <intent-filter>
-30-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:25:13-29:29
-31                <action android:name="android.intent.action.MAIN" />
-31-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:26:17-69
-31-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:26:25-66
-32
-33                <category android:name="android.intent.category.LAUNCHER" />
-33-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:28:17-77
-33-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:28:27-74
-34            </intent-filter>
-35        </activity>
-36
-37        <meta-data
-37-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:32:9-34:57
-38            android:name="preloaded_fonts"
-38-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:33:13-43
-39            android:resource="@array/preloaded_fonts" />
-39-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:34:13-54
-40
-41        <receiver android:name="com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast" />
-41-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:35:9-68
-41-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:35:19-66
-42        <receiver android:name="com.kevinkirwansoftware.capsule.notifications.NotificationReceiver" />
-42-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:36:9-72
-42-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:36:19-69
-43    </application>
-44
-45</manifest>
+12    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+12-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:7:5-79
+12-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:7:22-76
+13    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+13-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:8:5-81
+13-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:8:22-78
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:9:5-67
+14-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:9:22-64
+15
+16    <application
+16-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:11:5-38:19
+17        android:name="com.kevinkirwansoftware.capsule.general.App"
+17-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:12:9-36
+18        android:allowBackup="true"
+18-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:13:9-35
+19        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+19-->[androidx.core:core:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\965a5b9134c92bc3c68883eff32d98a3\core-1.5.0-beta03\AndroidManifest.xml:24:18-86
+20        android:debuggable="true"
+21        android:icon="@mipmap/ic_launcher"
+21-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:15:9-43
+22        android:label="@string/app_name"
+22-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:18:9-41
+23        android:roundIcon="@mipmap/capsule"
+23-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:16:9-44
+24        android:supportsRtl="true"
+24-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:17:9-35
+25        android:testOnly="true"
+26        android:theme="@style/AppTheme"
+26-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:19:9-40
+27        android:usesCleartextTraffic="true" >
+27-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:14:9-44
+28        <activity
+28-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:24:9-31:20
+29            android:name="com.kevinkirwansoftware.capsule.general.MainActivity"
+29-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:24:19-55
+30            android:theme="@style/AppTheme.NoActionBar" >
+30-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:25:13-56
+31            <intent-filter>
+31-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:26:13-30:29
+32                <action android:name="android.intent.action.MAIN" />
+32-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:27:17-69
+32-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:27:25-66
+33
+34                <category android:name="android.intent.category.LAUNCHER" />
+34-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:29:17-77
+34-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:29:27-74
+35            </intent-filter>
+36        </activity>
+37
+38        <meta-data
+38-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:33:9-35:57
+39            android:name="preloaded_fonts"
+39-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:34:13-43
+40            android:resource="@array/preloaded_fonts" />
+40-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:35:13-54
+41
+42        <receiver android:name="com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast" />
+42-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:36:9-68
+42-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:36:19-66
+43        <receiver android:name="com.kevinkirwansoftware.capsule.notifications.NotificationReceiver" />
+43-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:37:9-72
+43-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:37:19-69
+44    </application>
+45
+46</manifest>

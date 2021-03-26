@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="64dp"
     android:padding="12dp"
-    android:background="@color/colorSecondary"
+    android:background="@color/colorThree"
     android:gravity="center">
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:text="TEXT 1"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorTwo"
         style="@style/TextAppearance.Compat.Notification.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -25,7 +25,7 @@
     <TextView
         android:id="@+id/notificationText2"
         android:text="TEXT 2"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorTwo"
         style="@style/TextAppearance.Compat.Notification.Info"
         android:textSize="10sp"
         android:layout_width="wrap_content"

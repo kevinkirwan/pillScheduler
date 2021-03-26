@@ -11,7 +11,7 @@
         android:layout_height="2dp"
         android:layout_alignParentTop="true"
         android:layout_marginHorizontal="0dp"
-        android:background="@color/colorSecondary" />
+        android:background="@color/colorThree" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scheduleRecyclerView"
@@ -19,7 +19,7 @@
         android:layout_margin="0dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorTwo"/>
 
     <ImageView
         android:id="@+id/addAlarmButton"
@@ -32,8 +32,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/theme_background"
-        android:tint="@color/colorPrimary"
-        app:backgroundTint="@color/colorSecondary"
+        android:tint="@color/colorTwo"
+        app:backgroundTint="@color/colorThree"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
 

@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:backgroundTint="@color/colorPrimary">
+    android:backgroundTint="@color/colorTwo">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="Lipitor"
             android:layout_marginLeft="0dp"
-            android:textColor="@color/colorSecondary"
+            android:textColor="@color/colorThree"
             android:textSize="24sp"
             android:layout_centerVertical="true"/>
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="25mg"
             android:layout_marginLeft="0dp"
-            android:textColor="@color/colorSecondary"
+            android:textColor="@color/colorThree"
             android:textSize="16sp"
             android:layout_centerVertical="true"/>
 
@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:layout_height="40dp"
                 android:layout_marginRight="0dp"
-                android:tint="@color/colorSecondary"
+                android:tint="@color/colorThree"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_edit"/>
@@ -64,7 +64,7 @@
             android:layout_height="2dp"
             android:layout_marginHorizontal="10dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorTertiary" />
+            android:background="@color/colorFour" />
 
 
     </RelativeLayout>

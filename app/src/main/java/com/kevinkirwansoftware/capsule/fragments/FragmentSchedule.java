@@ -100,6 +100,10 @@ public class FragmentSchedule extends Fragment {
         mScheduleAdapter.setOnItemClickListener(
                 new ScheduleAdapter.OnItemClickListener() {
                     @Override
+                    public void onLongClick(int position) {
+                        toggleMenu(position);
+                    }
+                    @Override
                     public void onItemClick(int position) {
                         toggleMenu(position);
                     }
@@ -136,12 +140,22 @@ public class FragmentSchedule extends Fragment {
             if(mScheduleItems.get(i).isMenuVisible()){
                 mScheduleItems.get(i).setMenuVisible(false);
                 mScheduleAdapter.notifyItemChanged(i);
+                if(i == position){
+                    return;
+                }
             }
         }
-
         mScheduleItems.get(position).setMenuVisible(true);
         mScheduleAdapter.notifyItemChanged(position);
+    }
 
+    public void hideMenu(){
+        for(int i = 0; i < mScheduleItems.size(); i++){
+            if(mScheduleItems.get(i).isMenuVisible()){
+                mScheduleItems.get(i).setMenuVisible(false);
+                mScheduleAdapter.notifyItemChanged(i);
+            }
+        }
     }
 
     public void showDeleteOption(int position){
@@ -149,13 +163,14 @@ public class FragmentSchedule extends Fragment {
     }
 
     public void launchEditMenu(int position){
+        /*
         final ScheduleDialog scheduleDialog = new ScheduleDialog(getContext(), ScheduleDialog.SchedulePopOutType.EDIT, mScheduleItems.get(position));
         scheduleDialog.show();
 
         scheduleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                /*
+
                 if((scheduleDialog.getScheduleItem() != null) && scheduleDialog.getUpdateNeeded()){
                     mScheduleItems.add(scheduleDialog.getScheduleItem());
                     mScheduleAdapter.notifyItemInserted(mScheduleItems.size());
@@ -163,9 +178,13 @@ public class FragmentSchedule extends Fragment {
                     Log.d("Kevin", "New Item UUID" + scheduleDialog.getScheduleItem().getScheduleID());
                 }
 
-                 */
+
             }
         });
+
+         */
+        Toast.makeText(getContext(), "Edit menu open", Toast.LENGTH_SHORT).show();
+
 
 
     }
@@ -445,7 +464,7 @@ public class FragmentSchedule extends Fragment {
                             // Logic to display flashing Add Reminder Button
                             if (addReminderInfoNeeded){
                                 addReminderInfoLL.setVisibility(View.VISIBLE);
-                                int testColor = getContext().getResources().getColor(R.color.colorSecondary);
+                                int testColor = getContext().getResources().getColor(R.color.colorThree);
                             if (addReminderInfoCounter < 2250) {
                                 if ((addReminderInfoCounter % 500) < 250) {
                                     addReminderArrowIV.setImageAlpha(250 - (addReminderInfoCounter % 500));

@@ -4,15 +4,8 @@
     android:layout_height="match_parent"
     android:layout_margin="0dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorTwo">
 
-    <View
-        android:id="@+id/card_divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginHorizontal="0dp"
-        android:background="@color/colorSecondary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scheduleRecyclerView"
@@ -20,7 +13,7 @@
         android:layout_margin="0dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorTwo"/>
 
     <LinearLayout
         android:id="@+id/addReminderInfoLL"
@@ -42,15 +35,15 @@
             android:textSize="16sp"
             android:alpha="125"
             android:gravity="center"
-            android:tint="@color/colorSecondary"
-            android:textColor="@color/colorSecondary"
+            android:tint="@color/colorThree"
+            android:textColor="@color/colorThree"
             android:text="Create New Reminder" />
 
         <ImageView
             android:id="@+id/addReminderArrowIV"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:tint="@color/colorSecondary"
+            android:tint="@color/colorThree"
             app:srcCompat="@drawable/ic_right_arrow_24dp" />
 
     </LinearLayout>
@@ -68,8 +61,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/theme_background"
-        android:tint="@color/colorPrimary"
-        app:backgroundTint="@color/colorSecondary"
+        android:tint="@color/colorTwo"
+        app:backgroundTint="@color/colorPrimary"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
 

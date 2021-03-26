@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/colorTertiary"
+        app:cardBackgroundColor="@color/colorFour"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -32,13 +32,14 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/colorPrimary"
                     android:tint="@color/colorPrimary"
-                    android:src="@drawable/capsule"/>
+                    app:srcCompat="@drawable/capsule"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorTwo"
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
@@ -73,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:text="Reminder Name"
                             android:layout_centerHorizontal="true"
-                            android:textColor="@color/colorPrimary"/>
+                            android:textColor="@color/colorTwo"/>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/reminderNameTIL"
@@ -92,7 +93,7 @@
                                 android:layout_height="50sp"
                                 android:maxLines="1"
                                 android:background="@drawable/layout_border"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/colorTwo"
                                 android:text=""/>
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,7 +111,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:text="Reminder Description (Optional)"
-                            android:textColor="@color/colorPrimary"/>
+                            android:textColor="@color/colorTwo"/>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/reminderDescTIL"
@@ -130,9 +131,9 @@
                                 android:maxLines="2"
                                 android:background="@drawable/layout_border"
                                 android:textColorHighlight="@color/gray"
-                                android:textColorLink="@color/colorPrimary"
+                                android:textColorLink="@color/colorTwo"
                                 android:textCursorDrawable="@null"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/colorTwo"
                                 android:text=""/>
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +148,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="50dp"
-                            android:backgroundTint="@color/colorSecondary"
+                            android:backgroundTint="@color/colorThree"
                             android:background="@drawable/theme_background_none"
                             android:gravity="center"
                             android:layout_centerInParent="true"
@@ -161,7 +162,7 @@
                                 android:gravity="center"
                                 android:text="One-Time"
                                 android:background="@drawable/theme_background"
-                                android:backgroundTint="@color/colorPrimary"
+                                android:backgroundTint="@color/colorTwo"
                                 android:button="@null"
                                 android:padding="5dp"
                                 android:textColor="@color/white" />
@@ -172,7 +173,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@drawable/theme_background_none"
-                                android:backgroundTint="@color/colorSecondary"
+                                android:backgroundTint="@color/colorThree"
                                 android:gravity="center"
                                 android:text="Recurring"
                                 android:button="@null"
@@ -208,8 +209,8 @@
                                 android:layout_below="@+id/one_time_picker_tv"
                                 android:layout_marginHorizontal="0dp"
                                 android:layout_marginVertical="10dp"
-                                app:picker_textColor="@color/colorPrimary"
-                                app:picker_selectorColor="@color/colorPrimary"
+                                app:picker_textColor="@color/colorTwo"
+                                app:picker_selectorColor="@color/colorTwo"
                                 app:picker_selectedTextColor="#000000"
                                 app:picker_curved="false"
                                 app:picker_cyclic="false"
@@ -245,7 +246,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="50dp"
-                                    android:backgroundTint="@color/colorSecondary"
+                                    android:backgroundTint="@color/colorThree"
                                     android:background="@drawable/theme_background_none"
                                     android:gravity="center"
                                     android:layout_centerInParent="true"
@@ -259,7 +260,7 @@
                                         android:gravity="center"
                                         android:text="Daily"
                                         android:background="@drawable/theme_background"
-                                        android:backgroundTint="@color/colorPrimary"
+                                        android:backgroundTint="@color/colorTwo"
                                         android:button="@null"
                                         android:padding="5dp"
                                         android:textColor="@color/white" />
@@ -270,7 +271,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:background="@drawable/theme_background_none"
-                                        android:backgroundTint="@color/colorSecondary"
+                                        android:backgroundTint="@color/colorThree"
                                         android:gravity="center"
                                         android:text="Custom"
                                         android:button="@null"
@@ -301,7 +302,7 @@
                                         android:id="@+id/daily_reminders_desc_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/colorPrimary"
+                                        android:textColor="@color/colorTwo"
                                         android:layout_centerHorizontal="true"
                                         android:text="Reminders Per Day"/>
 
@@ -321,8 +322,8 @@
                                             android:layout_toLeftOf="@+id/reminders_per_day_counter"
                                             android:layout_marginRight="20dp"
                                             android:background="@drawable/layout_border"
-                                            android:backgroundTint="@color/colorSecondary"
-                                            android:textColor="@color/colorPrimary"
+                                            android:backgroundTint="@color/colorThree"
+                                            android:textColor="@color/colorTwo"
                                             android:textStyle="bold"
                                             android:text="-"
                                             android:textSize="20sp"/>
@@ -334,7 +335,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="1"
                                             android:layout_centerInParent="true"
-                                            android:textColor="@color/colorPrimary"
+                                            android:textColor="@color/colorTwo"
                                             android:textStyle="bold"
                                             android:textSize="30sp"/>
 
@@ -345,8 +346,8 @@
                                             android:layout_toRightOf="@+id/reminders_per_day_counter"
                                             android:layout_marginLeft="20dp"
                                             android:background="@drawable/layout_border"
-                                            android:backgroundTint="@color/colorSecondary"
-                                            android:textColor="@color/colorPrimary"
+                                            android:backgroundTint="@color/colorThree"
+                                            android:textColor="@color/colorTwo"
                                             android:textStyle="bold"
                                             android:text="+"
                                             android:textSize="20sp"/>
@@ -375,8 +376,8 @@
                                             android:layout_marginVertical="10dp"
                                             android:layout_marginHorizontal="0dp"
                                             android:layout_below="@+id/first_daily_reminder_text"
-                                            app:picker_textColor="@color/colorPrimary"
-                                            app:picker_selectorColor="@color/colorPrimary"
+                                            app:picker_textColor="@color/colorTwo"
+                                            app:picker_selectorColor="@color/colorTwo"
                                             app:picker_selectedTextColor="#000000"
                                             app:picker_curved="false"
                                             app:picker_cyclic="false"
@@ -412,8 +413,8 @@
                                             android:layout_marginVertical="10dp"
                                             android:layout_marginHorizontal="0dp"
                                             android:layout_below="@+id/second_daily_reminder_text"
-                                            app:picker_textColor="@color/colorPrimary"
-                                            app:picker_selectorColor="@color/colorPrimary"
+                                            app:picker_textColor="@color/colorTwo"
+                                            app:picker_selectorColor="@color/colorTwo"
                                             app:picker_selectedTextColor="#000000"
                                             app:picker_curved="false"
                                             app:picker_cyclic="false"
@@ -479,7 +480,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:backgroundTint="@color/colorTwo"
                     android:text="Create New Reminder"
                     android:textColor="@color/white"
                     android:background="@drawable/button_round"

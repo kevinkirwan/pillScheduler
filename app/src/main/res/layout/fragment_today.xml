@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorTwo">
 
     <View
         android:id="@+id/card_divider"
@@ -11,7 +11,7 @@
         android:layout_height="2dp"
         android:layout_alignParentTop="true"
         android:layout_marginHorizontal="0dp"
-        android:background="@color/colorSecondary" />
+        android:background="@color/colorThree" />
 
     <View
         android:id="@+id/secondDivider"
@@ -19,7 +19,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="4dp"
         android:layout_below="@+id/topLinearLayout"
-        android:background="@color/colorSecondary" />
+        android:background="@color/colorThree" />
 
     <View
         android:id="@+id/thirdDivider"
@@ -27,7 +27,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="4dp"
         android:layout_below="@+id/weatherLinearLayout"
-        android:background="@color/colorSecondary" />
+        android:background="@color/colorThree" />
 
     <View
         android:id="@+id/fourthDivider"
@@ -35,7 +35,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="4dp"
         android:layout_below="@+id/newsLinearLayout"
-        android:background="@color/colorSecondary" />
+        android:background="@color/colorThree" />
 
 
 
@@ -58,9 +58,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="HH:MM"
-                android:gravity="end"
-                android:textColor="#FFFFFF"
-                android:textSize="48dp" />
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="100dp"
+                android:gravity="start"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/date"
@@ -70,7 +72,7 @@
                 android:gravity="start"
                 android:layout_marginLeft="8dp"
                 android:text="DD Mmm"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorThree"
                 android:textSize="24dp" />
 
 
@@ -85,7 +87,7 @@
             android:layout_gravity="top"
             android:layout_marginLeft="12dp"
             android:text="City - Time Zone"
-            android:textColor="@color/colorSecondary"
+            android:textColor="@color/colorThree"
             android:textSize="14dp">
 
         </TextView>
@@ -136,7 +138,7 @@
                 android:gravity="start"
                 android:layout_gravity="center_vertical"
                 android:text="48 degrees"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorThree"
                 android:textSize="24dp" />
 
 
@@ -164,7 +166,7 @@
             android:layout_marginStart="8dp"
             android:gravity="top"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_rain_unlicensed"/>
+            app:srcCompat="@drawable/ic_sun"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -192,7 +194,7 @@
                 android:gravity="start"
                 android:layout_gravity="start"
                 android:text="48 degrees"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorThree"
                 android:textSize="12sp" />
 
 
@@ -228,7 +230,7 @@
                 android:layout_height="0dp"
                 android:text="Jersey City, NJ"
                 android:textSize="24sp"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/colorThree"
                 android:gravity="center_vertical"
                 android:layout_weight="1"/>
 
@@ -271,7 +273,7 @@
         android:layout_height="2dp"
         android:layout_below="@+id/headerLL"
         android:layout_marginHorizontal="0dp"
-        android:background="@color/colorSecondary" />
+        android:background="@color/colorThree" />
 
         -->
 

@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--
-    <color name="colorPrimary">#000000</color>
-    <color name="colorPrimaryText">#FFFFFF</color>
-    <color name="colorSecondary">#FFFFFFFF</color>
-    <color name="colorTertiary">#444444</color>
-
-
-    <color name="colorPrimary">#6a3f39</color>
-    <color name="colorPrimaryText">#f0e6de</color>
-    <color name="colorSecondary">#f0e6de</color>
-    <color name="colorTertiary">#d8c3b2</color>
-
-
-    DAD8D9
+    <!-- Regal
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimary">#800080</color>
+    <color name="colorOneText">#800080</color>
+    <color name="colorTwoText">#000000</color>
+    <color name="colorTwo">#CCCCCC</color>
+    <color name="colorThree">#FFFFFF</color>
+    <color name="colorFour">#696969</color>
     -->
 
-    <color name="colorPrimary">#6a3f39</color>
-    <color name="colorPrimaryText">#a87c79</color>
-    <color name="colorSecondary">#a87c79</color>
-    <color name="colorTertiary">#d6b3b1</color>
+    <!-- Dark
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorOneText">#000000</color>
+    <color name="colorTwoText">#000000</color>
+    <color name="colorTwo">#333333</color>
+    <color name="colorThree">#CCCCCC</color>
+    <color name="colorFour">#696969</color>
+    -->
+
+
+    <!-- Forest -->
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimary">#014421</color>
+    <color name="colorOneText">#014421</color>
+    <color name="colorTwoText">#000000</color>
+    <color name="colorTwo">#CCCCCC</color>
+    <color name="colorThree">#FFFFFF</color>
+    <color name="colorFour">#696969</color>
+
+
+    <color name="colorTwoDark">#000000</color>
+
+
     <color name="softFour">#d8c3b2</color>
     <color name="softFive">#f0e6de</color>
 
     <color name="gray">#999999</color>
     <color name="white">#FFFFFF</color>
 
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#330000</color>
 </resources>

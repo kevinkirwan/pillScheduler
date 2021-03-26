@@ -3,6 +3,7 @@ package com.kevinkirwansoftware.capsule;
 import com.kevinkirwansoftware.capsule.throwaway.BookListModel;
 import com.kevinkirwansoftware.capsule.throwaway.Headlines;
 import com.kevinkirwansoftware.capsule.throwaway.Post;
+import com.kevinkirwansoftware.capsule.throwaway.weather.WeatherResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,8 +15,11 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface RetrofitApiInterface {
-    @GET("data/2.5/weather?")
-    Observable<JSONObject> getCurrentWeatherData(@Query("lat") String lat, @Query("lon") String lon, @Query("APPID") String app_id);
+    @GET("onecall")
+    Observable<WeatherResponse> getCurrentWeatherData(@Query("lat") String lat, @Query("lon") String lon, @Query("units") String units, @Query("exclude") String exclude, @Query("appid") String app_id);
+
+    @GET("onecall")
+    Observable<JSONObject> getCurrentWeatherDataJson(@Query("lat") String lat, @Query("lon") String lon, @Query("units") String units, @Query("appid") String app_id);
 
     @GET("volumes")
     Observable<BookListModel> getBookListFromApi(@Query("q") String query);
@@ -51,6 +55,15 @@ public interface RetrofitApiInterface {
 
     @GET("everything")
     Observable<Headlines> getRawData(@Query("apiKey") String apiKey, @Query("q") String query);
+
+    @GET("top-headlines")
+    Observable<Headlines> getTopByCatergory(@Query("apiKey") String apiKey, @Query("category") String query);
+
+    @GET("top-headlines")
+    Observable<Headlines> getTopByLanguage(@Query("apiKey") String apiKey, @Query("language") String query);
+
+    @GET("top-headlines")
+    Observable<Headlines> getTopByQuery(@Query("apiKey") String apiKey, @Query("q") String query);
 
     @GET("posts")
     Observable<List<Post>> getPosts(@Query("q") String query);

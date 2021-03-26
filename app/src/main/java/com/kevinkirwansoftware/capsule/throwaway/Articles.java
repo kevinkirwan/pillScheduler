@@ -9,6 +9,7 @@ public class Articles {
     private String title;
     private String description;
     private String url;
+    private String urlToImage;
     private String publishedAt;
     private String content;
 
@@ -17,6 +18,7 @@ public class Articles {
                     String title,
                     String description,
                     String url,
+                    String urlToImage,
                     String publishedAt,
                     String content){
         this.source = source;
@@ -24,6 +26,7 @@ public class Articles {
         this.title = title;
         this.description = description;
         this.url = url;
+        this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
         this.content = content;
     }
@@ -43,4 +46,6 @@ public class Articles {
     public String getContent(){
         return content;
     }
+
+    public String getUrlToImage() { return urlToImage; }
 }

@@ -28,6 +28,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     }
 
     public interface OnItemClickListener{
+        void onLongClick(int position);
         void onItemClick(int position);
         void onDeleteClick(int position);
         void onEditClick(int position);
@@ -38,28 +39,31 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     }
 
     public class ScheduleViewHolder extends RecyclerView.ViewHolder{
-        public TextView reminderNameTV, reminderDescTV;
+        public TextView reminderNameTV, reminderDescTV, reminderTimeTV, reminderDataLineTwo, typeTV;
         public ImageView mScheduleIcon, mEditIcon, mDeleteIcon;
-        LinearLayout scheduleItemMenuLL;
+        LinearLayout scheduleItemMenuLL, miscInfoLL;
         boolean menuVisible = false;
 
         public ScheduleViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             reminderNameTV = itemView.findViewById(R.id.reminderName);
             reminderDescTV = itemView.findViewById(R.id.reminderDesc);
-            mScheduleIcon = itemView.findViewById(R.id.imageView);
+            reminderTimeTV = itemView.findViewById(R.id.reminderTime);
+            reminderDataLineTwo = itemView.findViewById(R.id.reminderDataLineTwo);
+            mScheduleIcon = itemView.findViewById(R.id.iconIV);
+            typeTV = itemView.findViewById(R.id.typeTV);
+
 
             mEditIcon = itemView.findViewById(R.id.editIcon);
             mDeleteIcon = itemView.findViewById(R.id.deleteIcon);
 
             scheduleItemMenuLL = itemView.findViewById(R.id.scheduleItemMenuLL);
+            miscInfoLL = itemView.findViewById(R.id.miscInfoLL);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*
                     if(listener != null){
-                        Log.d("Kevin", "Item Pressed");
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             listener.onItemClick(position);
@@ -67,7 +71,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
                     }
 
-                     */
+
                 }
             });
 
@@ -75,10 +79,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                 @Override
                 public boolean onLongClick(View v) {
                     if(listener != null){
-                        Log.d("Kevin", "Item Pressed");
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
+                            listener.onLongClick(position);
                         }
 
                     }
@@ -87,13 +90,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             });
 
 
+
             mEditIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener != null){
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
-                            listener.onDeleteClick(position);
+                            listener.onEditClick(position);
                         }
                         Log.d("Kevin", "Item Deleted: " + position);
                     }
@@ -130,23 +134,54 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
     @Override
     public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
-        ScheduleItem currentItem = mScheduleItems.get(position);
-
-        ScheduleItem.ReminderType rt = currentItem.getReminderType();
-        if(rt == ScheduleItem.ReminderType.ONE_TIME){
-            holder.mScheduleIcon.setImageResource(R.drawable.clipboard);
-        } else if(rt == ScheduleItem.ReminderType.RECURRING){
-            holder.mScheduleIcon.setImageResource(R.drawable.calender);
+        if(mScheduleItems.get(position) instanceof SingleReminder){
+            SingleReminder currentItem = (SingleReminder) mScheduleItems.get(position);
+            holder.mScheduleIcon.setImageResource(R.drawable.ic_one_time);
+            holder.reminderNameTV.setText(currentItem.getReminderName());
+            holder.reminderDescTV.setText(currentItem.getReminderDescription());
+            holder.reminderTimeTV.setText(currentItem.getTimeSingleAsString());
+            holder.reminderDataLineTwo.setText(currentItem.getDateSingleAsString());
+            holder.typeTV.setText(currentItem.getTypeString());
+            holder.reminderDataLineTwo.setVisibility(View.VISIBLE);
+            if(currentItem.isMenuVisible()){
+                holder.scheduleItemMenuLL.setVisibility(View.VISIBLE);
+                holder.miscInfoLL.setVisibility(View.GONE);
+            } else {
+                holder.scheduleItemMenuLL.setVisibility(View.GONE);
+                holder.miscInfoLL.setVisibility(View.VISIBLE);
+            }
+        } else {
+            RecurringReminder currentItem = (RecurringReminder) mScheduleItems.get(position);
+            holder.mScheduleIcon.setImageResource(R.drawable.ic_recurring);
+            holder.reminderNameTV.setText(currentItem.getReminderName());
+            holder.reminderDescTV.setText(currentItem.getReminderDescription());
+            holder.typeTV.setText(currentItem.getTypeString());
+            holder.reminderDataLineTwo.setVisibility(View.GONE);
+            if(currentItem.isMenuVisible()){
+                holder.scheduleItemMenuLL.setVisibility(View.VISIBLE);
+                holder.miscInfoLL.setVisibility(View.GONE);
+            } else {
+                holder.scheduleItemMenuLL.setVisibility(View.GONE);
+                holder.miscInfoLL.setVisibility(View.VISIBLE);
+            }
+            if(currentItem.getNumDailyReminders() == 1){
+                holder.reminderTimeTV.setText(currentItem.getFistTimeAsString());
+                holder.reminderTimeTV.setTextSize(24);
+            } else {
+                holder.reminderTimeTV.setText(currentItem.getNumDailyRemindersString());
+                holder.reminderTimeTV.setTextSize(16);
+            }
         }
 
+        /*
         holder.reminderNameTV.setText(currentItem.getReminderName());
         holder.reminderDescTV.setText(currentItem.getReminderDescription());
 
-        if(currentItem.isMenuVisible()){
-            holder.scheduleItemMenuLL.setVisibility(View.VISIBLE);
-        } else {
-            holder.scheduleItemMenuLL.setVisibility(View.GONE);
-        }
+         */
+
+
+
+
 
     }
 

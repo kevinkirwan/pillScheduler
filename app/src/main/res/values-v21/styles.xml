@@ -3,23 +3,28 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="colorAccent">@color/colorFour</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+
+        <item name="color">@color/colorFour</item>
     </style>
 
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/gray</item>
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:calendarTextColor">@color/colorSecondary</item>
+        <item name="android:background">@color/colorTwo</item>
+        <item name="android:calendarTextColor">@color/colorThree</item>
 
     </style>
 
     <style name="DatePicker">
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorTwo</item>
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorSecondary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorTwo</item>
+        <item name="backgroundTint">@color/colorTwo</item>
+        <item name="colorPrimaryDark">@color/colorTwo</item>
+        <item name="tint">@color/colorTwo</item>
     </style>
 
 
