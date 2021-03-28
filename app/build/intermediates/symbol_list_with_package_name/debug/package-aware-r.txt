@@ -717,6 +717,7 @@ color foreground_material_light
 color gray
 color highlighted_text_material_dark
 color highlighted_text_material_light
+color ic_launcher_capsule_background
 color material_blue_grey_800
 color material_blue_grey_900
 color material_blue_grey_950
@@ -1115,7 +1116,6 @@ drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
 drawable button_round
 drawable calender
-drawable capsule
 drawable clipboard
 drawable cloud
 drawable dark
@@ -1257,6 +1257,9 @@ id alertTitle
 id all
 id always
 id amPmPicker
+id ampmLL
+id ampm_no_rb
+id ampm_yes_rb
 id async
 id auto
 id barrier
@@ -1339,6 +1342,8 @@ id group_divider
 id groups
 id home
 id homeAsUp
+id hour_12_rb
+id hour_24_rb
 id hoursPicker
 id icon
 id iconIV
@@ -1368,6 +1373,7 @@ id medicine_icon
 id medicine_name
 id menuNewsLL
 id menuThemesLL
+id menuUnitsLL
 id message
 id middle
 id mini
@@ -1514,6 +1520,9 @@ id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id tag_window_insets_animation_callback
+id tempUnitsLL
+id temp_c_rb
+id temp_f_rb
 id temperature
 id test_ll
 id text
@@ -1548,8 +1557,9 @@ id topCardView
 id topLinearLayout
 id topLinearLayoutNews
 id topLinearLayoutThemes
-id topLinearLayoutUnits
 id topPanel
+id topThemesRL
+id topUnitsRL
 id touch_outside
 id transition_current_scene
 id transition_layout_save
@@ -1559,6 +1569,7 @@ id transition_transform
 id typeTV
 id unchecked
 id uniform
+id unit1LL
 id unitsCV
 id unitsDropIcon
 id unitsTV
@@ -1674,6 +1685,9 @@ layout support_simple_spinner_dropdown_item
 menu drawer_menu
 mipmap capsule
 mipmap ic_launcher
+mipmap ic_launcher_capsule
+mipmap ic_launcher_capsule_foreground
+mipmap ic_launcher_capsule_round
 mipmap ic_launcher_round
 string abc_action_bar_home_description
 string abc_action_bar_up_description

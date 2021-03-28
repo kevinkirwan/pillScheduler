@@ -34,7 +34,7 @@
                     android:layout_marginBottom="20dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/capsule"/>
+                    app:srcCompat="@drawable/ic_capsule"/>
 
                 <TextView
                     android:layout_width="match_parent"

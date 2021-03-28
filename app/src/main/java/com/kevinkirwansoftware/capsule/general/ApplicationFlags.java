@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class ApplicationFlags {
+    // Reminder Items database update flags
     private static boolean reminderDatasetItemChanged = false;
     private static boolean reminderDatasetItemAdded = false;
     private static boolean reminderDatasetItemRemoved = false;
@@ -14,23 +15,26 @@ public class ApplicationFlags {
     private static ArrayList<String> remindersAddedList;
     private static ArrayList<String> remindersRemovedList;
 
-    public static boolean GetReminderDatasetItemChanged(){
+    // Units changed flags
+    private static boolean unitPreferencesChangedFlag = false;
+
+    public static boolean getReminderDatasetItemChanged(){
         return reminderDatasetItemChanged;
     }
 
-    public static boolean GetReminderDatasetItemAdded(){
+    public static boolean getReminderDatasetItemAdded(){
         return reminderDatasetItemAdded;
     }
 
-    public static boolean GetReminderDatasetItemRemoved(){
+    public static boolean getReminderDatasetItemRemoved(){
         return reminderDatasetItemRemoved;
     }
 
-    public static boolean GetReminderDatasetNeedsUpdate(){
+    public static boolean getReminderDatasetNeedsUpdate(){
         return reminderDatasetNeedsUpdate;
     }
 
-    public static void SetReminderDatasetItemChangedFlag(String reminderID){
+    public static void setReminderDatasetItemChangedFlag(String reminderID){
         reminderDatasetItemChanged = true;
         reminderDatasetNeedsUpdate = true;
         if(remindersChangedList == null){
@@ -39,7 +43,7 @@ public class ApplicationFlags {
         remindersChangedList.add(reminderID);
     }
 
-    public static void SetReminderDatasetItemAddedFlag(String reminderID){
+    public static void setReminderDatasetItemAddedFlag(String reminderID){
         reminderDatasetItemAdded = true;
         reminderDatasetNeedsUpdate = true;
         if(remindersAddedList == null){
@@ -48,7 +52,7 @@ public class ApplicationFlags {
         remindersAddedList.add(reminderID);
     }
 
-    public static void SetReminderDatasetItemRemovedFlag(String reminderID){
+    public static void setReminderDatasetItemRemovedFlag(String reminderID){
         reminderDatasetItemRemoved = true;
         reminderDatasetNeedsUpdate = true;
         if(remindersRemovedList == null){
@@ -58,7 +62,7 @@ public class ApplicationFlags {
         Log.d("Kevin", "AppFlag removed: " + reminderID + " arraylist: " + remindersRemovedList.get(remindersRemovedList.size()-1));
     }
 
-    public static void ResetReminderDatasetFlags(){
+    public static void resetReminderDatasetFlags(){
         reminderDatasetItemChanged = false;
         reminderDatasetItemRemoved = false;
         reminderDatasetItemAdded = false;
@@ -67,15 +71,27 @@ public class ApplicationFlags {
         remindersAddedList = null;
     }
 
-    public static ArrayList<String> GetRemindersChangedList(){
+    public static ArrayList<String> getRemindersChangedList(){
         return remindersChangedList;
     }
 
-    public static ArrayList<String> GetRemindersAddedList(){
+    public static ArrayList<String> getRemindersAddedList(){
         return remindersAddedList;
     }
 
-    public static ArrayList<String> GetRemindersRemovedList(){
+    public static ArrayList<String> getRemindersRemovedList(){
         return remindersRemovedList;
+    }
+
+    public static void setUnitPreferencesChangedFlag(){
+        unitPreferencesChangedFlag = true;
+    }
+
+    public static void resetUnitPreferencesChangedFlag(){
+        unitPreferencesChangedFlag = false;
+    }
+
+    public static boolean isUnitPreferencesChangedFlagSet(){
+        return unitPreferencesChangedFlag;
     }
 }

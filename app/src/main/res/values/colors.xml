@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Regal
+    <!-- Regal -->
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimary">#800080</color>
     <color name="colorOneText">#800080</color>
@@ -9,7 +9,7 @@
     <color name="colorTwo">#CCCCCC</color>
     <color name="colorThree">#FFFFFF</color>
     <color name="colorFour">#696969</color>
-    -->
+
 
     <!-- Dark
     <color name="colorPrimaryDark">#000000</color>
@@ -22,7 +22,8 @@
     -->
 
 
-    <!-- Forest -->
+
+    <!-- Forest
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimary">#014421</color>
     <color name="colorOneText">#014421</color>
@@ -30,6 +31,7 @@
     <color name="colorTwo">#CCCCCC</color>
     <color name="colorThree">#FFFFFF</color>
     <color name="colorFour">#696969</color>
+    -->
 
 
     <color name="colorTwoDark">#000000</color>

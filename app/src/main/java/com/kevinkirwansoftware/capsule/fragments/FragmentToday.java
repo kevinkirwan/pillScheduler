@@ -32,6 +32,7 @@ import com.kevinkirwansoftware.capsule.RetrofitDummyClient;
 import com.kevinkirwansoftware.capsule.RetrofitNewsClient;
 import com.kevinkirwansoftware.capsule.RetrofitWeatherClient;
 import com.kevinkirwansoftware.capsule.WeatherData;
+import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
 import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 import com.kevinkirwansoftware.capsule.throwaway.Headlines;
 import com.kevinkirwansoftware.capsule.throwaway.Post;
@@ -75,18 +76,20 @@ public class FragmentToday extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fragmentTodayInit();
+    }
 
-        currentTimeDisplay = view.findViewById(R.id.currentTimeDisplay);
-        timeZone = view.findViewById(R.id.timeZone);
-        date = view.findViewById(R.id.date);
+    private void fragmentTodayInit() {
+        currentTimeDisplay = todayView.findViewById(R.id.currentTimeDisplay);
+        timeZone = todayView.findViewById(R.id.timeZone);
+        date = todayView.findViewById(R.id.date);
 
-        newsHeadline = view.findViewById(R.id.newsHeadline);
-        newsContent = view.findViewById(R.id.newsContent);
-        currentWeatherSummary = view.findViewById(R.id.currentWeatherSummary);
-        currentWeatherTemp = view.findViewById(R.id.temperature);
-        weatherIcon = view.findViewById(R.id.weatherIcon);
-        newsIcon = view.findViewById(R.id.newsIcon);
-
+        newsHeadline = todayView.findViewById(R.id.newsHeadline);
+        newsContent = todayView.findViewById(R.id.newsContent);
+        currentWeatherSummary = todayView.findViewById(R.id.currentWeatherSummary);
+        currentWeatherTemp = todayView.findViewById(R.id.temperature);
+        weatherIcon = todayView.findViewById(R.id.weatherIcon);
+        newsIcon = todayView.findViewById(R.id.newsIcon);
 
         Retrofit retrofitNewsInstance = RetrofitNewsClient.getInstance();
         Retrofit retrofitWeatherInstance = RetrofitWeatherClient.getInstance();
@@ -94,17 +97,32 @@ public class FragmentToday extends Fragment {
         retrofitNewsApi = retrofitNewsInstance.create(RetrofitApiInterface.class);
         retrofitWeatherApi = retrofitWeatherInstance.create(RetrofitApiInterface.class);
         retrofitDummyApi = retrofitDummyInstance.create(RetrofitApiInterface.class);
-        fragmentTodayInit();
-    }
 
-    private void fragmentTodayInit() {
+        checkPermission();
+
         date.setText(ApplicationTools.getDateData());
         timeZone.setText(ApplicationTools.getTimeZoneData());
 
-        checkPermission();
+
         fetchData();
+    }
 
+    private void updateData(){
+        date.setText(ApplicationTools.getDateData());
+        timeZone.setText(ApplicationTools.getTimeZoneData());
 
+        if(ApplicationPreferences.is24Hour()){
+            currentTimeDisplay.setFormat12Hour("kk:mm");
+            currentTimeDisplay.setFormat24Hour("kk:mm");
+        } else {
+            String format = "h:mm";
+            if(ApplicationPreferences.isAmpm()){
+                format = format.concat(" a");
+            }
+            currentTimeDisplay.setFormat12Hour(format);
+            currentTimeDisplay.setFormat24Hour(format);
+        }
+        fetchData();
     }
 
     private void displayWeatherPass(WeatherResponse response){
@@ -131,9 +149,9 @@ public class FragmentToday extends Fragment {
         try {
             Glide.with(Objects.requireNonNull(getContext())).load("https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png").into(newsIcon);
         } catch (Exception e){
-            //Log.e("Kevin", "Image not found", e.fillInStackTrace());
-            //newsIcon.setImageResource(R.drawable.foliage);
-            //newsIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);;
+            Log.e("Kevin", "Image not found", e.fillInStackTrace());
+            newsIcon.setImageResource(R.drawable.foliage);
+            newsIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);;
         }
         Log.d("Kevin", "Title: " + postList.get(0).getTitle());
         Log.d("Kevin", "Text: " + tempText);
@@ -202,8 +220,6 @@ public class FragmentToday extends Fragment {
 
     private void fetchData() {
             // Working weather call
-
-
             compositeDisposable.add(retrofitWeatherApi.getCurrentWeatherData(latitude, longitude,
                     "imperial",
                     "hourly,daily,minutely",
@@ -226,7 +242,7 @@ public class FragmentToday extends Fragment {
 
 
 
-/*
+
         compositeDisposable.add(retrofitDummyApi.getPosts("sa")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -242,7 +258,6 @@ public class FragmentToday extends Fragment {
                     }
                 }));
 
- */
 
 
 
@@ -251,6 +266,8 @@ public class FragmentToday extends Fragment {
 
 
 
+
+        /*
 
         compositeDisposable.add(retrofitNewsApi.getTopByLanguage(ApplicationTools.getNewsApiKey(),
                 "en")
@@ -267,6 +284,8 @@ public class FragmentToday extends Fragment {
                     populateNewsStoriesFail();
                 }
             }));
+
+         */
 
 
 
@@ -322,6 +341,12 @@ public class FragmentToday extends Fragment {
                 Toast.makeText(getContext(), "Permission DENIED", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateData();
     }
 
     @Override

@@ -12,7 +12,7 @@ MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\kevin\.gradle\caches\tra
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\41211f9f66ac6c51f2e54b4d4de65c48\constraintlayout-1.1.3\AndroidManifest.xml:2:1-11:12
 MERGED from [io.reactivex.rxjava2:rxandroid:2.0.1] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\03f5383c6e32b2bb4e131104a7b306f6\jetified-rxandroid-2.0.1\AndroidManifest.xml:15:1-21:12
 MERGED from [com.github.bumptech.glide:glide:4.12.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\3fc07d94398eb7263770865856193726\jetified-glide-4.12.0\AndroidManifest.xml:2:1-12:12
-MERGED from [androidx.core:core-ktx:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\4dbcd8e2fb11be70e1d8be1f9135e03c\jetified-core-ktx-1.5.0-beta03\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.core:core-ktx:1.6.0-alpha01] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\07638a4f11c1927cf122cc9d3a8803d6\jetified-core-ktx-1.6.0-alpha01\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\416252f857e8beed9342b2f56a1dcf35\legacy-support-core-ui-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\52517952740d97678c13dab0b865c9c0\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\2c6ff97b0b1a38d801dc54423675525c\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
@@ -32,7 +32,7 @@ MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\kevin\
 MERGED from [androidx.customview:customview:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\c471013d657303c11fa9b257f633f13c\customview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\8b066f18cd86b8543599442eaf4b02fa\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\6ad278679a7ae6574208b25f9ec01930\asynclayoutinflater-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.core:core:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\965a5b9134c92bc3c68883eff32d98a3\core-1.5.0-beta03\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.core:core:1.6.0-alpha01] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\16bc6a329f36867fea58ea4fdc2a1ebf\core-1.6.0-alpha01\AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\7d38242f8ef07543ea5483bd2388009f\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\049cf32965edc83533f3522bb4200a09\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\89754dc10a91ad3694400d4acab47ce5\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -89,22 +89,22 @@ MERGED from [com.github.bumptech.glide:glide:4.12.0] C:\Users\kevin\.gradle\cach
 MERGED from [com.github.bumptech.glide:glide:4.12.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\3fc07d94398eb7263770865856193726\jetified-glide-4.12.0\AndroidManifest.xml:10:5-20
 MERGED from [com.github.bumptech.glide:gifdecoder:4.12.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\f1fea8e709895629c8e5f6e4296e0c1d\jetified-gifdecoder-4.12.0\AndroidManifest.xml:9:5-20
 MERGED from [com.github.bumptech.glide:gifdecoder:4.12.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\f1fea8e709895629c8e5f6e4296e0c1d\jetified-gifdecoder-4.12.0\AndroidManifest.xml:9:5-20
-MERGED from [androidx.core:core:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\965a5b9134c92bc3c68883eff32d98a3\core-1.5.0-beta03\AndroidManifest.xml:24:5-89
-MERGED from [androidx.core:core:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\965a5b9134c92bc3c68883eff32d98a3\core-1.5.0-beta03\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.6.0-alpha01] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\16bc6a329f36867fea58ea4fdc2a1ebf\core-1.6.0-alpha01\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.6.0-alpha01] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\16bc6a329f36867fea58ea4fdc2a1ebf\core-1.6.0-alpha01\AndroidManifest.xml:24:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\7d38242f8ef07543ea5483bd2388009f\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\7d38242f8ef07543ea5483bd2388009f\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 	android:appComponentFactory
-		ADDED from [androidx.core:core:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\965a5b9134c92bc3c68883eff32d98a3\core-1.5.0-beta03\AndroidManifest.xml:24:18-86
+		ADDED from [androidx.core:core:1.6.0-alpha01] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\16bc6a329f36867fea58ea4fdc2a1ebf\core-1.6.0-alpha01\AndroidManifest.xml:24:18-86
 	android:supportsRtl
 		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:17:9-35
 	android:label
 		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:18:9-41
 	android:roundIcon
-		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:16:9-44
+		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:16:9-62
 	tools:targetApi
 		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:20:9-28
 	android:icon
-		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:15:9-43
+		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:15:9-51
 	android:allowBackup
 		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:13:9-35
 	android:theme
@@ -163,8 +163,8 @@ MERGED from [io.reactivex.rxjava2:rxandroid:2.0.1] C:\Users\kevin\.gradle\caches
 MERGED from [io.reactivex.rxjava2:rxandroid:2.0.1] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\03f5383c6e32b2bb4e131104a7b306f6\jetified-rxandroid-2.0.1\AndroidManifest.xml:19:5-43
 MERGED from [com.github.bumptech.glide:glide:4.12.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\3fc07d94398eb7263770865856193726\jetified-glide-4.12.0\AndroidManifest.xml:6:5-8:41
 MERGED from [com.github.bumptech.glide:glide:4.12.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\3fc07d94398eb7263770865856193726\jetified-glide-4.12.0\AndroidManifest.xml:6:5-8:41
-MERGED from [androidx.core:core-ktx:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\4dbcd8e2fb11be70e1d8be1f9135e03c\jetified-core-ktx-1.5.0-beta03\AndroidManifest.xml:5:5-7:41
-MERGED from [androidx.core:core-ktx:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\4dbcd8e2fb11be70e1d8be1f9135e03c\jetified-core-ktx-1.5.0-beta03\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.core:core-ktx:1.6.0-alpha01] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\07638a4f11c1927cf122cc9d3a8803d6\jetified-core-ktx-1.6.0-alpha01\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.core:core-ktx:1.6.0-alpha01] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\07638a4f11c1927cf122cc9d3a8803d6\jetified-core-ktx-1.6.0-alpha01\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\416252f857e8beed9342b2f56a1dcf35\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\416252f857e8beed9342b2f56a1dcf35\legacy-support-core-ui-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\52517952740d97678c13dab0b865c9c0\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
@@ -203,8 +203,8 @@ MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\kevi
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\8b066f18cd86b8543599442eaf4b02fa\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\6ad278679a7ae6574208b25f9ec01930\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\6ad278679a7ae6574208b25f9ec01930\asynclayoutinflater-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.core:core:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\965a5b9134c92bc3c68883eff32d98a3\core-1.5.0-beta03\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.core:core:1.5.0-beta03] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\965a5b9134c92bc3c68883eff32d98a3\core-1.5.0-beta03\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.6.0-alpha01] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\16bc6a329f36867fea58ea4fdc2a1ebf\core-1.6.0-alpha01\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.6.0-alpha01] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\16bc6a329f36867fea58ea4fdc2a1ebf\core-1.6.0-alpha01\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\7d38242f8ef07543ea5483bd2388009f\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\7d38242f8ef07543ea5483bd2388009f\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\049cf32965edc83533f3522bb4200a09\interpolator-1.0.0\AndroidManifest.xml:20:5-44

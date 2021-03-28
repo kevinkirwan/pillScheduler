@@ -33,7 +33,8 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:src="@drawable/capsule"/>
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_capsule"/>
 
                 <TextView
                     android:layout_width="match_parent"

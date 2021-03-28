@@ -31,30 +31,30 @@ import java.util.UUID;
 public class ScheduleDialog extends Dialog {
     View scheduleView;
     Dialog newSchedule;
-    Context mContext;
+    private Context mContext;
     SchedulePopOutType mSpot;
     int mPosition;
     RecurringReminder mRecurringItem;
     SingleReminder mSingleItem;
-    boolean updateNeeded = false;
+    private boolean updateNeeded = false;
 
     TextView reminderPlus, reminderMinus, dailyReminderCounterTV;
-    TextInputLayout reminderNameTIL;
-    TextInputEditText reminderNameET, reminderDescET;
+    private TextInputLayout reminderNameTIL;
+    private TextInputEditText reminderNameET, reminderDescET;
 
     Date singleDate;
     public boolean isOneTime = true;
-    int dailyReminderCounter = 1;
+    private int dailyReminderCounter = 1;
 
-    LinearLayout testLL;
-    RadioButton oneTimeRB, recurringRB, dailyRB, customRB;
-    RelativeLayout oneTimeSC, recurringSC, dailyRL, customRL;
-    RelativeLayout dailyRL1, dailyRL2, dailyRL3, dailyRL4;
+    private LinearLayout testLL;
+    private RadioButton oneTimeRB, recurringRB, dailyRB, customRB;
+    private RelativeLayout oneTimeSC, recurringSC, dailyRL, customRL;
+    private RelativeLayout dailyRL1, dailyRL2, dailyRL3, dailyRL4;
 
 
-    Button newReminderAccept, cancelNewReminder;
-    SingleDateAndTimePicker sdtp;
-    SingleDateAndTimePicker dailySdtp1, dailySdtp2, dailySdtp3, dailySdtp4;
+    private Button newReminderAccept, cancelNewReminder;
+    private SingleDateAndTimePicker sdtp;
+    private SingleDateAndTimePicker dailySdtp1, dailySdtp2, dailySdtp3, dailySdtp4;
     public ScheduleDialog(@NonNull Context context, SchedulePopOutType spotIn, ScheduleItem scheduleItemIn) {
         super(context);
         mContext = context;
@@ -128,9 +128,7 @@ public class ScheduleDialog extends Dialog {
                     createSingleReminder();
                 } else {
                     createRecurringReminder();
-                    Toast.makeText(getContext(), "Recurring", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
@@ -363,9 +361,9 @@ public class ScheduleDialog extends Dialog {
         if(!commonCheckPass()){
             return;
         }
-        //singleDate = sdtp.getDate();
-        //Log.d("Kevin", "is AM PM " + sdtp);
-        /*
+        singleDate = sdtp.getDate();
+        Log.d("Kevin", "is AM PM " + sdtp);
+
         Timestamp ts = new java.sql.Timestamp(singleDate.getTime());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
         String[] timeArray = formatter.format(ts).split("-");
@@ -375,7 +373,7 @@ public class ScheduleDialog extends Dialog {
                 Integer.parseInt(timeArray[3]),
                 Integer.parseInt(timeArray[4]));
 
-         */
+
         mSingleItem = new SingleReminder(sdtp.getDate());
         mSingleItem.setScheduleID(UUID.randomUUID().toString());
         mSingleItem.setReminderName(reminderNameET.getText().toString());

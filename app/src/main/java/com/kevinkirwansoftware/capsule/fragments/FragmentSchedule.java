@@ -248,8 +248,10 @@ public class FragmentSchedule extends Fragment {
 
                     break;
                 default:
+                    assert
                     mScheduleItems.add(new ScheduleItem());
                     rt_enum = ScheduleItem.ReminderType.NONE;
+                    Log.e("Kevin", "ERROR WITH LOADING");
                     Toast.makeText(getContext(),"Kevin THIS SHOULD NOT BE POSSIBLE", Toast.LENGTH_SHORT).show();
 
             }
@@ -269,10 +271,10 @@ public class FragmentSchedule extends Fragment {
 
 
     private void removeItem(int position){
-        ApplicationFlags.SetReminderDatasetItemRemovedFlag(mScheduleItems.get(position).getScheduleID());
+        ApplicationFlags.setReminderDatasetItemRemovedFlag(mScheduleItems.get(position).getScheduleID());
         Log.d("Kevin", "Deleted Items: ");
-        for (int i = 0; i < ApplicationFlags.GetRemindersRemovedList().size(); i++){
-            Log.d("Kevin", "Removed name: " + ApplicationFlags.GetRemindersRemovedList().get(i));
+        for (int i = 0; i < ApplicationFlags.getRemindersRemovedList().size(); i++){
+            Log.d("Kevin", "Removed name: " + ApplicationFlags.getRemindersRemovedList().get(i));
         }
         mScheduleItems.remove(position);
         mScheduleAdapter.notifyItemRemoved(position);
@@ -310,7 +312,7 @@ public class FragmentSchedule extends Fragment {
                             }
 
                             mScheduleAdapter.notifyItemInserted(mScheduleItems.size() - 1);
-                            ApplicationFlags.SetReminderDatasetItemAddedFlag(id);
+                            ApplicationFlags.setReminderDatasetItemAddedFlag(id);
                             for (int i = 0; i < mScheduleItems.size(); i++){
                                 Log.d("Kevin", "class: " + i + mScheduleItems.get(i).getClass().toString());
                             }
@@ -330,22 +332,22 @@ public class FragmentSchedule extends Fragment {
 
     private void saveScheduleItemsToDatabase(){
         Log.d("Kevin", "Items saved to DB");
-        if(!ApplicationFlags.GetReminderDatasetNeedsUpdate()){
+        if(!ApplicationFlags.getReminderDatasetNeedsUpdate()){
             Log.d(TAG, "saveScheduleItemsToDatabase(), Database does not need updating...");
-            ApplicationFlags.ResetReminderDatasetFlags();
+            ApplicationFlags.resetReminderDatasetFlags();
             return;
         }
         int flagCounter = 0;
         boolean dbResetNeeded = false;
-        if(ApplicationFlags.GetReminderDatasetItemAdded()){
+        if(ApplicationFlags.getReminderDatasetItemAdded()){
             Log.d(TAG, "saveScheduleItemsToDatabase(), Items need to be added to database...");
             flagCounter++;
         }
-        if(ApplicationFlags.GetReminderDatasetItemRemoved()){
+        if(ApplicationFlags.getReminderDatasetItemRemoved()){
             Log.d(TAG, "saveScheduleItemsToDatabase(), Items need to be removed from database...");
             flagCounter++;
         }
-        if(ApplicationFlags.GetReminderDatasetItemChanged()){
+        if(ApplicationFlags.getReminderDatasetItemChanged()){
             Log.d(TAG, "saveScheduleItemsToDatabase(), Items need to be changed in database...");
             flagCounter++;
         }
@@ -356,10 +358,10 @@ public class FragmentSchedule extends Fragment {
         }
 
         if(!dbResetNeeded){
-            if(ApplicationFlags.GetReminderDatasetItemAdded()){
-                for(int i = 0; i < ApplicationFlags.GetRemindersAddedList().size(); i++){
+            if(ApplicationFlags.getReminderDatasetItemAdded()){
+                for(int i = 0; i < ApplicationFlags.getRemindersAddedList().size(); i++){
                     for(int j = 0; j < mScheduleItems.size(); j++){
-                        if(ApplicationFlags.GetRemindersAddedList().get(i).equals(mScheduleItems.get(j).getScheduleID())){
+                        if(ApplicationFlags.getRemindersAddedList().get(i).equals(mScheduleItems.get(j).getScheduleID())){
                             if(mScheduleItems.get(j) instanceof RecurringReminder){
                                 mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
                                         null,
@@ -374,15 +376,15 @@ public class FragmentSchedule extends Fragment {
                 }
             }
             //
-            if(ApplicationFlags.GetReminderDatasetItemRemoved()){
+            if(ApplicationFlags.getReminderDatasetItemRemoved()){
                 Cursor cursor = getAllItems();
                 cursor.moveToFirst();
-                for(int i = 0; i < ApplicationFlags.GetRemindersRemovedList().size(); i++){
-                    Log.d("Kevin", "Item removed: " + ApplicationFlags.GetRemindersRemovedList().get(i));
+                for(int i = 0; i < ApplicationFlags.getRemindersRemovedList().size(); i++){
+                    Log.d("Kevin", "Item removed: " + ApplicationFlags.getRemindersRemovedList().get(i));
                     for(int j = 0; j < cursor.getCount(); j++){
                         cursor.moveToPosition(j);
-                        Log.d("Kevin: " , "AR val: " + ApplicationFlags.GetRemindersRemovedList() + " DB val: " + cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)));
-                        if(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)).equals(ApplicationFlags.GetRemindersRemovedList().get(i))){
+                        Log.d("Kevin: " , "AR val: " + ApplicationFlags.getRemindersRemovedList() + " DB val: " + cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)));
+                        if(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)).equals(ApplicationFlags.getRemindersRemovedList().get(i))){
                             long id = cursor.getLong(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry._ID));
                             mRecurringDatabase.delete(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
                                     RecurringReminderColumns.RecurringReminderEntry._ID + "=" + id,
@@ -391,7 +393,7 @@ public class FragmentSchedule extends Fragment {
                     }
                 }
             }
-            if(ApplicationFlags.GetReminderDatasetItemChanged()){
+            if(ApplicationFlags.getReminderDatasetItemChanged()){
                 Cursor cursor = getAllItems();
                 cursor.moveToFirst();
                 for(int i = 0; i < mScheduleItems.size(); i++){
@@ -439,7 +441,7 @@ public class FragmentSchedule extends Fragment {
                 }
             }
         }
-        ApplicationFlags.ResetReminderDatasetFlags();
+        ApplicationFlags.resetReminderDatasetFlags();
     }
 
 

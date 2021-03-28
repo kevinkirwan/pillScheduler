@@ -5,6 +5,8 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.*;
@@ -59,7 +61,7 @@ public class SingleReminder extends ScheduleItem {
     }
 
     public String getTimeSingleAsString(){
-        boolean is24Hour = false;
+        boolean is24Hour = ApplicationPreferences.is24Hour();
         String returnString;
         Timestamp ts = new java.sql.Timestamp(reminderCalendar.getTimeInMillis());
         SimpleDateFormat formatter;

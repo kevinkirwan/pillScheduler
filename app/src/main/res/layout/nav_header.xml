@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="176dp"
     android:gravity="bottom"
@@ -8,9 +9,10 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_capsule"/>
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:tint="@color/colorThree"
+        app:srcCompat="@drawable/ic_capsule"/>
 
     <TextView
         android:layout_width="wrap_content"

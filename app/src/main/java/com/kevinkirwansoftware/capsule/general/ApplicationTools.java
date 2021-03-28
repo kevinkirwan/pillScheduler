@@ -65,7 +65,7 @@ public class ApplicationTools {
                 R.layout.expanded_notification);
 
         Notification notification = new NotificationCompat.Builder(context, App.CHANNEL_ID)
-                .setSmallIcon(R.drawable.capsule)
+                .setSmallIcon(R.drawable.ic_capsule)
                 .setCustomContentView(collapsedView)
                 .setCustomBigContentView(expandedView)
                 .build();

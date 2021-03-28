@@ -2,6 +2,8 @@ package com.kevinkirwansoftware.capsule;
 
 import android.util.Log;
 
+import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -84,7 +86,7 @@ public class RecurringReminder extends ScheduleItem {
     }
 
     public String getFistTimeAsString(){
-        boolean is24Hour = false;
+        boolean is24Hour = ApplicationPreferences.is24Hour();;
         String returnString;
         Timestamp ts = new java.sql.Timestamp(calendar1.getTimeInMillis());
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd");
