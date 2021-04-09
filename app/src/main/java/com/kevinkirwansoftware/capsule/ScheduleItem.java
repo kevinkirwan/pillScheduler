@@ -8,7 +8,9 @@ public class ScheduleItem {
     private String mReminderName;
     private String mReminderDescription;
     private ReminderType mReminderType;
+    private ActivationType mActivationType;
     private boolean menuVisible;
+    private boolean isActivated;
     private String scheduleID;
 
     public String getReminderName(){
@@ -36,13 +38,23 @@ public class ScheduleItem {
         return mReminderType;
     }
 
-    public int getTypeInt(){
+    public int getReminderTypeInt(){
         if(mReminderType == ReminderType.ONE_TIME){
             return 0;
         } else if(mReminderType == ReminderType.RECURRING){
             return 1;
         } else{
-            return 2;
+            return -1;
+        }
+    }
+
+    public int getActivationTypeInt(){
+        if(mActivationType == ActivationType.NOT_ACTIVATED){
+            return 0;
+        } else if(mActivationType == ActivationType.ACTIVATED){
+            return 1;
+        } else{
+            return -1;
         }
     }
 
@@ -72,6 +84,19 @@ public class ScheduleItem {
 
     public boolean isMenuVisible(){
         return menuVisible;
+    }
+
+    public ActivationType getActivationType(){
+        return mActivationType;
+    }
+
+    public void setActivationType(ActivationType activationType){
+        mActivationType = activationType;
+    }
+
+    public enum ActivationType{
+        NOT_ACTIVATED,
+        ACTIVATED
     }
 
     public enum ReminderType{

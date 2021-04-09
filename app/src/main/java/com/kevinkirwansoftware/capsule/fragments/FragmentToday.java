@@ -76,6 +76,11 @@ public class FragmentToday extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         fragmentTodayInit();
     }
 
@@ -122,12 +127,13 @@ public class FragmentToday extends Fragment {
             currentTimeDisplay.setFormat12Hour(format);
             currentTimeDisplay.setFormat24Hour(format);
         }
+
         fetchData();
     }
 
     private void displayWeatherPass(WeatherResponse response){
         String tempString = String.format(Locale.getDefault(),"%d", (long) response.getCurrent().getTemp()) +
-                "\u00B0F, Humidity: " + response.getCurrent().getHumidity() + "%";
+                "\u00B0" + ApplicationPreferences.getTempUnitString() + ", Humidity: " + response.getCurrent().getHumidity() + "%";
         String summaryString = response.getCurrent().getWeather().get(0).getDescription();
         currentWeatherSummary.setText(ApplicationTools.weatherDescriptionFormatted(summaryString));
         currentWeatherTemp.setText(tempString);
@@ -221,7 +227,7 @@ public class FragmentToday extends Fragment {
     private void fetchData() {
             // Working weather call
             compositeDisposable.add(retrofitWeatherApi.getCurrentWeatherData(latitude, longitude,
-                    "imperial",
+                    ApplicationPreferences.getTempUnitSystemString(),
                     "hourly,daily,minutely",
                     ApplicationTools.getWeatherApiKey())
                     .subscribeOn(Schedulers.io())
@@ -239,10 +245,7 @@ public class FragmentToday extends Fragment {
                         }
                     }));
 
-
-
-
-
+            /*
         compositeDisposable.add(retrofitDummyApi.getPosts("sa")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -259,15 +262,7 @@ public class FragmentToday extends Fragment {
                 }));
 
 
-
-
-
-
-
-
-
-
-        /*
+             */
 
         compositeDisposable.add(retrofitNewsApi.getTopByLanguage(ApplicationTools.getNewsApiKey(),
                 "en")
@@ -284,25 +279,6 @@ public class FragmentToday extends Fragment {
                     populateNewsStoriesFail();
                 }
             }));
-
-         */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     private void requestStoragePermission() {
@@ -346,7 +322,7 @@ public class FragmentToday extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateData();
+        //updateData();
     }
 
     @Override

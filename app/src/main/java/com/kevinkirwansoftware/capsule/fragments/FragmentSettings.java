@@ -152,6 +152,7 @@ public class FragmentSettings extends Fragment {
             public void onClick(View v) {
                 degFlag = true;
                 setCdegChecked();
+                getContext().setTheme(R.style.ForestTheme);
             }
         });
     }
@@ -167,6 +168,12 @@ public class FragmentSettings extends Fragment {
             setAmpmYesChecked();
         } else {
             setAmpmNoChecked();
+        }
+
+        if(ApplicationPreferences.isDegF()){
+            setFdegChecked();
+        } else {
+            setCdegChecked();
         }
     }
 

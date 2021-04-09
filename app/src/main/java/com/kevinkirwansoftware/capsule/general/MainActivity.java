@@ -7,11 +7,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
+import android.content.pm.ComponentInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
+import com.kevinkirwansoftware.capsule.ReminderCheckJobService;
 import com.kevinkirwansoftware.capsule.fragments.FragmentInventory;
 import com.kevinkirwansoftware.capsule.fragments.FragmentSchedule;
 import com.kevinkirwansoftware.capsule.fragments.FragmentSettings;
@@ -20,6 +26,8 @@ import com.kevinkirwansoftware.capsule.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    private static final String TAG = "MainActivity.java";
+    private static final int SERVICE_ID = 444;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         ApplicationPreferences.loadPreferenceData(getApplicationContext());
+
+        setTheme(R.style.ForestTheme);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,6 +95,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void scheduleJob(){
+        ComponentName componentName = new ComponentName(this, ReminderCheckJobService.class);
+        JobInfo info = new JobInfo.Builder(SERVICE_ID, componentName)
+                .setPersisted(true)
+                .setPeriodic(15*60*1000)
+                .build();
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(info);
+        if(resultCode == JobScheduler.RESULT_SUCCESS){
+            Log.d(TAG, "ReminderCheckJobService started...");
+        } else {
+            Log.d(TAG, "ReminderCheckJobService failed.");
+        }
+    }
+
+    private void cancelJob(){
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(SERVICE_ID);
+        Log.d(TAG, "Job cancelled.");
+    }
+
     @Override
     public void onBackPressed(){
         if(drawer.isDrawerOpen(GravityCompat.START)){
@@ -94,6 +125,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+
+
+    @Override
+    protected void onStop() {
+        Log.d(TAG, "onStop() called");
+        scheduleJob();
+        super.onStop();
+    }
+
 
     @Override
     protected void onDestroy() {

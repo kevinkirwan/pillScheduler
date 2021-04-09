@@ -43,6 +43,7 @@ public class RecurringDbHelper extends SQLiteOpenHelper {
                 RecurringReminderEntry.COLUMN_HOUR + " INTEGER NOT NULL, " +
                 RecurringReminderEntry.COLUMN_MINUTE + " INTEGER NOT NULL, " +
 
+                RecurringReminderEntry.COLUMN_ACTIVATED + " INTEGER NOT NULL, " +
 
                 RecurringReminderEntry.COLUMN_SCHEDULE_ID + " TEXT NOT NULL, " +
                 RecurringReminderEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +

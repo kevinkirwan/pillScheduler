@@ -6,7 +6,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="19"
+        android:minSdkVersion="21"
         android:targetSdkVersion="29" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -28,6 +28,7 @@
         android:usesCleartextTraffic="true" >
         <activity
             android:name="com.kevinkirwansoftware.capsule.general.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,12 +37,25 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name="com.kevinkirwansoftware.capsule.ReminderCheckJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
         <receiver android:name="com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast" />
         <receiver android:name="com.kevinkirwansoftware.capsule.notifications.NotificationReceiver" />
+
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

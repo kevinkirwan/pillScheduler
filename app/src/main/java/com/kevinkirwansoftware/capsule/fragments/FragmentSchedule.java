@@ -192,6 +192,7 @@ public class FragmentSchedule extends Fragment {
     private void getScheduleItemsFromDb(){
         if(mScheduleItems == null){
             mScheduleItems = new ArrayList<>();
+            Log.d("Kevin", "Creating new array list");
         }
 
         Cursor cursor = getAllItems();
@@ -199,14 +200,28 @@ public class FragmentSchedule extends Fragment {
             addReminderInfoNeeded = true;
             return;
         }
+        if(cursor.getCount() == mScheduleItems.size()){
+            return;
+        }
         int j = 0;
-        Log.d("Kevin", "Count: " + cursor.getCount());
         for(int i = cursor.getCount() - 1; i >= 0; i--){
             Log.d("Kevin", "DB row: " + i + " AR row: " + j);
             cursor.moveToPosition(i);
 
             int rt_int = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE));
+            int activation_int = 1;
             ScheduleItem.ReminderType rt_enum;
+            ScheduleItem.ActivationType activation_enum;
+
+            switch (activation_int){
+                case 0:
+                    activation_enum = ScheduleItem.ActivationType.NOT_ACTIVATED;
+                    break;
+                default:
+                    activation_enum = ScheduleItem.ActivationType.ACTIVATED;
+                    break;
+
+            }
 
             switch (rt_int){
                 case 0:
@@ -248,7 +263,6 @@ public class FragmentSchedule extends Fragment {
 
                     break;
                 default:
-                    assert
                     mScheduleItems.add(new ScheduleItem());
                     rt_enum = ScheduleItem.ReminderType.NONE;
                     Log.e("Kevin", "ERROR WITH LOADING");
@@ -256,10 +270,7 @@ public class FragmentSchedule extends Fragment {
 
             }
             mScheduleItems.get(j).setReminderType(rt_enum);
-
-
-
-
+            mScheduleItems.get(j).setActivationType(activation_enum);
             mScheduleItems.get(j).setReminderName(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)));
             mScheduleItems.get(j).setReminderDescription(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)));
             mScheduleItems.get(j).setScheduleID(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)));
@@ -565,23 +576,29 @@ public class FragmentSchedule extends Fragment {
     public void onPause(){
         Log.d("Kevin", "View Paused");
         timerNeeded = false;
-        reminderSetUp();
-        saveScheduleItemsToDatabase();
+
         super.onPause();
     }
 
     @Override
     public void onResume() {
         Log.d("Kevin", "onResume Called");
-        getScheduleItemsFromDb();
+        //getScheduleItemsFromDb();
         super.onResume();
     }
 
     @Override
     public void onStart() {
         Log.d("Kevin", "onStart Called");
+        getScheduleItemsFromDb();
         super.onStart();
     }
 
-
+    @Override
+    public void onStop() {
+        Log.d("Kevin", "onStop Called");
+        reminderSetUp();
+        saveScheduleItemsToDatabase();
+        super.onStop();
+    }
 }

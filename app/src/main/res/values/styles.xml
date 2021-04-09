@@ -6,6 +6,29 @@
         <item name="colorPrimary">@color/colorTwo</item>
         <item name="colorSecondary">@color/colorTwo</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorError">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/adamina</item>
+    </style>
+
+    <style name="RegalTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">#FF0000</item>
+        <item name="colorSecondary">#550000</item>
+        <item name="colorAccent">#000055</item>
+        <item name="colorError">#005500</item>
+        <item name="android:fontFamily">@font/adamina</item>
+    </style>
+
+    <style name="DarkTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorTwo</item>
+        <item name="colorSecondary">@color/colorTwo</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/adamina</item>
+    </style>
+
+    <style name="ForestTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">#005500</item>
+        <item name="colorSecondary">#FF0000</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/adamina</item>
     </style>
 

@@ -5,7 +5,7 @@
 5    android:versionName="1.0" >
 6
 7    <uses-sdk
-8        android:minSdkVersion="19"
+8        android:minSdkVersion="21"
 8-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="29" />
 9-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml
@@ -24,7 +24,7 @@
 14-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:9:22-64
 15
 16    <application
-16-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:11:5-38:19
+16-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:11:5-42:19
 17        android:name="com.kevinkirwansoftware.capsule.general.App"
 17-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:12:9-36
 18        android:allowBackup="true"
@@ -46,36 +46,61 @@
 27        android:usesCleartextTraffic="true" >
 27-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:14:9-44
 28        <activity
-28-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:24:9-31:20
+28-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:24:9-32:20
 29            android:name="com.kevinkirwansoftware.capsule.general.MainActivity"
 29-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:24:19-55
-30            android:theme="@style/AppTheme.NoActionBar" >
-30-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:25:13-56
-31            <intent-filter>
-31-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:26:13-30:29
-32                <action android:name="android.intent.action.MAIN" />
-32-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:27:17-69
-32-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:27:25-66
-33
-34                <category android:name="android.intent.category.LAUNCHER" />
-34-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:29:17-77
-34-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:29:27-74
-35            </intent-filter>
-36        </activity>
-37
-38        <meta-data
-38-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:33:9-35:57
-39            android:name="preloaded_fonts"
-39-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:34:13-43
-40            android:resource="@array/preloaded_fonts" />
-40-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:35:13-54
-41
-42        <receiver android:name="com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast" />
-42-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:36:9-68
-42-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:36:19-66
-43        <receiver android:name="com.kevinkirwansoftware.capsule.notifications.NotificationReceiver" />
-43-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:37:9-72
-43-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:37:19-69
-44    </application>
-45
-46</manifest>
+30            android:screenOrientation="portrait"
+30-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:25:13-49
+31            android:theme="@style/AppTheme.NoActionBar" >
+31-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:26:13-56
+32            <intent-filter>
+32-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:27:13-31:29
+33                <action android:name="android.intent.action.MAIN" />
+33-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:28:17-69
+33-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:28:25-66
+34
+35                <category android:name="android.intent.category.LAUNCHER" />
+35-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:30:17-77
+35-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:30:27-74
+36            </intent-filter>
+37        </activity>
+38
+39        <service
+39-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:34:9-35:71
+40            android:name="com.kevinkirwansoftware.capsule.ReminderCheckJobService"
+40-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:34:18-57
+41            android:permission="android.permission.BIND_JOB_SERVICE" />
+41-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:35:13-69
+42
+43        <meta-data
+43-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:37:9-39:57
+44            android:name="preloaded_fonts"
+44-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:38:13-43
+45            android:resource="@array/preloaded_fonts" />
+45-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:39:13-54
+46
+47        <receiver android:name="com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast" />
+47-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:40:9-68
+47-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:40:19-66
+48        <receiver android:name="com.kevinkirwansoftware.capsule.notifications.NotificationReceiver" />
+48-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:41:9-72
+48-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:41:19-69
+49
+50        <activity
+50-->[com.google.android.gms:play-services-base:17.5.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\47107131640f36fdfc75794b205ae0c0\jetified-play-services-base-17.5.0\AndroidManifest.xml:23:9-26:75
+51            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+51-->[com.google.android.gms:play-services-base:17.5.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\47107131640f36fdfc75794b205ae0c0\jetified-play-services-base-17.5.0\AndroidManifest.xml:24:13-79
+52            android:exported="false"
+52-->[com.google.android.gms:play-services-base:17.5.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\47107131640f36fdfc75794b205ae0c0\jetified-play-services-base-17.5.0\AndroidManifest.xml:25:13-37
+53            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+53-->[com.google.android.gms:play-services-base:17.5.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\47107131640f36fdfc75794b205ae0c0\jetified-play-services-base-17.5.0\AndroidManifest.xml:26:13-72
+54
+55        <meta-data
+55-->[com.google.android.gms:play-services-basement:17.5.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\e12d24fa497678e4c2bd17935c5c9d8b\jetified-play-services-basement-17.5.0\AndroidManifest.xml:23:9-25:69
+56            android:name="com.google.android.gms.version"
+56-->[com.google.android.gms:play-services-basement:17.5.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\e12d24fa497678e4c2bd17935c5c9d8b\jetified-play-services-basement-17.5.0\AndroidManifest.xml:24:13-58
+57            android:value="@integer/google_play_services_version" />
+57-->[com.google.android.gms:play-services-basement:17.5.0] C:\Users\kevin\.gradle\caches\transforms-2\files-2.1\e12d24fa497678e4c2bd17935c5c9d8b\jetified-play-services-basement-17.5.0\AndroidManifest.xml:25:13-66
+58    </application>
+59
+60</manifest>

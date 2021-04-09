@@ -9,6 +9,7 @@ import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.gms.common.api.Api;
 import com.kevinkirwansoftware.capsule.R;
 import com.kevinkirwansoftware.capsule.RecurringReminder;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
@@ -24,16 +25,14 @@ public class ApplicationTools {
     public static int MAX_REMINDER_NAME_STRING_LENGTH = 30;
     public static int MAX_REMINDER_DESC_STRING_LENGTH = 100;
     public static String CHANNEL_ID = "notification";
-    private static String POST_WEATHER_API_KEY = "6580421b13ccc78f78a4c9ddfdea2fd8";
     private static String WEATHER_URL = "https://api.openweathermap.org/data/2.5/";
     private static String POST_MOCK_URL_BOOKS = "https://www.googleapis.com/books/v1/";
     private static String POST_MOCK_URL_LATIN = "https://jsonplaceholder.typicode.com/";
     private static String POST_MOCK_URL_NEWS = "https://newsapi.org/v2/";
-    private static String POST_NEWS_API_KEY = "0e340a8de1494e5f87634a3506ee3300";
 
 
     public static String getWeatherApiKey(){
-        return POST_WEATHER_API_KEY;
+        return ApiKeys.POST_WEATHER_API_KEY;
     }
 
     public static String getWeatherUrl(){
@@ -53,7 +52,7 @@ public class ApplicationTools {
     }
 
     public static String getNewsApiKey() {
-        return POST_NEWS_API_KEY;
+        return ApiKeys.POST_NEWS_API_KEY;
     }
 
     public static void showNotification(Context context){
@@ -158,7 +157,7 @@ public class ApplicationTools {
         int[][] multiRemindersArray = holderItem.getMultiRemindersArray();
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME, holderItem.getReminderName());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
-        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getTypeInt());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getReminderTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS, holderItem.getNumDailyReminders());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE, multiRemindersArray[0][0]);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, multiRemindersArray[1][0]+1);
@@ -173,6 +172,7 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAY, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_HOUR, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MINUTE, -1);
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_ACTIVATED, holderItem.getActivationTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
         return cv;
     }
@@ -181,7 +181,7 @@ public class ApplicationTools {
         ContentValues cv = new ContentValues();
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME, holderItem.getReminderName());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
-        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getTypeInt());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getReminderTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, -1);
@@ -196,6 +196,7 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAY, holderItem.getReminderCalendar().get(Calendar.DAY_OF_MONTH));
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_HOUR, holderItem.getReminderCalendar().get(Calendar.HOUR_OF_DAY));
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MINUTE, holderItem.getReminderCalendar().get(Calendar.MINUTE)+1);
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_ACTIVATED, holderItem.getActivationTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
         return cv;
     }

@@ -43,4 +43,20 @@ public class ApplicationPreferences {
     public static boolean isDegF(){ return isDegF;}
 
     public static void setIsDegF(boolean isDegF){ ApplicationPreferences.isDegF= isDegF;}
+
+    public static String getTempUnitSystemString(){
+        if(isDegF()){
+            return "imperial";
+        } else {
+            return "metric";
+        }
+    }
+
+    public static String getTempUnitString(){
+        if(isDegF()){
+            return "F";
+        } else {
+            return "C";
+        }
+    }
 }
