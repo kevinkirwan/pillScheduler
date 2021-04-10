@@ -1,4 +1,6 @@
 ApiKeys.java
+app/build/
+.idea/
 *.class
 *.tab
 *.at
