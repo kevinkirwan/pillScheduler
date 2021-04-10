@@ -128,10 +128,6 @@
         "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\theme_background_zero_thickness.xml"
     },
     {
-        "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\layout-v26_fragment_today.xml.flat",
-        "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\layout-v26\\fragment_today.xml"
-    },
-    {
         "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher_capsule_foreground.png.flat",
         "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_capsule_foreground.png"
     },

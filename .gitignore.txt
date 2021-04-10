@@ -1,1 +1,13 @@
-ApiKeys
+ApiKeys.java
+*.class
+*.tab
+*.at
+*.len
+*.bin
+*.txt
+*.flat
+*.png
+*.dex
+*.jar
+*.keystream
+*.json

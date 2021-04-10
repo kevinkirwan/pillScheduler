@@ -1374,7 +1374,6 @@ id first_daily_reminder_rl
 id first_daily_reminder_text
 id fixed
 id forever
-id fourthDivider
 id fourth_daily_reminder
 id fourth_daily_reminder_rl
 id fourth_daily_reminder_text
@@ -1586,7 +1585,6 @@ id themesCV
 id themesDropIcon
 id themesTV
 id thirdCardView
-id thirdDivider
 id third_daily_reminder
 id third_daily_reminder_rl
 id third_daily_reminder_text
