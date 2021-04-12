@@ -138,6 +138,7 @@ public class FragmentToday extends Fragment {
         currentWeatherSummary.setText(ApplicationTools.weatherDescriptionFormatted(summaryString));
         currentWeatherTemp.setText(tempString);
         weatherIcon.setImageResource(ApplicationTools.getWeatherDrawable(summaryString));
+        weatherIcon.setColorFilter(Objects.requireNonNull(getContext()).getResources().getColor(R.color.colorPrimary));
     }
 
     private void displayWeatherFail(){

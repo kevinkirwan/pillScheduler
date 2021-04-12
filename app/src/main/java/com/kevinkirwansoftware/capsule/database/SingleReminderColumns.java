@@ -11,6 +11,7 @@ public class SingleReminderColumns {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_TYPE = "type";
+        public static final String COLUMN_ACTIVATED = "activated";
         public static final String COLUMN_YEAR = "year";
         public static final String COLUMN_MONTH = "month";
         public static final String COLUMN_DAY = "day";

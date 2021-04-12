@@ -178,7 +178,6 @@
 
             <ImageView
                 android:id="@+id/weatherIcon"
-                android:tint="@color/colorPrimary"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_weight="1"
@@ -266,7 +265,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="3"
-                    android:text="Sunny"
+                    android:text="-"
                     android:gravity="start"
                     android:layout_gravity="start"
                     android:textColor="@color/colorOneText"
@@ -279,7 +278,7 @@
                     android:maxLines="4"
                     android:gravity="start"
                     android:layout_gravity="start"
-                    android:text="48 degrees"
+                    android:text="-"
                     android:textColor="@color/colorTwoText"
                     android:textSize="12sp" />
 

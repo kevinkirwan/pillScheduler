@@ -158,6 +158,8 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME, holderItem.getReminderName());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getReminderTypeInt());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_ACTIVATED, holderItem.getActivationTypeInt());
+        Log.d("Kevin", "Int: " + holderItem.getActivationTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS, holderItem.getNumDailyReminders());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE, multiRemindersArray[0][0]);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, multiRemindersArray[1][0]+1);
@@ -172,7 +174,6 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAY, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_HOUR, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MINUTE, -1);
-        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_ACTIVATED, holderItem.getActivationTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
         return cv;
     }
@@ -182,6 +183,8 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME, holderItem.getReminderName());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getReminderTypeInt());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_ACTIVATED, holderItem.getActivationTypeInt());
+        Log.d("Kevin", "Int: " + holderItem.getActivationTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, -1);
@@ -196,7 +199,6 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAY, holderItem.getReminderCalendar().get(Calendar.DAY_OF_MONTH));
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_HOUR, holderItem.getReminderCalendar().get(Calendar.HOUR_OF_DAY));
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MINUTE, holderItem.getReminderCalendar().get(Calendar.MINUTE)+1);
-        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_ACTIVATED, holderItem.getActivationTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
         return cv;
     }

@@ -11,6 +11,7 @@ public class RecurringReminderColumns {
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_TYPE = "type";
+        public static final String COLUMN_ACTIVATED = "activated";
 
         // Only recurring reminders
         public static final String COLUMN_DAILY_REMINDERS = "daily_reminder";
@@ -29,8 +30,6 @@ public class RecurringReminderColumns {
         public static final String COLUMN_DAY = "day";
         public static final String COLUMN_HOUR = "hour";
         public static final String COLUMN_MINUTE = "minute";
-
-        public static final String COLUMN_ACTIVATED = "activated";
 
         public static final String COLUMN_SCHEDULE_ID = "schedule_id";
         public static final String COLUMN_TIMESTAMP = "timestamp";

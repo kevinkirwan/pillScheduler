@@ -9,4 +9,5 @@
     <string name="item_d">Settings</string>
     <string name="single_a">Single Item A</string>
     <string name="single_b">Single Item B</string>
+    <string name="medicine_schedule">Medicine Schedule</string>
 </resources>

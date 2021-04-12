@@ -20,6 +20,7 @@ import androidx.core.view.ViewCompat;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
 import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.sql.Timestamp;
@@ -32,10 +33,10 @@ public class ScheduleDialog extends Dialog {
     View scheduleView;
     Dialog newSchedule;
     private Context mContext;
-    SchedulePopOutType mSpot;
+    private SchedulePopOutType mSpot;
     int mPosition;
-    RecurringReminder mRecurringItem;
-    SingleReminder mSingleItem;
+    private RecurringReminder mRecurringItem;
+    private SingleReminder mSingleItem;
     private boolean updateNeeded = false;
 
     TextView reminderPlus, reminderMinus, dailyReminderCounterTV;
@@ -70,7 +71,7 @@ public class ScheduleDialog extends Dialog {
         dailyRB = this.findViewById(R.id.daily_rb);
         customRB = this.findViewById(R.id.custom_rb);
         sdtp = this.findViewById(R.id.single_day_picker);
-        //sdtp.setIsAmPm(false);
+        sdtp.setIsAmPm(!ApplicationPreferences.is24Hour());
 
         dailySdtp1 = this.findViewById(R.id.first_daily_reminder);
         dailySdtp2 = this.findViewById(R.id.second_daily_reminder);
@@ -106,12 +107,10 @@ public class ScheduleDialog extends Dialog {
         this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         if(spotIn == SchedulePopOutType.EDIT){
-            updateWithScheduleInfo();
+            updateWithScheduleInfo(scheduleItemIn);
         }
 
         updateReminderCounter();
-
-
         //this.dismiss();
 
         cancelNewReminder.setOnClickListener(new View.OnClickListener() {
@@ -135,27 +134,7 @@ public class ScheduleDialog extends Dialog {
         recurringRB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isOneTime = false;
-                oneTimeSC.setVisibility(View.GONE);
-                recurringSC.setVisibility(View.VISIBLE);
-                oneTimeRB.setBackgroundResource(R.drawable.theme_background_none);
-                ViewCompat.setBackgroundTintList(
-                        oneTimeRB,
-                        ContextCompat.getColorStateList(
-                                mContext,
-                                R.color.colorThree
-                        )
-                );
-                oneTimeRB.setTextColor(mContext.getResources().getColor(R.color.gray));
-                recurringRB.setBackgroundResource(R.drawable.theme_background);
-                ViewCompat.setBackgroundTintList(
-                        recurringRB,
-                        ContextCompat.getColorStateList(
-                                mContext,
-                                R.color.colorPrimary
-                        )
-                );
-                recurringRB.setTextColor(mContext.getResources().getColor(R.color.white));
+                recurringRBUpdate();
 
             }
         });
@@ -163,26 +142,7 @@ public class ScheduleDialog extends Dialog {
         oneTimeRB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isOneTime = true;
-                oneTimeSC.setVisibility(View.VISIBLE);
-                recurringSC.setVisibility(View.GONE);
-                oneTimeRB.setBackgroundResource(R.drawable.theme_background);
-                ViewCompat.setBackgroundTintList(
-                        oneTimeRB,
-                        ContextCompat.getColorStateList(
-                                mContext,
-                                R.color.colorPrimary
-                        )
-                );
-                oneTimeRB.setTextColor(mContext.getResources().getColor(R.color.white));
-                ViewCompat.setBackgroundTintList(
-                        recurringRB,
-                        ContextCompat.getColorStateList(
-                                mContext,
-                                R.color.colorThree
-                        )
-                );
-                recurringRB.setTextColor(mContext.getResources().getColor(R.color.gray));
+                oneTimeRBUpdate();
 
             }
         });
@@ -190,85 +150,164 @@ public class ScheduleDialog extends Dialog {
         dailyRB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isOneTime = false;
-                customRL.setVisibility(View.GONE);
-                dailyRL.setVisibility(View.VISIBLE);
-                customRB.setBackgroundResource(R.drawable.theme_background_none);
-                ViewCompat.setBackgroundTintList(
-                        customRB,
-                        ContextCompat.getColorStateList(
-                                mContext,
-                                R.color.colorThree
-                        )
-                );
-                customRB.setTextColor(mContext.getResources().getColor(R.color.gray));
-                dailyRB.setBackgroundResource(R.drawable.theme_background);
-                ViewCompat.setBackgroundTintList(
-                        dailyRB,
-                        ContextCompat.getColorStateList(
-                                mContext,
-                                R.color.colorPrimary
-                        )
-                );
-                dailyRB.setTextColor(mContext.getResources().getColor(R.color.white));
-
+                setDailyRBUpdate();
             }
         });
 
         customRB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isOneTime = true;
-                customRL.setVisibility(View.VISIBLE);
-                dailyRL.setVisibility(View.GONE);
-                customRB.setBackgroundResource(R.drawable.theme_background);
-                ViewCompat.setBackgroundTintList(
-                        customRB,
-                        ContextCompat.getColorStateList(
-                                mContext,
-                                R.color.colorPrimary
-                        )
-                );
-                customRB.setTextColor(mContext.getResources().getColor(R.color.white));
-                ViewCompat.setBackgroundTintList(
-                        dailyRB,
-                        ContextCompat.getColorStateList(
-                                mContext,
-                                R.color.colorThree
-                        )
-                );
-                dailyRB.setTextColor(mContext.getResources().getColor(R.color.gray));
-
+                setCustomRBUpdate();
             }
         });
 
         reminderMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dailyReminderCounter > 1){
-                    dailyReminderCounter--;
-                    updateReminderCounter();
-                } else {
-                    Toast.makeText(mContext, "Can't Have 0 Reminders", Toast.LENGTH_SHORT).show();
-                }
+                reminderMinusUpdate();
             }
         });
 
         reminderPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dailyReminderCounter < 4){
-                    dailyReminderCounter++;
-                    updateReminderCounter();
-                } else {
-                    Toast.makeText(mContext, "Maximum 4 Reminders Per Day", Toast.LENGTH_SHORT).show();
-                }
-
+                reminderPlusUpdate();
             }
         });
+
+
     }
 
-    private void updateWithScheduleInfo(){
+    private void reminderPlusUpdate(){
+        if(dailyReminderCounter < 4){
+            dailyReminderCounter++;
+            updateReminderCounter();
+        } else {
+            Toast.makeText(mContext, "Maximum 4 Reminders Per Day", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void reminderMinusUpdate(){
+        if(dailyReminderCounter > 1){
+            dailyReminderCounter--;
+            updateReminderCounter();
+        } else {
+            Toast.makeText(mContext, "Can't Have 0 Reminders", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setCustomRBUpdate(){
+        isOneTime = true;
+        customRL.setVisibility(View.VISIBLE);
+        dailyRL.setVisibility(View.GONE);
+        customRB.setBackgroundResource(R.drawable.theme_background);
+        ViewCompat.setBackgroundTintList(
+                customRB,
+                ContextCompat.getColorStateList(
+                        mContext,
+                        R.color.colorPrimary
+                )
+        );
+        customRB.setTextColor(mContext.getResources().getColor(R.color.white));
+        ViewCompat.setBackgroundTintList(
+                dailyRB,
+                ContextCompat.getColorStateList(
+                        mContext,
+                        R.color.colorThree
+                )
+        );
+        dailyRB.setTextColor(mContext.getResources().getColor(R.color.gray));
+    }
+
+    private void setDailyRBUpdate(){
+        isOneTime = false;
+        customRL.setVisibility(View.GONE);
+        dailyRL.setVisibility(View.VISIBLE);
+        customRB.setBackgroundResource(R.drawable.theme_background_none);
+        ViewCompat.setBackgroundTintList(
+                customRB,
+                ContextCompat.getColorStateList(
+                        mContext,
+                        R.color.colorThree
+                )
+        );
+        customRB.setTextColor(mContext.getResources().getColor(R.color.gray));
+        dailyRB.setBackgroundResource(R.drawable.theme_background);
+        ViewCompat.setBackgroundTintList(
+                dailyRB,
+                ContextCompat.getColorStateList(
+                        mContext,
+                        R.color.colorPrimary
+                )
+        );
+        dailyRB.setTextColor(mContext.getResources().getColor(R.color.white));
+    }
+
+    private void oneTimeRBUpdate(){
+        isOneTime = true;
+        oneTimeSC.setVisibility(View.VISIBLE);
+        recurringSC.setVisibility(View.GONE);
+        oneTimeRB.setBackgroundResource(R.drawable.theme_background);
+        ViewCompat.setBackgroundTintList(
+                oneTimeRB,
+                ContextCompat.getColorStateList(
+                        mContext,
+                        R.color.colorPrimary
+                )
+        );
+        oneTimeRB.setTextColor(mContext.getResources().getColor(R.color.white));
+        ViewCompat.setBackgroundTintList(
+                recurringRB,
+                ContextCompat.getColorStateList(
+                        mContext,
+                        R.color.colorThree
+                )
+        );
+        recurringRB.setTextColor(mContext.getResources().getColor(R.color.gray));
+    }
+
+    private void recurringRBUpdate(){
+        isOneTime = false;
+        oneTimeSC.setVisibility(View.GONE);
+        recurringSC.setVisibility(View.VISIBLE);
+        oneTimeRB.setBackgroundResource(R.drawable.theme_background_none);
+        ViewCompat.setBackgroundTintList(
+                oneTimeRB,
+                ContextCompat.getColorStateList(
+                        mContext,
+                        R.color.colorThree
+                )
+        );
+        oneTimeRB.setTextColor(mContext.getResources().getColor(R.color.gray));
+        recurringRB.setBackgroundResource(R.drawable.theme_background);
+        ViewCompat.setBackgroundTintList(
+                recurringRB,
+                ContextCompat.getColorStateList(
+                        mContext,
+                        R.color.colorPrimary
+                )
+        );
+        recurringRB.setTextColor(mContext.getResources().getColor(R.color.white));
+    }
+
+    private void updateWithScheduleInfo(ScheduleItem scheduleItem){
+        reminderNameET.setText(scheduleItem.getReminderName());
+        reminderDescET.setText(scheduleItem.getReminderDescription());
+        if(scheduleItem instanceof RecurringReminder){
+            RecurringReminder recurringReminder = (RecurringReminder) scheduleItem;
+            recurringRBUpdate();
+            dailyReminderCounter = ((RecurringReminder) scheduleItem).getNumDailyReminders();
+            updateReminderCounter();
+            dailySdtp1.setDefaultDate(recurringReminder.getCalendar1().getTime());
+            dailySdtp2.setDefaultDate(recurringReminder.getCalendar2().getTime());
+            dailySdtp3.setDefaultDate(recurringReminder.getCalendar3().getTime());
+            dailySdtp4.setDefaultDate(recurringReminder.getCalendar4().getTime());
+        } else if(scheduleItem instanceof SingleReminder){
+            SingleReminder singleReminder = (SingleReminder) scheduleItem;
+            oneTimeRBUpdate();
+            sdtp.setDefaultDate(singleReminder.getReminderCalendar().getTime());
+        }
+
 
     }
 
@@ -345,12 +384,7 @@ public class ScheduleDialog extends Dialog {
             timeArray[1][3] = Integer.parseInt(timeArrayString[1]);
         }
         mRecurringItem.setMultiRemindersArray(timeArray);
-
-        Log.d("Kevin", "Time 1: " + mRecurringItem.getMultiRemindersArray()[0][0] + ":" + mRecurringItem.getMultiRemindersArray()[1][0]);
-        Log.d("Kevin", "Time 2: " + mRecurringItem.getMultiRemindersArray()[0][1] + ":" + mRecurringItem.getMultiRemindersArray()[1][1]);
-        Log.d("Kevin", "Time 3: " + mRecurringItem.getMultiRemindersArray()[0][2] + ":" + mRecurringItem.getMultiRemindersArray()[1][2]);
-        Log.d("Kevin", "Time 4: " + mRecurringItem.getMultiRemindersArray()[0][3] + ":" + mRecurringItem.getMultiRemindersArray()[1][3]);
-
+        mRecurringItem.setActive(true);
 
         updateNeeded = true;
         this.dismiss();
@@ -379,6 +413,7 @@ public class ScheduleDialog extends Dialog {
         mSingleItem.setReminderName(reminderNameET.getText().toString());
         mSingleItem.setReminderDescription(reminderDescET.getText().toString());
         mSingleItem.setReminderType(ScheduleItem.ReminderType.ONE_TIME);
+        mSingleItem.setActive(true);
         updateNeeded = true;
         this.dismiss();
     }

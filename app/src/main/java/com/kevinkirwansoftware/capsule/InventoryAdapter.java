@@ -23,7 +23,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
             super(itemView);
             mMedicineName = itemView.findViewById(R.id.medicine_name);
             mDosage = itemView.findViewById(R.id.medicine_dosage);
-            mMedicineIcon = itemView.findViewById(R.id.medicine_icon);
+            mMedicineIcon = itemView.findViewById(R.id.iconIV);
 
         }
     }

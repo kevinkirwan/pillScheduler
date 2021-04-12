@@ -56,6 +56,7 @@ public class ScheduleItem {
         } else{
             return -1;
         }
+
     }
 
     public String getScheduleID(){
@@ -91,7 +92,34 @@ public class ScheduleItem {
     }
 
     public void setActivationType(ActivationType activationType){
+        if(activationType == ActivationType.ACTIVATED){
+            isActivated = true;
+        } else {
+            isActivated = false;
+        }
         mActivationType = activationType;
+    }
+
+    public void setActive(boolean isActive){
+        if(isActive){
+            isActivated = true;
+            mActivationType = ActivationType.ACTIVATED;
+        } else {
+            isActivated = false;
+            mActivationType = ActivationType.NOT_ACTIVATED;
+        }
+    }
+
+    public boolean isActive(){
+        return isActivated;
+    }
+
+    public String getActiveString(){
+        if(isActivated){
+            return "Active";
+        } else {
+            return "Inactive";
+        }
     }
 
     public enum ActivationType{

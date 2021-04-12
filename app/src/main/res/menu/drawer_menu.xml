@@ -5,31 +5,24 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/itemC"
+            android:icon="@drawable/schedule"
+            android:title="@string/medicine_schedule" />
+        <item
             android:id="@+id/itemA"
             android:icon="@drawable/clipboard"
             android:title="@string/item_a" />
-        <item
-            android:id="@+id/itemB"
-            android:icon="@drawable/inventory"
-            android:title="@string/item_b" />
-        <item
-            android:id="@+id/itemC"
-            android:icon="@drawable/schedule"
-            android:title="@string/item_c" />
         <item
             android:id="@+id/itemD"
             android:icon="@drawable/settings"
             android:title="@string/item_d" />
 
         <!--
-        <item
-            android:id="@+id/single_item_a"
-            android:icon="@drawable/ic_launcher_background"
-            android:title="@string/single_a" />
-        <item
-            android:id="@+id/single_item_b"
-            android:icon="@drawable/ic_launcher_background"
-            android:title="@string/single_b" />
-            -->
+       <item
+           android:id="@+id/itemB"
+           android:icon="@drawable/inventory"
+           android:title="@string/item_b" />
+           -->
+
     </group>
 </menu>

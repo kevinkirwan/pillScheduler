@@ -22,6 +22,7 @@ public class SingleDbHelper extends SQLiteOpenHelper {
                 SingleReminderEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 SingleReminderEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 SingleReminderEntry.COLUMN_TYPE + " INTEGER NOT NULL, " +
+                SingleReminderEntry.COLUMN_ACTIVATED + " INTEGER NOT NULL, " +
                 SingleReminderEntry.COLUMN_YEAR + " INTEGER NOT NULL, " +
                 SingleReminderEntry.COLUMN_MONTH + " INTEGER NOT NULL, " +
                 SingleReminderEntry.COLUMN_DAY + " INTEGER NOT NULL, " +

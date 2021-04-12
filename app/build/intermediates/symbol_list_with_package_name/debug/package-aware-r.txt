@@ -1289,6 +1289,7 @@ id actions
 id activationCheckBox
 id activity_chooser_view_content
 id add
+id addMedicineInfoLL
 id addMedicineItem
 id addReminderArrowIV
 id addReminderArrowTV
@@ -1314,7 +1315,6 @@ id buttonOk
 id buttonPanel
 id buttonTab0
 id buttonTab1
-id card_divider
 id center
 id center_horizontal
 id center_vertical
@@ -1400,7 +1400,6 @@ id inventoryRecyclerView
 id invisible
 id italic
 id itemA
-id itemB
 id itemC
 id itemD
 id item_touch_helper_previous_elevation
@@ -1413,8 +1412,10 @@ id line3
 id listMode
 id list_item
 id masked
+id medicineDesc
+id medicineItemMenuLL
 id medicine_dosage
-id medicine_icon
+id medicine_dosage_unit
 id medicine_name
 id menuNewsLL
 id menuThemesLL
@@ -1588,7 +1589,6 @@ id thirdCardView
 id third_daily_reminder
 id third_daily_reminder_rl
 id third_daily_reminder_text
-id throwaway1
 id time
 id timeLL
 id timeZone
@@ -1793,6 +1793,7 @@ string item_a
 string item_b
 string item_c
 string item_d
+string medicine_schedule
 string mtrl_chip_close_icon_content_description
 string navigation_drawer_close
 string navigation_drawer_open

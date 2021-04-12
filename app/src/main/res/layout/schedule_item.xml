@@ -182,7 +182,7 @@
                 android:textSize="10sp"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/colorThree"
-                android:text="Inactive"
+                android:text="xxx"
                 />
 
 

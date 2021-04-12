@@ -81,6 +81,22 @@ public class RecurringReminder extends ScheduleItem {
         calendar4.set(Calendar.MINUTE, mMultiRemindersArray[1][3]);
     }
 
+    public Calendar getCalendar1(){
+        return calendar1;
+    }
+
+    public Calendar getCalendar2(){
+        return calendar2;
+    }
+
+    public Calendar getCalendar3(){
+        return calendar3;
+    }
+
+    public Calendar getCalendar4(){
+        return calendar4;
+    }
+
     public String getTypeString(){
         return "Recurring";
     }
