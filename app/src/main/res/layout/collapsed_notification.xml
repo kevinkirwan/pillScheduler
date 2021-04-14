@@ -3,14 +3,29 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="64dp"
     android:padding="12dp"
-    android:background="@color/colorThree"
+    android:background="@color/colorPrimary"
+
     android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:tint="@color/colorTwo"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_capsule"/>
+
 
     <LinearLayout
         android:layout_width="0dp"
         android:orientation="vertical"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="5">
     
     <TextView
         android:id="@+id/notificationText1"
@@ -31,5 +46,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:text="Click to Silence"
+            android:backgroundTint="@color/colorTwo"/>
+
+        </LinearLayout>
 
 </LinearLayout>

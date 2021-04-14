@@ -1,10 +1,13 @@
 package com.kevinkirwansoftware.capsule.general;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -15,6 +18,8 @@ import com.kevinkirwansoftware.capsule.RecurringReminder;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
 import com.kevinkirwansoftware.capsule.SingleReminder;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,13 +27,18 @@ import java.util.TimeZone;
 
 public class ApplicationTools {
     public static String TAG = "ApplicationTools.java";
-    public static int MAX_REMINDER_NAME_STRING_LENGTH = 30;
-    public static int MAX_REMINDER_DESC_STRING_LENGTH = 100;
-    public static String CHANNEL_ID = "notification";
+
+    // Private static variables
     private static String WEATHER_URL = "https://api.openweathermap.org/data/2.5/";
     private static String POST_MOCK_URL_BOOKS = "https://www.googleapis.com/books/v1/";
     private static String POST_MOCK_URL_LATIN = "https://jsonplaceholder.typicode.com/";
     private static String POST_MOCK_URL_NEWS = "https://newsapi.org/v2/";
+
+    // Public static variables
+    public static int MAXIMUM_POSITIVE_INT = 2147483647;
+    public static int MAX_REMINDER_NAME_STRING_LENGTH = 30;
+    public static int MAX_REMINDER_DESC_STRING_LENGTH = 100;
+    public static String CHANNEL_ID = "notification";
 
 
     public static String getWeatherApiKey(){
@@ -55,20 +65,32 @@ public class ApplicationTools {
         return ApiKeys.POST_NEWS_API_KEY;
     }
 
-    public static void showNotification(Context context){
+    public static void showNotification(Context context, String titleText, String descriptionText, String notificationTag, int code){
         Log.d(TAG, "showNotification() Notification displayed...");
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+        Log.d("Kevin", "AppTools " + titleText);
+
+        // Initialize Collapsed View
         RemoteViews collapsedView = new RemoteViews(context.getPackageName(),
                 R.layout.collapsed_notification);
+        collapsedView.setTextViewText(R.id.notificationText1, titleText);
+        collapsedView.setTextViewText(R.id.notificationText2, descriptionText);
+
         RemoteViews expandedView = new RemoteViews(context.getPackageName(),
                 R.layout.expanded_notification);
+
+        Intent intent = new Intent("Notification deleted");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, code, intent, 0);
 
         Notification notification = new NotificationCompat.Builder(context, App.CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_capsule)
                 .setCustomContentView(collapsedView)
                 .setCustomBigContentView(expandedView)
+                .setDeleteIntent(pendingIntent)
                 .build();
-        notificationManager.notify(1, notification);
+        notificationManager.notify(code, notification);
+
     }
 
     //TODO get icons from internet
@@ -81,7 +103,6 @@ public class ApplicationTools {
             } else {
                 return R.drawable.ic_sun;
             }
-
         } else if(desc.contains("rain")){
             return R.drawable.ic_rain;
         } else if(desc.contains("snow")){

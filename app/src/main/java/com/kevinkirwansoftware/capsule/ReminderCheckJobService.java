@@ -19,6 +19,7 @@ import androidx.core.app.NotificationCompat;
 import com.kevinkirwansoftware.capsule.database.RecurringDbHelper;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
 import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
+import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 import com.kevinkirwansoftware.capsule.notifications.NotificationHelper;
 import com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast;
 
@@ -65,6 +66,8 @@ public class ReminderCheckJobService extends JobService {
                         // A value of 0 is one-time
                         if(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE)) == 0){
                             Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.MILLISECOND, 0);
+                            calendar.set(Calendar.SECOND, 0);
                             calendar.set(Calendar.MINUTE, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MINUTE)) - 1);
                             calendar.set(Calendar.HOUR_OF_DAY, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_HOUR)));
                             calendar.set(Calendar.DAY_OF_MONTH, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAY)));
@@ -73,10 +76,24 @@ public class ReminderCheckJobService extends JobService {
                             if(!calendar.before(Calendar.getInstance())) {
                                 AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                                 Intent intent = new Intent(getApplicationContext(), ReminderBroadcast.class);
-                                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1, intent, 0);
+                                String tag = cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID));
+                                intent.setAction(tag);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                intent.putExtra("tag", tag);
+                                intent.putExtra("title" + tag, cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)));
+                                intent.putExtra("desc" + tag, cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)));
+
+                                int code = (int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT);
+                                Log.d("Kevin", "unique code " + code);
+                                intent.putExtra("code", code);
+                                // PI Flag: PendingIntent.FLAG_UPDATE_CURRENT
+                                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), code, intent, 0);
+                                assert alarmManager != null;
                                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                             }
-                        } else {
+                        }
+                        // Recurring Reminder is a value of 1
+                        else if(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE)) == 0) {
 
                         }
                     }
