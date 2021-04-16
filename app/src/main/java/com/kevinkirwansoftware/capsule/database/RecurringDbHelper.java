@@ -8,7 +8,7 @@ import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns.*;
 
 public class RecurringDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "recurringReminders.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     public RecurringDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -45,6 +45,10 @@ public class RecurringDbHelper extends SQLiteOpenHelper {
                 RecurringReminderEntry.COLUMN_MINUTE + " INTEGER NOT NULL, " +
 
                 RecurringReminderEntry.COLUMN_SCHEDULE_ID + " TEXT NOT NULL, " +
+                RecurringReminderEntry.COLUMN_DB_CODE_1 + " INTEGER NOT NULL, " +
+                RecurringReminderEntry.COLUMN_DB_CODE_2 + " INTEGER NOT NULL, " +
+                RecurringReminderEntry.COLUMN_DB_CODE_3 + " INTEGER NOT NULL, " +
+                RecurringReminderEntry.COLUMN_DB_CODE_4 + " INTEGER NOT NULL, " +
                 RecurringReminderEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 ");";
 

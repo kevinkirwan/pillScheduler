@@ -3,12 +3,14 @@ package com.kevinkirwansoftware.capsule;
 import android.util.Log;
 
 import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
+import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class RecurringReminder extends ScheduleItem {
     public boolean mDaily;
@@ -99,6 +101,14 @@ public class RecurringReminder extends ScheduleItem {
 
     public String getTypeString(){
         return "Recurring";
+    }
+
+    public void recurringReminderInit(){
+        setScheduleID(UUID.randomUUID().toString());
+        setDbCode1((int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT));
+        setDbCode2((int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT));
+        setDbCode3((int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT));
+        setDbCode4((int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT));
     }
 
     public String getFistTimeAsString(){

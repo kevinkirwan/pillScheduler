@@ -6,12 +6,14 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
+import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 public class SingleReminder extends ScheduleItem {
     private Calendar reminderCalendar;
@@ -83,6 +85,14 @@ public class SingleReminder extends ScheduleItem {
 
     public String getTypeString(){
         return "One-Time";
+    }
+
+    public void singleReminderInit(){
+        setScheduleID(UUID.randomUUID().toString());
+        setDbCode1((int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT));
+        setDbCode2(-1);
+        setDbCode3(-1);
+        setDbCode4(-1);
     }
 }
 

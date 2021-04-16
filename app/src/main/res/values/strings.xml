@@ -10,4 +10,9 @@
     <string name="single_a">Single Item A</string>
     <string name="single_b">Single Item B</string>
     <string name="medicine_schedule">Medicine Schedule</string>
+    <string name="update">Update</string>
+
+    <string name="title_activity_wake_up">WakeUpActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

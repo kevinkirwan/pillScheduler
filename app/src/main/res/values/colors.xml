@@ -11,6 +11,7 @@
     <color name="colorFour">#696969</color>
     -->
 
+
     <!-- Dark
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimary">#000000</color>
@@ -31,7 +32,6 @@
     <color name="colorFour">#696969</color>
 
 
-
     <color name="colorTwoDark">#000000</color>
 
 
@@ -42,4 +42,6 @@
     <color name="white">#FFFFFF</color>
 
     <color name="colorAccent">#330000</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

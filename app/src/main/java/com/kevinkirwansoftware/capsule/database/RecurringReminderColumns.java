@@ -32,6 +32,10 @@ public class RecurringReminderColumns {
         public static final String COLUMN_MINUTE = "minute";
 
         public static final String COLUMN_SCHEDULE_ID = "schedule_id";
+        public static final String COLUMN_DB_CODE_1 = "db_code_1";
+        public static final String COLUMN_DB_CODE_2 = "db_code_2";
+        public static final String COLUMN_DB_CODE_3 = "db_code_3";
+        public static final String COLUMN_DB_CODE_4 = "db_code_4";
         public static final String COLUMN_TIMESTAMP = "timestamp";
     }
 }

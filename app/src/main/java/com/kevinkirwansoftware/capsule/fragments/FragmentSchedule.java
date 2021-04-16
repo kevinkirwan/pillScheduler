@@ -42,6 +42,7 @@ import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -189,11 +190,6 @@ public class FragmentSchedule extends Fragment {
                 }
             }
         });
-
-        Toast.makeText(getContext(), "Edit menu open", Toast.LENGTH_SHORT).show();
-
-
-
     }
 
     private void getScheduleItemsFromDb(){
@@ -286,14 +282,17 @@ public class FragmentSchedule extends Fragment {
             mScheduleItems.get(j).setReminderName(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)));
             mScheduleItems.get(j).setReminderDescription(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)));
             mScheduleItems.get(j).setScheduleID(cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)));
-
+            mScheduleItems.get(j).setDbCode1(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1)));
+            mScheduleItems.get(j).setDbCode2(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_2)));
+            mScheduleItems.get(j).setDbCode3(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_3)));
+            mScheduleItems.get(j).setDbCode4(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_4)));
             j++;
-
         }
     }
 
 
     private void removeItem(int position){
+        cancelBroadcast(position);
         ApplicationFlags.setReminderDatasetItemRemovedFlag(mScheduleItems.get(position).getScheduleID());
         Log.d("Kevin", "Deleted Items: ");
         for (int i = 0; i < ApplicationFlags.getRemindersRemovedList().size(); i++){
@@ -304,9 +303,50 @@ public class FragmentSchedule extends Fragment {
     }
 
     private void setActive(int position, boolean isChecked){
+        if(!isChecked){
+            cancelBroadcast(position);
+        }
         mScheduleItems.get(position).setActive(isChecked);
         mScheduleAdapter.notifyItemChanged(position);
         ApplicationFlags.setReminderDatasetItemChangedFlag(mScheduleItems.get(position).getScheduleID());
+    }
+
+    private void cancelBroadcast(int position){
+        Intent intent1 = ApplicationTools.broadcastIntentGenerator(Objects.requireNonNull(getContext()).getApplicationContext(),
+                mScheduleItems.get(position).getScheduleID(),
+                mScheduleItems.get(position).getReminderName(),
+                mScheduleItems.get(position).getReminderDescription(),
+                mScheduleItems.get(position).getDbCode1());
+        PendingIntent pendingIntent1 = PendingIntent.getBroadcast(getContext().getApplicationContext(), mScheduleItems.get(position).getDbCode1(), intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent1.cancel();
+        if(mScheduleItems.get(position) instanceof RecurringReminder){
+            RecurringReminder recurringReminder = (RecurringReminder) mScheduleItems.get(position);
+            if(recurringReminder.getNumDailyReminders() > 1){
+                Intent intent2 = ApplicationTools.broadcastIntentGenerator(Objects.requireNonNull(getContext()).getApplicationContext(),
+                        mScheduleItems.get(position).getScheduleID(),
+                        mScheduleItems.get(position).getReminderName(),
+                        mScheduleItems.get(position).getReminderDescription(),
+                        mScheduleItems.get(position).getDbCode2());
+                PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getContext().getApplicationContext(), mScheduleItems.get(position).getDbCode2(), intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+                pendingIntent2.cancel();
+            } if(recurringReminder.getNumDailyReminders() > 2){
+                Intent intent3 = ApplicationTools.broadcastIntentGenerator(Objects.requireNonNull(getContext()).getApplicationContext(),
+                        mScheduleItems.get(position).getScheduleID(),
+                        mScheduleItems.get(position).getReminderName(),
+                        mScheduleItems.get(position).getReminderDescription(),
+                        mScheduleItems.get(position).getDbCode3());
+                PendingIntent pendingIntent3 = PendingIntent.getBroadcast(getContext().getApplicationContext(), mScheduleItems.get(position).getDbCode3(), intent3, PendingIntent.FLAG_UPDATE_CURRENT);
+                pendingIntent3.cancel();
+            } if(recurringReminder.getNumDailyReminders() > 3){
+                Intent intent4 = ApplicationTools.broadcastIntentGenerator(Objects.requireNonNull(getContext()).getApplicationContext(),
+                        mScheduleItems.get(position).getScheduleID(),
+                        mScheduleItems.get(position).getReminderName(),
+                        mScheduleItems.get(position).getReminderDescription(),
+                        mScheduleItems.get(position).getDbCode4());
+                PendingIntent pendingIntent4 = PendingIntent.getBroadcast(getContext().getApplicationContext(), mScheduleItems.get(position).getDbCode4(), intent4, PendingIntent.FLAG_UPDATE_CURRENT);
+                pendingIntent4.cancel();
+            }
+        }
     }
 
     private void fragmentScheduleInit(){

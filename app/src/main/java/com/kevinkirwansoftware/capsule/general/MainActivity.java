@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.pm.ComponentInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d(TAG, "ReminderCheckJobService failed.");
         }
     }
+
 
     private void cancelJob(){
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);

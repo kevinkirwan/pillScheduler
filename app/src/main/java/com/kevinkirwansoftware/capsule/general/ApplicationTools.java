@@ -15,8 +15,11 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.android.gms.common.api.Api;
 import com.kevinkirwansoftware.capsule.R;
 import com.kevinkirwansoftware.capsule.RecurringReminder;
+import com.kevinkirwansoftware.capsule.WakeUpActivity;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
 import com.kevinkirwansoftware.capsule.SingleReminder;
+import com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast;
+import com.kevinkirwansoftware.capsule.notifications.ThrowawayBroadcast;
 
 import org.w3c.dom.Text;
 
@@ -90,6 +93,40 @@ public class ApplicationTools {
                 .setDeleteIntent(pendingIntent)
                 .build();
         notificationManager.notify(code, notification);
+    }
+
+    public static void showFsNotification(Context context, String titleText, String descriptionText, String notificationTag, int code){
+        Log.d(TAG, "showNotification() Notification displayed...");
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+        Log.d("Kevin", "AppTools " + titleText);
+
+        // Initialize Collapsed View
+        RemoteViews collapsedView = new RemoteViews(context.getPackageName(),
+                R.layout.collapsed_notification);
+        collapsedView.setTextViewText(R.id.notificationText1, titleText);
+        collapsedView.setTextViewText(R.id.notificationText2, descriptionText);
+
+        RemoteViews expandedView = new RemoteViews(context.getPackageName(),
+                R.layout.expanded_notification);
+
+        Intent intent = new Intent("Notification deleted");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, code, intent, 0);
+
+        Intent fullScreenIntent = new Intent(context, WakeUpActivity.class);
+        PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Notification notification = new NotificationCompat.Builder(context, App.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_capsule)
+                .setCustomContentView(collapsedView)
+                .setCustomBigContentView(expandedView)
+                .setDeleteIntent(pendingIntent)
+                .setFullScreenIntent(fullScreenPendingIntent, true)
+                .build();
+        notificationManager.notify(code, notification);
+    }
+
+    private void startForeground(){
 
     }
 
@@ -173,6 +210,23 @@ public class ApplicationTools {
         return listOfChars;
     }
 
+    public static Intent broadcastIntentGenerator(Context context,
+                                                  String scheduleID,
+                                                  String name,
+                                                  String description,
+                                                  int code){
+        Intent intent = new Intent(context, ReminderBroadcast.class);
+        String tag = scheduleID;
+        intent.setAction(tag);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("tag", tag);
+        intent.putExtra("title" + tag, name);
+        intent.putExtra("desc" + tag, description);
+        intent.putExtra("code", code);
+        return intent;
+
+    }
+
     public static ContentValues setRecurringReminderCV(RecurringReminder holderItem){
         ContentValues cv = new ContentValues();
         int[][] multiRemindersArray = holderItem.getMultiRemindersArray();
@@ -196,6 +250,10 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_HOUR, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MINUTE, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1, holderItem.getDbCode1());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_2, holderItem.getDbCode2());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_3, holderItem.getDbCode3());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_4, holderItem.getDbCode4());
         return cv;
     }
 
@@ -221,6 +279,10 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_HOUR, holderItem.getReminderCalendar().get(Calendar.HOUR_OF_DAY));
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MINUTE, holderItem.getReminderCalendar().get(Calendar.MINUTE)+1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1, holderItem.getDbCode1());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_2, holderItem.getDbCode2());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_3, holderItem.getDbCode3());
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_4, holderItem.getDbCode4());
         return cv;
     }
 

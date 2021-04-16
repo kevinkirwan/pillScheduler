@@ -52,7 +52,6 @@ public class ScheduleDialog extends Dialog {
     private RelativeLayout oneTimeSC, recurringSC, dailyRL, customRL;
     private RelativeLayout dailyRL1, dailyRL2, dailyRL3, dailyRL4;
 
-
     private Button newReminderAccept, cancelNewReminder;
     private SingleDateAndTimePicker sdtp;
     private SingleDateAndTimePicker dailySdtp1, dailySdtp2, dailySdtp3, dailySdtp4;
@@ -108,6 +107,7 @@ public class ScheduleDialog extends Dialog {
 
         if(spotIn == SchedulePopOutType.EDIT){
             updateWithScheduleInfo(scheduleItemIn);
+            newReminderAccept.setText(R.string.update);
         }
 
         updateReminderCounter();
@@ -342,7 +342,8 @@ public class ScheduleDialog extends Dialog {
             return;
         }
         mRecurringItem = new RecurringReminder();
-        mRecurringItem.setScheduleID(UUID.randomUUID().toString());
+        mRecurringItem.recurringReminderInit();
+
         mRecurringItem.setReminderName(reminderNameET.getText().toString());
         mRecurringItem.setReminderDescription(reminderDescET.getText().toString());
         mRecurringItem.setReminderType(ScheduleItem.ReminderType.RECURRING);
@@ -409,7 +410,8 @@ public class ScheduleDialog extends Dialog {
 
 
         mSingleItem = new SingleReminder(sdtp.getDate());
-        mSingleItem.setScheduleID(UUID.randomUUID().toString());
+        mSingleItem.singleReminderInit();
+
         mSingleItem.setReminderName(reminderNameET.getText().toString());
         mSingleItem.setReminderDescription(reminderDescET.getText().toString());
         mSingleItem.setReminderType(ScheduleItem.ReminderType.ONE_TIME);

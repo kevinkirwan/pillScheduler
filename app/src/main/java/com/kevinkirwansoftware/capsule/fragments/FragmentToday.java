@@ -64,6 +64,7 @@ public class FragmentToday extends Fragment {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private RetrofitApiInterface retrofitNewsApi, retrofitWeatherApi, retrofitDummyApi;
     private static int STORAGE_PERMISSION_CODE = 1;
+    private static int FULL_SCREEN_PERMISSION_CODE = 6;
 
 
     @Nullable
@@ -222,6 +223,13 @@ public class FragmentToday extends Fragment {
         } else {
             requestStoragePermission();
         }
+        if ((ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.USE_FULL_SCREEN_INTENT) == PackageManager.PERMISSION_GRANTED)) {
+            Log.d(TAG, "Full screen Permission has already been granted");
+        } else {
+            requestFullScreenPermission();
+        }
+
 
     }
 
@@ -280,6 +288,32 @@ public class FragmentToday extends Fragment {
                     populateNewsStoriesFail();
                 }
             }));
+    }
+
+    private void requestFullScreenPermission(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                Manifest.permission.USE_FULL_SCREEN_INTENT)) {
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Permission needed")
+                    .setMessage("This permission is needed for adequate notification of reminders")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()).getParent(),
+                                    new String[] {Manifest.permission.USE_FULL_SCREEN_INTENT}, FULL_SCREEN_PERMISSION_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[] {Manifest.permission.USE_FULL_SCREEN_INTENT}, FULL_SCREEN_PERMISSION_CODE);
+        }
     }
 
     private void requestStoragePermission() {

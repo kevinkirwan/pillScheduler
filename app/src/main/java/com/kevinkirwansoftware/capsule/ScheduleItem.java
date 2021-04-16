@@ -12,6 +12,10 @@ public class ScheduleItem {
     private boolean menuVisible;
     private boolean isActivated;
     private String scheduleID;
+    private int dbCode1;
+    private int dbCode2;
+    private int dbCode3;
+    private int dbCode4;
 
     public String getReminderName(){
         return mReminderName;
@@ -61,6 +65,30 @@ public class ScheduleItem {
 
     public String getScheduleID(){
         return scheduleID;
+    }
+
+    public int getDbCode1(){ return dbCode1;}
+
+    public void setDbCode1(int code){
+        dbCode1 = code;
+    }
+
+    public int getDbCode2(){ return dbCode2;}
+
+    public void setDbCode2(int code){
+        dbCode2 = code;
+    }
+
+    public int getDbCode3(){ return dbCode3;}
+
+    public void setDbCode3(int code){
+        dbCode3 = code;
+    }
+
+    public int getDbCode4(){ return dbCode4;}
+
+    public void setDbCode4(int code){
+        dbCode4 = code;
     }
 
     public void setReminderName(String name){

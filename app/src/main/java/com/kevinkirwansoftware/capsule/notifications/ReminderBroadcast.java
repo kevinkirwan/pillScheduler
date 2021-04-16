@@ -25,6 +25,7 @@ public class ReminderBroadcast extends BroadcastReceiver {
         String temp = intent.getStringExtra("title" + tag);
         Log.d("Kevin", "RB onRecieve " + temp);
         ApplicationTools.showNotification(Objects.requireNonNull(context), intent.getStringExtra("title"+tag), intent.getStringExtra("desc"+tag), tag, intent.getIntExtra("code", 0));
+        //ApplicationTools.showFsNotification(Objects.requireNonNull(context), intent.getStringExtra("title"+tag), intent.getStringExtra("desc"+tag), tag, intent.getIntExtra("code", 0));
         Log.d(TAG, "Received");
     }
 
