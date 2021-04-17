@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private static final String TAG = "MainActivity.java";
     private static final int SERVICE_ID = 444;
+    private static boolean forgoReminder = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "Job cancelled.");
     }
 
+    public static void forgoReminderCheck(){
+        forgoReminder = false;
+    }
+
     @Override
     public void onBackPressed(){
         if(drawer.isDrawerOpen(GravityCompat.START)){
@@ -136,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStop() {
         Log.d(TAG, "onStop() called");
         scheduleJob();
+
+
         super.onStop();
     }
 

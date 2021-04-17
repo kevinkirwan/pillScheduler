@@ -60,7 +60,7 @@ public interface RetrofitApiInterface {
     Observable<Headlines> getTopByCatergory(@Query("apiKey") String apiKey, @Query("category") String query);
 
     @GET("top-headlines")
-    Observable<Headlines> getTopByLanguage(@Query("apiKey") String apiKey, @Query("language") String query);
+    Observable<Headlines> getTopByLanguage(@Query("apiKey") String apiKey, @Query("language") String language, @Query("country") String country);
 
     @GET("top-headlines")
     Observable<Headlines> getTopByQuery(@Query("apiKey") String apiKey, @Query("q") String query);

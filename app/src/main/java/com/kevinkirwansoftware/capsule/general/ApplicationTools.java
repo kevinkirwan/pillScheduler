@@ -227,6 +227,20 @@ public class ApplicationTools {
 
     }
 
+    public static Intent broadcastIntentGeneratorFs(Context context,
+                                                  String scheduleID,
+                                                  String name,
+                                                  String description,
+                                                  int code){
+        Intent intent = new Intent(context, ThrowawayBroadcast.class);
+        String tag = scheduleID;
+        intent.setAction(tag);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("tag", tag);
+        return intent;
+
+    }
+
     public static ContentValues setRecurringReminderCV(RecurringReminder holderItem){
         ContentValues cv = new ContentValues();
         int[][] multiRemindersArray = holderItem.getMultiRemindersArray();

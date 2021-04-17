@@ -22,6 +22,7 @@ import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
 import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 import com.kevinkirwansoftware.capsule.notifications.NotificationHelper;
 import com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast;
+import com.kevinkirwansoftware.capsule.notifications.ThrowawayBroadcast;
 
 import java.util.Calendar;
 
@@ -59,6 +60,8 @@ public class ReminderCheckJobService extends JobService {
         new Thread((new Runnable() {
             @Override
             public void run() {
+
+                /*
                 Cursor cursor = getAllItems();
                 cursor.moveToFirst();
                 for(int i = 0; i < cursor.getCount(); i++){
@@ -91,6 +94,8 @@ public class ReminderCheckJobService extends JobService {
                                 assert alarmManager != null;
                                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                             }
+
+
                         }
                         // Recurring Reminder is a value of 1
                         else if(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE)) == 1) {
@@ -177,18 +182,31 @@ public class ReminderCheckJobService extends JobService {
                                         assert alarmManager != null;
                                         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                         }
-                    }
 
-                    // TODO DELETE, this is temporary
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+
                     }
                     if(jobCancelled){
                         return;
                     }
 
+                }
+                */
+
+                // Code for testing purposes only
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.SECOND, 5);
+                if(!calendar.before(Calendar.getInstance())) {
+                    AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                    // PI Flag: PendingIntent.FLAG_UPDATE_CURRENT
+                    int code = 69;
+                    Intent intent = ApplicationTools.broadcastIntentGeneratorFs(getApplicationContext(),
+                            "djkfhgekjfg3343jjhj4",
+                            "TestName",
+                            "Test Desc",
+                            code);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), code, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    assert alarmManager != null;
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                 }
 
                 Log.d(TAG, "Job completed successfully");

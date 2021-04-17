@@ -368,9 +368,9 @@ public class FragmentSchedule extends Fragment {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
 
-                        if(scheduleDialog.getUpdateNeeded()){
+                        if (scheduleDialog.getUpdateNeeded()) {
                             String id;
-                            if(scheduleDialog.isOneTime){
+                            if (scheduleDialog.isOneTime) {
                                 mScheduleItems.add(scheduleDialog.getSingleItem());
                                 id = scheduleDialog.getSingleItem().getScheduleID();
                             } else {
@@ -380,17 +380,12 @@ public class FragmentSchedule extends Fragment {
 
                             mScheduleAdapter.notifyItemInserted(mScheduleItems.size() - 1);
                             ApplicationFlags.setReminderDatasetItemAddedFlag(id);
-                            for (int i = 0; i < mScheduleItems.size(); i++){
+                            for (int i = 0; i < mScheduleItems.size(); i++) {
                                 Log.d("Kevin", "class: " + i + mScheduleItems.get(i).getClass().toString());
                             }
-
-
                         }
-
-
                     }
                 });
-
             }
         });
 

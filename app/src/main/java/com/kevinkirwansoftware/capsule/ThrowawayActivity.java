@@ -10,11 +10,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.kevinkirwansoftware.capsule.general.MainActivity;
+import com.kevinkirwansoftware.capsule.notifications.NotificationClickedBroadcast;
 import com.kevinkirwansoftware.capsule.notifications.ThrowawayBroadcast;
 
 public class ThrowawayActivity extends AppCompatActivity {
@@ -22,6 +25,7 @@ public class ThrowawayActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "my_channel";
     public static final String FULL_SCREEN_ACTION = "full_screen_action";
     static final int NOTIFICATION_ID = 1;
+    private Button medicineTakenButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +34,27 @@ public class ThrowawayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wake_up);
         createNotificationChannel(this);
 
+        medicineTakenButton = findViewById(R.id.medicine_taken_button);
+
+        medicineTakenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThrowawayBroadcast.stopService(getApplicationContext());
+                openApplication();
+
+            }
+        });
+
         //set flags so activity is showed when phone is off (on lock screen)
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    private void openApplication(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        MainActivity.forgoReminderCheck();
     }
 
     /**
@@ -51,7 +72,7 @@ public class ThrowawayActivity extends AppCompatActivity {
         NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID); //cancel last notification for repeated tests
     }
 
-    public static void CreateFullScreenNotification(Context context) {
+    public static void createFullScreenNotification(Context context) {
         Intent intent = new Intent(context, ThrowawayBroadcast.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

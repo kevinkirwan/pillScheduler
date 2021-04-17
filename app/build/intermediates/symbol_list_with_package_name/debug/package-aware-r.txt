@@ -1338,6 +1338,7 @@ id chronometer
 id clip_horizontal
 id clip_vertical
 id collapseActionView
+id collapsedButton
 id container
 id content
 id contentPanel
@@ -1370,7 +1371,6 @@ id direct
 id disableHome
 id drawer_layout
 id dtSelector
-id dummy_button
 id editIcon
 id edit_query
 id end
@@ -1435,6 +1435,7 @@ id medicineItemMenuLL
 id medicine_dosage
 id medicine_dosage_unit
 id medicine_name
+id medicine_taken_button
 id menuNewsLL
 id menuThemesLL
 id menuUnitsLL
@@ -1833,6 +1834,7 @@ string path_password_strike_through
 string picker_am
 string picker_pm
 string picker_today
+string press_when_medicine_is_taken
 string search_menu_title
 string single_a
 string single_b

@@ -254,7 +254,7 @@ public class FragmentToday extends Fragment {
                         }
                     }));
 
-            /*
+
         compositeDisposable.add(retrofitDummyApi.getPosts("sa")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -271,10 +271,10 @@ public class FragmentToday extends Fragment {
                 }));
 
 
-             */
+
 
         compositeDisposable.add(retrofitNewsApi.getTopByLanguage(ApplicationTools.getNewsApiKey(),
-                "en")
+                "en", "us")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Headlines>() {

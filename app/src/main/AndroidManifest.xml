@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".general.App"
@@ -20,7 +24,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".WakeUpActivity"
+            android:name=".ThrowawayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_wake_up"
             android:theme="@style/FullscreenTheme"></activity>
@@ -39,12 +43,18 @@
             android:name=".ReminderCheckJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <service android:name=".ThrowawayService"/>
+
+
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
         <receiver android:name=".notifications.ReminderBroadcast" />
         <receiver android:name=".notifications.NotificationReceiver" />
+        <receiver android:name=".notifications.ThrowawayBroadcast" />
+        <receiver android:name=".notifications.NotificationClickedBroadcast" />
     </application>
 
 </manifest>
