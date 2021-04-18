@@ -63,24 +63,28 @@ public class RecurringReminder extends ScheduleItem {
         mDailyReminders = reminders;
     }
 
-    public void setMultiRemindersArray(int[][] remindersArray){
+    public void setMultiRemindersArray(int[][] remindersArray, boolean fromDb){
         mMultiRemindersArray = remindersArray;
-        setCalendars();
+        setCalendars(fromDb);
     }
 
-    private void setCalendars(){
+    private void setCalendars(boolean fromDb){
+        int offset = 0;
+        if(fromDb){
+            offset = -1;
+        }
         calendar1 = Calendar.getInstance();
         calendar1.set(Calendar.HOUR_OF_DAY, mMultiRemindersArray[0][0]);
-        calendar1.set(Calendar.MINUTE, mMultiRemindersArray[1][0]);
+        calendar1.set(Calendar.MINUTE, mMultiRemindersArray[1][0] + offset);
         calendar2 = Calendar.getInstance();
         calendar2.set(Calendar.HOUR_OF_DAY, mMultiRemindersArray[0][1]);
-        calendar2.set(Calendar.MINUTE, mMultiRemindersArray[1][1]);
+        calendar2.set(Calendar.MINUTE, mMultiRemindersArray[1][1] + offset);
         calendar3 = Calendar.getInstance();
         calendar3.set(Calendar.HOUR_OF_DAY, mMultiRemindersArray[0][2]);
-        calendar3.set(Calendar.MINUTE, mMultiRemindersArray[1][2]);
+        calendar3.set(Calendar.MINUTE, mMultiRemindersArray[1][2] + offset);
         calendar4 = Calendar.getInstance();
         calendar4.set(Calendar.HOUR_OF_DAY, mMultiRemindersArray[0][3]);
-        calendar4.set(Calendar.MINUTE, mMultiRemindersArray[1][3]);
+        calendar4.set(Calendar.MINUTE, mMultiRemindersArray[1][3] + offset);
     }
 
     public Calendar getCalendar1(){

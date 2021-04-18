@@ -8,7 +8,8 @@ android {
 
     defaultConfig {
         applicationId "com.kevinkirwansoftware.capsule"
-        minSdkVersion 21
+        // Will add support for Android versions 21-25 in future
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

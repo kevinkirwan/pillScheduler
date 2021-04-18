@@ -26,8 +26,8 @@ public class ReminderBroadcast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         //displayNotification(context);
         String tag = intent.getStringExtra("tag");
-        String temp = intent.getStringExtra("title" + tag);
-        Log.d("Kevin", "RB onRecieve " + temp);
+        int code = intent.getIntExtra("code", 0);
+
         ApplicationTools.showNotification(Objects.requireNonNull(context), intent.getStringExtra("title"+tag), intent.getStringExtra("desc"+tag), tag, intent.getIntExtra("code", 0));
         final Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         try{

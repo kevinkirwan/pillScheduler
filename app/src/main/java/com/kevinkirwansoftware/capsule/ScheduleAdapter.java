@@ -106,7 +106,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                         if(position != RecyclerView.NO_POSITION){
                             listener.onEditClick(position);
                         }
-                        Log.d("Kevin", "Item Deleted: " + position);
                     }
                 }
             });

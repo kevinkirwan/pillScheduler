@@ -37,6 +37,7 @@ public class ScheduleDialog extends Dialog {
     int mPosition;
     private RecurringReminder mRecurringItem;
     private SingleReminder mSingleItem;
+    private ScheduleItem mItemIn;
     private boolean updateNeeded = false;
 
     TextView reminderPlus, reminderMinus, dailyReminderCounterTV;
@@ -55,10 +56,12 @@ public class ScheduleDialog extends Dialog {
     private Button newReminderAccept, cancelNewReminder;
     private SingleDateAndTimePicker sdtp;
     private SingleDateAndTimePicker dailySdtp1, dailySdtp2, dailySdtp3, dailySdtp4;
+
     public ScheduleDialog(@NonNull Context context, SchedulePopOutType spotIn, ScheduleItem scheduleItemIn) {
         super(context);
         mContext = context;
         mSpot = spotIn;
+        mItemIn = scheduleItemIn;
 
         this.setContentView(R.layout.popout_new_reminder);
 
@@ -341,8 +344,13 @@ public class ScheduleDialog extends Dialog {
         if(!commonCheckPass()){
             return;
         }
-        mRecurringItem = new RecurringReminder();
-        mRecurringItem.recurringReminderInit();
+        if((mSpot == SchedulePopOutType.NEW) || (mItemIn instanceof SingleReminder)){
+            mRecurringItem = new RecurringReminder();
+            mRecurringItem.recurringReminderInit();
+        } else {
+            Log.d("Kevin", "Schedule ID:" + mItemIn.getScheduleID());
+            m            m
+        }
 
         mRecurringItem.setReminderName(reminderNameET.getText().toString());
         mRecurringItem.setReminderDescription(reminderDescET.getText().toString());
@@ -384,7 +392,7 @@ public class ScheduleDialog extends Dialog {
             timeArray[0][3] = Integer.parseInt(timeArrayString[0]);
             timeArray[1][3] = Integer.parseInt(timeArrayString[1]);
         }
-        mRecurringItem.setMultiRemindersArray(timeArray);
+        mRecurringItem.setMultiRemindersArray(timeArray, false);
         mRecurringItem.setActive(true);
 
         updateNeeded = true;
@@ -402,15 +410,22 @@ public class ScheduleDialog extends Dialog {
         Timestamp ts = new java.sql.Timestamp(singleDate.getTime());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
         String[] timeArray = formatter.format(ts).split("-");
-        mSingleItem = new SingleReminder(Integer.parseInt(timeArray[0]),
-                Integer.parseInt(timeArray[1]),
-                Integer.parseInt(timeArray[2]),
-                Integer.parseInt(timeArray[3]),
-                Integer.parseInt(timeArray[4]));
-
+        if((mSpot == SchedulePopOutType.NEW) || (mItemIn instanceof RecurringReminder)){
+            mSingleItem = new SingleReminder(Integer.parseInt(timeArray[0]),
+                    Integer.parseInt(timeArray[1]),
+                    Integer.parseInt(timeArray[2]),
+                    Integer.parseInt(timeArray[3]),
+                    Integer.parseInt(timeArray[4]));
+            mSingleItem.singleReminderInit();;
+        } else {
+            Log.d("Kevin", "Schedule ID:" + mItemIn.getScheduleID());
+            mSingleItem = (SingleReminder) mItemIn;
+        }
 
         mSingleItem = new SingleReminder(sdtp.getDate());
-        mSingleItem.singleReminderInit();
+        if(mSpot == SchedulePopOutType.NEW){
+            mSingleItem.singleReminderInit();
+        }
 
         mSingleItem.setReminderName(reminderNameET.getText().toString());
         mSingleItem.setReminderDescription(reminderDescET.getText().toString());

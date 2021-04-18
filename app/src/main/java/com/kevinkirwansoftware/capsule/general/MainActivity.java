@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ComponentInfo;
 import android.os.Bundle;
@@ -28,8 +29,6 @@ import com.kevinkirwansoftware.capsule.R;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
     private static final String TAG = "MainActivity.java";
-    private static final int SERVICE_ID = 444;
-    private static boolean forgoReminder = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,31 +99,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void scheduleJob(){
-        ComponentName componentName = new ComponentName(this, ReminderCheckJobService.class);
-        JobInfo info = new JobInfo.Builder(SERVICE_ID, componentName)
-                .setPersisted(true)
-                .setPeriodic(15*60*1000)
-                .build();
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        int resultCode = scheduler.schedule(info);
-        if(resultCode == JobScheduler.RESULT_SUCCESS){
-            Log.d(TAG, "ReminderCheckJobService started...");
-        } else {
-            Log.d(TAG, "ReminderCheckJobService failed.");
-        }
-    }
-
-
-    private void cancelJob(){
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        scheduler.cancel(SERVICE_ID);
-        Log.d(TAG, "Job cancelled.");
-    }
-
-    public static void forgoReminderCheck(){
-        forgoReminder = false;
-    }
 
     @Override
     public void onBackPressed(){
@@ -140,9 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStop() {
         Log.d(TAG, "onStop() called");
-        scheduleJob();
-
-
+        ApplicationTools.scheduleJobService(this);
         super.onStop();
     }
 

@@ -54,7 +54,6 @@ public class ThrowawayActivity extends AppCompatActivity {
     private void openApplication(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        MainActivity.forgoReminderCheck();
     }
 
     /**
@@ -84,8 +83,8 @@ public class ThrowawayActivity extends AppCompatActivity {
                         .setContentText("This is a test")
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                         .setCategory(NotificationCompat.CATEGORY_ALARM)
-                        .setContentIntent(pendingIntent)
-                        .setFullScreenIntent(pendingIntent, true);
+                        .setContentIntent(pendingIntent);
+                        //.setFullScreenIntent(pendingIntent, true);
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notificationBuilder.build());
     }
 

@@ -35,11 +35,11 @@ public class ThrowawayBroadcast extends BroadcastReceiver {
     private final String CHANNEL_ID = "channelid";
     @Override
     public void onReceive(Context context, Intent intent) {
-        startService(context);
+        startService(context, intent);
         Log.d("Kevin", "Throwaway Broadcast received");
     }
 
-    public void startService(Context context) {
+    public void startService(Context context, Intent intentIn) {
         /*
         Intent serviceIntent = new Intent(context, ThrowawayService.class);
         serviceIntent.putExtra("inputExtra", "test");
@@ -47,10 +47,19 @@ public class ThrowawayBroadcast extends BroadcastReceiver {
          */
 
         Intent serviceIntent = new Intent(context, ThrowawayService.class);
+        String tag = intentIn.getStringExtra("tag");
+        serviceIntent.putExtra("tag", tag);
+        serviceIntent.putExtra("title" + tag, intentIn.getStringExtra("title" + tag));
+        serviceIntent.putExtra("desc" + tag, intentIn.getStringExtra("desc" + tag));
+        serviceIntent.putExtra("code", intentIn.getIntExtra("code", 0));
+
+        serviceIntent.setAction(tag);
         serviceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         if(Build.VERSION.SDK_INT >= 26){
             context.startForegroundService(serviceIntent);
         } else {
+            // TODO Implement for API levels 21-25
             context.startService(serviceIntent);
         }
     }

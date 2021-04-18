@@ -2,6 +2,9 @@ package com.kevinkirwansoftware.capsule.general;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +18,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.android.gms.common.api.Api;
 import com.kevinkirwansoftware.capsule.R;
 import com.kevinkirwansoftware.capsule.RecurringReminder;
+import com.kevinkirwansoftware.capsule.ReminderCheckJobService;
 import com.kevinkirwansoftware.capsule.WakeUpActivity;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
 import com.kevinkirwansoftware.capsule.SingleReminder;
@@ -36,6 +40,7 @@ public class ApplicationTools {
     private static String POST_MOCK_URL_BOOKS = "https://www.googleapis.com/books/v1/";
     private static String POST_MOCK_URL_LATIN = "https://jsonplaceholder.typicode.com/";
     private static String POST_MOCK_URL_NEWS = "https://newsapi.org/v2/";
+    private static final int SERVICE_ID = 444;
 
     // Public static variables
     public static int MAXIMUM_POSITIVE_INT = 2147483647;
@@ -124,6 +129,29 @@ public class ApplicationTools {
                 .setFullScreenIntent(fullScreenPendingIntent, true)
                 .build();
         notificationManager.notify(code, notification);
+    }
+
+    public static void scheduleJobService(Context context){
+        ComponentName componentName = new ComponentName(context, ReminderCheckJobService.class);
+        JobInfo info = new JobInfo.Builder(SERVICE_ID, componentName)
+                .setPersisted(true)
+                .setPeriodic(15*60*1000)
+                .build();
+        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        assert scheduler != null;
+        int resultCode = scheduler.schedule(info);
+        if(resultCode == JobScheduler.RESULT_SUCCESS){
+            Log.d(TAG, "ReminderCheckJobService started...");
+        } else {
+            Log.d(TAG, "ReminderCheckJobService failed.");
+        }
+    }
+
+    public static void cancelJobService(Context context){
+        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        assert scheduler != null;
+        scheduler.cancel(SERVICE_ID);
+        Log.d(TAG, "Job cancelled.");
     }
 
     private void startForeground(){
@@ -215,7 +243,7 @@ public class ApplicationTools {
                                                   String name,
                                                   String description,
                                                   int code){
-        Intent intent = new Intent(context, ReminderBroadcast.class);
+        Intent intent = new Intent(context, ThrowawayBroadcast.class);
         String tag = scheduleID;
         intent.setAction(tag);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -223,6 +251,7 @@ public class ApplicationTools {
         intent.putExtra("title" + tag, name);
         intent.putExtra("desc" + tag, description);
         intent.putExtra("code", code);
+        Log.d("Kevin", "Title: " + name + " Code: " + code);
         return intent;
 
     }
@@ -248,7 +277,7 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getReminderTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_ACTIVATED, holderItem.getActivationTypeInt());
-        Log.d("Kevin", "Int: " + holderItem.getActivationTypeInt());
+        Log.d("Kevin", "setRecurringReminderCV: " + multiRemindersArray[1][0]);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS, holderItem.getNumDailyReminders());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE, multiRemindersArray[0][0]);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, multiRemindersArray[1][0]+1);
@@ -277,7 +306,6 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION, holderItem.getReminderDescription());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE, holderItem.getReminderTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_ACTIVATED, holderItem.getActivationTypeInt());
-        Log.d("Kevin", "Int: " + holderItem.getActivationTypeInt());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, -1);
@@ -292,6 +320,7 @@ public class ApplicationTools {
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAY, holderItem.getReminderCalendar().get(Calendar.DAY_OF_MONTH));
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_HOUR, holderItem.getReminderCalendar().get(Calendar.HOUR_OF_DAY));
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MINUTE, holderItem.getReminderCalendar().get(Calendar.MINUTE)+1);
+        Log.d("Kevin", "setSingleReminderCV: " + holderItem.getReminderCalendar().get(Calendar.MINUTE));
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID, holderItem.getScheduleID());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1, holderItem.getDbCode1());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_2, holderItem.getDbCode2());

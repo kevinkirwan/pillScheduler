@@ -60,16 +60,11 @@ public class ReminderCheckJobService extends JobService {
         new Thread((new Runnable() {
             @Override
             public void run() {
-
-                /*
                 Cursor cursor = getAllItems();
                 cursor.moveToFirst();
                 for(int i = 0; i < cursor.getCount(); i++){
                     cursor.moveToPosition(i);
                     if(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_ACTIVATED)) == 1){
-                        Log.d("Kevin", "Name: " + cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)) +
-                                "Type: " + cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE)) +
-                                "num: " + cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS)));
                         // A value of 0 is one-time
                         if(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE)) == 0){
                             Calendar calendar = Calendar.getInstance();
@@ -80,7 +75,7 @@ public class ReminderCheckJobService extends JobService {
                             calendar.set(Calendar.DAY_OF_MONTH, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAY)));
                             calendar.set(Calendar.MONTH, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MONTH)) - 1);
                             calendar.set(Calendar.YEAR, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_YEAR)));
-                            Log.d("Kevin", "Current Time: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
+                            Log.d("Kevin", "Code: " + cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1)));
                             if(!calendar.before(Calendar.getInstance())) {
                                 AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                                 // PI Flag: PendingIntent.FLAG_UPDATE_CURRENT
@@ -101,7 +96,6 @@ public class ReminderCheckJobService extends JobService {
                         else if(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_TYPE)) == 1) {
                             Calendar calendar = Calendar.getInstance();
                             int dailyReminders = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS));
-                            Log.d("Kevin", "Num rems " + dailyReminders);
                             if(dailyReminders > 3) {
                                 calendar.set(Calendar.MILLISECOND, 0);
                                 calendar.set(Calendar.SECOND, 0);
@@ -150,7 +144,6 @@ public class ReminderCheckJobService extends JobService {
                                 }
                                 AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                                 int code = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_2));
-                                Log.d("Kevin", "rem2  code: " + code);
                                 Intent intent = ApplicationTools.broadcastIntentGenerator(getApplicationContext(),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)),
@@ -166,12 +159,12 @@ public class ReminderCheckJobService extends JobService {
                                     calendar.set(Calendar.SECOND, 0);
                                     calendar.set(Calendar.MINUTE, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE)) - 1);
                                     calendar.set(Calendar.HOUR_OF_DAY, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE)));
+                                    Log.d("Kevin", "Code: " + cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1)));
                                     if (calendar.before(Calendar.getInstance())) {
                                         calendar.add(Calendar.DATE, 1);
                                     }
                                         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                                         int code = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1));
-                                        Log.d("Kevin", "rem1  code: " + code);
                                         Intent intent = ApplicationTools.broadcastIntentGenerator(getApplicationContext(),
                                                 cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)),
                                                 cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)),
@@ -190,15 +183,16 @@ public class ReminderCheckJobService extends JobService {
                     }
 
                 }
-                */
+
 
                 // Code for testing purposes only
+                /*
                 Calendar calendar = Calendar.getInstance();
                 calendar.add(Calendar.SECOND, 5);
                 if(!calendar.before(Calendar.getInstance())) {
                     AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                     // PI Flag: PendingIntent.FLAG_UPDATE_CURRENT
-                    int code = 69;
+                    int code = 35;
                     Intent intent = ApplicationTools.broadcastIntentGeneratorFs(getApplicationContext(),
                             "djkfhgekjfg3343jjhj4",
                             "TestName",
@@ -210,6 +204,8 @@ public class ReminderCheckJobService extends JobService {
                 }
 
                 Log.d(TAG, "Job completed successfully");
+
+                 */
 
 
 

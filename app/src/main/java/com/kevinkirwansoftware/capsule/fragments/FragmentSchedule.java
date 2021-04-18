@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kevinkirwansoftware.capsule.general.MainActivity;
 import com.kevinkirwansoftware.capsule.notifications.NotificationHelper;
 import com.kevinkirwansoftware.capsule.R;
 import com.kevinkirwansoftware.capsule.database.RecurringDbHelper;
@@ -187,6 +188,7 @@ public class FragmentSchedule extends Fragment {
                     }
                     mScheduleAdapter.notifyItemInserted(position);
                     ApplicationFlags.setReminderDatasetItemChangedFlag(id);
+                    saveScheduleItemsToDatabase();
                 }
             }
         });
@@ -266,7 +268,7 @@ public class FragmentSchedule extends Fragment {
                     tempArray[1][3] = 0;
 
                       */
-                    ((RecurringReminder) mScheduleItems.get(j)).setMultiRemindersArray(tempArray);
+                    ((RecurringReminder) mScheduleItems.get(j)).setMultiRemindersArray(tempArray, true);
                     ((RecurringReminder) mScheduleItems.get(j)).setDailyReminders(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS)));
 
                     break;
@@ -309,6 +311,7 @@ public class FragmentSchedule extends Fragment {
         mScheduleItems.get(position).setActive(isChecked);
         mScheduleAdapter.notifyItemChanged(position);
         ApplicationFlags.setReminderDatasetItemChangedFlag(mScheduleItems.get(position).getScheduleID());
+        saveScheduleItemsToDatabase();
     }
 
     private void cancelBroadcast(int position){
@@ -355,7 +358,6 @@ public class FragmentSchedule extends Fragment {
 
         addReminderButton = scheduleView.findViewById(R.id.addReminderButton);
 
-
         addReminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -380,9 +382,7 @@ public class FragmentSchedule extends Fragment {
 
                             mScheduleAdapter.notifyItemInserted(mScheduleItems.size() - 1);
                             ApplicationFlags.setReminderDatasetItemAddedFlag(id);
-                            for (int i = 0; i < mScheduleItems.size(); i++) {
-                                Log.d("Kevin", "class: " + i + mScheduleItems.get(i).getClass().toString());
-                            }
+                            saveScheduleItemsToDatabase();
                         }
                     }
                 });
@@ -482,7 +482,9 @@ public class FragmentSchedule extends Fragment {
             }
 
              */
-        } else {
+        }
+        // Case where hard reset of database is needed
+        else {
             Cursor cursor = getAllItems();
             for(int i = cursor.getCount() - 1; i >= 0; i--){
                 cursor.moveToPosition(i);
@@ -505,6 +507,7 @@ public class FragmentSchedule extends Fragment {
             }
         }
         ApplicationFlags.resetReminderDatasetFlags();
+        ApplicationTools.scheduleJobService(getContext());
     }
 
 
@@ -546,7 +549,6 @@ public class FragmentSchedule extends Fragment {
                         } else {
                                 addReminderInfoLL.setVisibility(View.GONE);
                             }
-
                     }
                     }
                 });
@@ -582,7 +584,6 @@ public class FragmentSchedule extends Fragment {
     public void onPause(){
         Log.d("Kevin", "View Paused");
         timerNeeded = false;
-
         super.onPause();
     }
 

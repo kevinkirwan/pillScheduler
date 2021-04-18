@@ -39,72 +39,57 @@ public class ThrowawayService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        /*
-        Log.d(TAG, "showNotification() Notification displayed...");
-        String input = intent.getStringExtra("inputExtra");
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-        // Initialize Collapsed View
-        RemoteViews collapsedView = new RemoteViews(getApplicationContext().getPackageName(),
-                R.layout.collapsed_notification);
-        collapsedView.setTextViewText(R.id.notificationText1, "Title 123");
-        collapsedView.setTextViewText(R.id.notificationText2, "Desc 456");
-        //collapsedView.setOnClickResponse(R.id.collapsedButton, RemoteViews.RemoteResponse.fromPendingIntent());
-
-        RemoteViews expandedView = new RemoteViews(getApplicationContext().getPackageName(),
-                R.layout.expanded_notification);
-
-        Intent intent1 = new Intent("Notification deleted");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 5, intent1, 0);
-
-        Notification notification = new NotificationCompat.Builder(getApplicationContext(), App.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_capsule)
-                .setCustomContentView(collapsedView)
-                .setCustomBigContentView(expandedView)
-                .setDeleteIntent(pendingIntent)
-                .build();
-        notificationManager.notify(5, notification);
-
-         */
-
+        String tag = intent.getStringExtra("tag");
+        String title = intent.getStringExtra("title" + tag);
+        String desc = intent.getStringExtra("desc" + tag);
+        int code = intent.getIntExtra("code", 0);
+        Log.d("Kevin", "Code: " + code);
 
         String ACTION_SNOOZE = "sidwh";
         String EXTRA_NOTIFICATION_ID = "test";
         Intent snoozeIntent = new Intent(this, NotificationClickedBroadcast.class);
         snoozeIntent.setAction(ACTION_SNOOZE);
         snoozeIntent.putExtra(EXTRA_NOTIFICATION_ID, "test123");
+        /*
+        snoozeIntent.putExtra("tag", tag);
+        snoozeIntent.putExtra("title" + tag, title);
+        snoozeIntent.putExtra("desc" + tag, desc);
+        snoozeIntent.putExtra("code" + tag, code);
+
+         */
         PendingIntent toastPI =
-                PendingIntent.getBroadcast(this, 30, snoozeIntent, 0);
+                PendingIntent.getBroadcast(this, code, snoozeIntent, 0);
 
         RemoteViews collapsedView = new RemoteViews(getApplicationContext().getPackageName(),
                 R.layout.collapsed_notification);
-        collapsedView.setTextViewText(R.id.notificationText1, "Title 123");
-        collapsedView.setTextViewText(R.id.notificationText2, "Desc 456");
-
-        Log.d("Kevin", "API "+ Build.VERSION.SDK_INT);
+        collapsedView.setTextViewText(R.id.notificationText1, title);
+        collapsedView.setTextViewText(R.id.notificationText2, desc);
 
         if(Build.VERSION.SDK_INT >= 29){
             collapsedView.setOnClickResponse(R.id.collapsedButton, RemoteViews.RemoteResponse.fromPendingIntent(toastPI));
+        } else {
+            //TODO Implement on SDK levels 21-28
+            //collapsedView.setOnClickResponse(R.id.collapsedButton, RemoteViews.RemoteResponse.fromPendingIntent(toastPI));
         }
 
-
-
-        String input = intent.getStringExtra("inputExtra");
         Intent notificationIntent = new Intent(this, ThrowawayActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                34, notificationIntent, 0);
+                code, notificationIntent, 0);
 
+        /*
         Intent fullScreenIntent = new Intent(this, ThrowawayActivity.class);
         PendingIntent fullScreenPI = PendingIntent.getActivity(this, 33, fullScreenIntent, 0);
+         */
 
         Notification notification = new NotificationCompat.Builder(this, App.CHANNEL_ID)
                 .setCustomContentView(collapsedView)
                 .setSmallIcon(R.drawable.ic_capsule)
                 .setContentIntent(pendingIntent)
-                .setFullScreenIntent(fullScreenPI, true)
+                //.setFullScreenIntent(fullScreenPI, true)
                 .build();
         //do heavy work on a background thread
         //stopSelf();
-        startForeground(33, notification);
+        startForeground(code, notification);
 
 
 
