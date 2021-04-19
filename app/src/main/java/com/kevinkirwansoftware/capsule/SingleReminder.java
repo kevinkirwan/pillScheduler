@@ -32,6 +32,11 @@ public class SingleReminder extends ScheduleItem {
         reminderCalendar.setTime(date);
     }
 
+    public void setDate(Date date){
+        reminderCalendar = Calendar.getInstance();
+        reminderCalendar.setTime(date);
+    }
+
     public int getMinute() {
         return reminderCalendar.get(Calendar.MINUTE);
     }

@@ -176,7 +176,9 @@ public class FragmentSchedule extends Fragment {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 if(scheduleDialog.getUpdateNeeded()){
+
                     String id;
+                    /*
                     mScheduleItems.remove(position);
                     mScheduleAdapter.notifyItemRemoved(position);
                     if(scheduleDialog.isOneTime){
@@ -187,6 +189,20 @@ public class FragmentSchedule extends Fragment {
                         id = scheduleDialog.getRecurringItem().getScheduleID();
                     }
                     mScheduleAdapter.notifyItemInserted(position);
+                    mScheduleItems.get(position).setMenuVisible(false);
+                    ApplicationFlags.setReminderDatasetItemChangedFlag(id);
+                    saveScheduleItemsToDatabase();
+
+                     */
+                    if(scheduleDialog.isOneTime){
+                        mScheduleItems.set(position, scheduleDialog.getSingleItem());
+                        id = scheduleDialog.getSingleItem().getScheduleID();
+                    } else {
+                        mScheduleItems.set(position, scheduleDialog.getRecurringItem());
+                        id = scheduleDialog.getRecurringItem().getScheduleID();
+                    }
+                    mScheduleAdapter.notifyItemChanged(position);
+                    mScheduleItems.get(position).setMenuVisible(false);
                     ApplicationFlags.setReminderDatasetItemChangedFlag(id);
                     saveScheduleItemsToDatabase();
                 }
@@ -375,6 +391,7 @@ public class FragmentSchedule extends Fragment {
                             if (scheduleDialog.isOneTime) {
                                 mScheduleItems.add(scheduleDialog.getSingleItem());
                                 id = scheduleDialog.getSingleItem().getScheduleID();
+                                Log.d("Kevin", "id " + mScheduleItems.get(0).getScheduleID());
                             } else {
                                 mScheduleItems.add(scheduleDialog.getRecurringItem());
                                 id = scheduleDialog.getRecurringItem().getScheduleID();
@@ -393,7 +410,6 @@ public class FragmentSchedule extends Fragment {
     }
 
     private void saveScheduleItemsToDatabase(){
-        Log.d("Kevin", "Items saved to DB");
         if(!ApplicationFlags.getReminderDatasetNeedsUpdate()){
             Log.d(TAG, "saveScheduleItemsToDatabase(), Database does not need updating...");
             ApplicationFlags.resetReminderDatasetFlags();

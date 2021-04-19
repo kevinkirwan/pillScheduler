@@ -141,7 +141,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\ke
 	android:usesCleartextTraffic
 		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:24:9-44
 	android:name
-		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:17:9-36
+		ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:17:9-49
 activity#com.kevinkirwansoftware.capsule.ThrowawayActivity
 ADDED from C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:26:9-30:63
 	android:label

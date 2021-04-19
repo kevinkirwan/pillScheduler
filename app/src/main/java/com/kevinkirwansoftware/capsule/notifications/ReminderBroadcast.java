@@ -28,7 +28,8 @@ public class ReminderBroadcast extends BroadcastReceiver {
         String tag = intent.getStringExtra("tag");
         int code = intent.getIntExtra("code", 0);
 
-        ApplicationTools.showNotification(Objects.requireNonNull(context), intent.getStringExtra("title"+tag), intent.getStringExtra("desc"+tag), tag, intent.getIntExtra("code", 0));
+        ApplicationTools.showNotification(Objects.requireNonNull(context), intent.getStringExtra("title"+tag), intent.getStringExtra("desc"+tag), tag, code);
+        /*
         final Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         try{
             assert v != null;
@@ -41,6 +42,8 @@ public class ReminderBroadcast extends BroadcastReceiver {
         } catch (Exception e){
             e.printStackTrace();
         }
+
+         */
 
 
         //ApplicationTools.showFsNotification(Objects.requireNonNull(context), intent.getStringExtra("title"+tag), intent.getStringExtra("desc"+tag), tag, intent.getIntExtra("code", 0));

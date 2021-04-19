@@ -34,8 +34,8 @@
 18
 19    <application
 19-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:16:5-58:19
-20        android:name="com.kevinkirwansoftware.capsule.general.App"
-20-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:17:9-36
+20        android:name="com.kevinkirwansoftware.capsule.general.ChannelGenerator"
+20-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:17:9-49
 21        android:allowBackup="true"
 21-->C:\Users\kevin\OneDrive\Desktop\kevinkirwansoftware.com\Android\capsule\app\src\main\AndroidManifest.xml:18:9-35
 22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"

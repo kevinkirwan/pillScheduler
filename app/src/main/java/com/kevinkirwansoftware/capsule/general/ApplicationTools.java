@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.kevinkirwansoftware.capsule.ReminderCheckJobService;
 import com.kevinkirwansoftware.capsule.WakeUpActivity;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
 import com.kevinkirwansoftware.capsule.SingleReminder;
+import com.kevinkirwansoftware.capsule.notifications.NotificationClickedBroadcast;
 import com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast;
 import com.kevinkirwansoftware.capsule.notifications.ThrowawayBroadcast;
 
@@ -85,18 +87,43 @@ public class ApplicationTools {
         collapsedView.setTextViewText(R.id.notificationText1, titleText);
         collapsedView.setTextViewText(R.id.notificationText2, descriptionText);
 
+        String ACTION_SNOOZE = "snooze";
+        Intent snoozeIntent = new Intent(context, NotificationClickedBroadcast.class);
+        snoozeIntent.setAction(ACTION_SNOOZE);
+        snoozeIntent.putExtra("code", code);
+        PendingIntent snoozePI =
+                PendingIntent.getBroadcast(context, code, snoozeIntent, 0);
+
+        collapsedView.setOnClickPendingIntent(R.id.collapsedButton, snoozePI);
+        /*
+        if(Build.VERSION.SDK_INT >= 29) {
+            collapsedView.setOnClickResponse(R.id.collapsedButton, RemoteViews.RemoteResponse.fromPendingIntent(snoozePI));
+        } else {
+            collapsedView.setOnClickPendingIntent(R.id.collapsedButton, snoozePI);
+        }
+
+         */
+
+
+        /*
         RemoteViews expandedView = new RemoteViews(context.getPackageName(),
                 R.layout.expanded_notification);
+
+         */
 
         Intent intent = new Intent("Notification deleted");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, code, intent, 0);
 
-        Notification notification = new NotificationCompat.Builder(context, App.CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(context, notificationTag)
                 .setSmallIcon(R.drawable.ic_capsule)
                 .setCustomContentView(collapsedView)
-                .setCustomBigContentView(expandedView)
-                .setDeleteIntent(pendingIntent)
+                //.setCustomBigContentView(expandedView)
+                // THIS IS THE KEY
+                .setOngoing(true)
+                //.setDeleteIntent(pendingIntent)
                 .build();
+
+        Log.d("Kevin", "code" + code);
         notificationManager.notify(code, notification);
     }
 
@@ -121,11 +148,13 @@ public class ApplicationTools {
         Intent fullScreenIntent = new Intent(context, WakeUpActivity.class);
         PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(context, 0, fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification notification = new NotificationCompat.Builder(context, App.CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(context, notificationTag)
                 .setSmallIcon(R.drawable.ic_capsule)
                 .setCustomContentView(collapsedView)
                 .setCustomBigContentView(expandedView)
                 .setDeleteIntent(pendingIntent)
+                .setOngoing(true)
+                //.setOnlyAlertOnce(true)
                 .setFullScreenIntent(fullScreenPendingIntent, true)
                 .build();
         notificationManager.notify(code, notification);
@@ -256,16 +285,19 @@ public class ApplicationTools {
 
     }
 
-    public static Intent broadcastIntentGeneratorFs(Context context,
+    public static Intent broadcastIntentGeneratorTest(Context context,
                                                   String scheduleID,
                                                   String name,
                                                   String description,
                                                   int code){
-        Intent intent = new Intent(context, ThrowawayBroadcast.class);
+        Intent intent = new Intent(context, ReminderBroadcast.class);
         String tag = scheduleID;
         intent.setAction(tag);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("tag", tag);
+        intent.putExtra("title" + tag, name);
+        intent.putExtra("desc" + tag, description);
+        intent.putExtra("code", code);
         return intent;
 
     }

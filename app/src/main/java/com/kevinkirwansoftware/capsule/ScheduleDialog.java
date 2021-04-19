@@ -347,9 +347,10 @@ public class ScheduleDialog extends Dialog {
         if((mSpot == SchedulePopOutType.NEW) || (mItemIn instanceof SingleReminder)){
             mRecurringItem = new RecurringReminder();
             mRecurringItem.recurringReminderInit();
+            mRecurringItem.setActive(true);
         } else {
             Log.d("Kevin", "Schedule ID:" + mItemIn.getScheduleID());
-            m            m
+            mRecurringItem = (RecurringReminder) mItemIn;
         }
 
         mRecurringItem.setReminderName(reminderNameET.getText().toString());
@@ -393,7 +394,6 @@ public class ScheduleDialog extends Dialog {
             timeArray[1][3] = Integer.parseInt(timeArrayString[1]);
         }
         mRecurringItem.setMultiRemindersArray(timeArray, false);
-        mRecurringItem.setActive(true);
 
         updateNeeded = true;
         this.dismiss();
@@ -411,26 +411,17 @@ public class ScheduleDialog extends Dialog {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
         String[] timeArray = formatter.format(ts).split("-");
         if((mSpot == SchedulePopOutType.NEW) || (mItemIn instanceof RecurringReminder)){
-            mSingleItem = new SingleReminder(Integer.parseInt(timeArray[0]),
-                    Integer.parseInt(timeArray[1]),
-                    Integer.parseInt(timeArray[2]),
-                    Integer.parseInt(timeArray[3]),
-                    Integer.parseInt(timeArray[4]));
-            mSingleItem.singleReminderInit();;
-        } else {
-            Log.d("Kevin", "Schedule ID:" + mItemIn.getScheduleID());
-            mSingleItem = (SingleReminder) mItemIn;
-        }
-
-        mSingleItem = new SingleReminder(sdtp.getDate());
-        if(mSpot == SchedulePopOutType.NEW){
+            mSingleItem = new SingleReminder(sdtp.getDate());
             mSingleItem.singleReminderInit();
+            mSingleItem.setActive(true);
+        } else {
+            mSingleItem = (SingleReminder) mItemIn;
+            mSingleItem.setDate(sdtp.getDate());
         }
 
         mSingleItem.setReminderName(reminderNameET.getText().toString());
         mSingleItem.setReminderDescription(reminderDescET.getText().toString());
         mSingleItem.setReminderType(ScheduleItem.ReminderType.ONE_TIME);
-        mSingleItem.setActive(true);
         updateNeeded = true;
         this.dismiss();
     }
@@ -453,14 +444,11 @@ public class ScheduleDialog extends Dialog {
         if(!ApplicationTools.isSQLiteStringValid(reminderNameET.getText().toString())){
             validInputName = false;
             errorMessageName = errorMessageName.concat("Invalid characters: ");
-
             for (String s : charList) {
                 errorMessageName = errorMessageName.concat(s + " ");
             }
             errorMessageName = errorMessageName.concat("\n");
         }
-
-
 
         if((reminderDescET.getText().toString().length() > ApplicationTools.MAX_REMINDER_DESC_STRING_LENGTH)){
             validInputDesc = false;

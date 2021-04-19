@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.kevinkirwansoftware.capsule.general.App;
+import com.kevinkirwansoftware.capsule.general.ChannelGenerator;
 import com.kevinkirwansoftware.capsule.general.MainActivity;
 import com.kevinkirwansoftware.capsule.notifications.NotificationClickedBroadcast;
 
@@ -45,11 +45,9 @@ public class ThrowawayService extends Service {
         int code = intent.getIntExtra("code", 0);
         Log.d("Kevin", "Code: " + code);
 
-        String ACTION_SNOOZE = "sidwh";
-        String EXTRA_NOTIFICATION_ID = "test";
+        String ACTION_SNOOZE = "snooze";
         Intent snoozeIntent = new Intent(this, NotificationClickedBroadcast.class);
         snoozeIntent.setAction(ACTION_SNOOZE);
-        snoozeIntent.putExtra(EXTRA_NOTIFICATION_ID, "test123");
         /*
         snoozeIntent.putExtra("tag", tag);
         snoozeIntent.putExtra("title" + tag, title);
@@ -81,7 +79,13 @@ public class ThrowawayService extends Service {
         PendingIntent fullScreenPI = PendingIntent.getActivity(this, 33, fullScreenIntent, 0);
          */
 
-        Notification notification = new NotificationCompat.Builder(this, App.CHANNEL_ID)
+        assert tag != null;
+        if(title.equals("q")){
+            tag = ChannelGenerator.CHANNEL_1;
+        } else {
+            tag = ChannelGenerator.CHANNEL_2;
+        }
+        Notification notification = new NotificationCompat.Builder(this, tag)
                 .setCustomContentView(collapsedView)
                 .setSmallIcon(R.drawable.ic_capsule)
                 .setContentIntent(pendingIntent)

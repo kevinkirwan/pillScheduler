@@ -20,6 +20,7 @@ import com.kevinkirwansoftware.capsule.database.RecurringDbHelper;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
 import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
 import com.kevinkirwansoftware.capsule.general.ApplicationTools;
+import com.kevinkirwansoftware.capsule.general.ChannelGenerator;
 import com.kevinkirwansoftware.capsule.notifications.NotificationHelper;
 import com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast;
 import com.kevinkirwansoftware.capsule.notifications.ThrowawayBroadcast;
@@ -42,6 +43,7 @@ public class ReminderCheckJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         Log.d(TAG, "Job started...");
+        ChannelGenerator.createNotificationChannels(getApplicationContext());
         RecurringDbHelper recurringDbHelper = new RecurringDbHelper(this.getApplicationContext());
         mDatabase = recurringDbHelper.getWritableDatabase();
         checkForReminders(params);
@@ -80,7 +82,7 @@ public class ReminderCheckJobService extends JobService {
                                 AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                                 // PI Flag: PendingIntent.FLAG_UPDATE_CURRENT
                                 int code = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1));
-                                Intent intent = ApplicationTools.broadcastIntentGenerator(getApplicationContext(),
+                                Intent intent = ApplicationTools.broadcastIntentGeneratorTest(getApplicationContext(),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)),
@@ -106,7 +108,7 @@ public class ReminderCheckJobService extends JobService {
                                 }
                                 AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                                 int code = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_4));
-                                Intent intent = ApplicationTools.broadcastIntentGenerator(getApplicationContext(),
+                                Intent intent = ApplicationTools.broadcastIntentGeneratorTest(getApplicationContext(),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)),
@@ -125,7 +127,7 @@ public class ReminderCheckJobService extends JobService {
                                 }
                                 AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                                 int code = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_3));
-                                Intent intent = ApplicationTools.broadcastIntentGenerator(getApplicationContext(),
+                                Intent intent = ApplicationTools.broadcastIntentGeneratorTest(getApplicationContext(),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)),
@@ -144,7 +146,7 @@ public class ReminderCheckJobService extends JobService {
                                 }
                                 AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
                                 int code = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_2));
-                                Intent intent = ApplicationTools.broadcastIntentGenerator(getApplicationContext(),
+                                Intent intent = ApplicationTools.broadcastIntentGeneratorTest(getApplicationContext(),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)),
                                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)),
@@ -155,25 +157,26 @@ public class ReminderCheckJobService extends JobService {
                                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                                 }
                                     // Runs every time
-                                    calendar.set(Calendar.MILLISECOND, 0);
-                                    calendar.set(Calendar.SECOND, 0);
-                                    calendar.set(Calendar.MINUTE, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE)) - 1);
-                                    calendar.set(Calendar.HOUR_OF_DAY, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE)));
-                                    Log.d("Kevin", "Code: " + cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1)));
-                                    if (calendar.before(Calendar.getInstance())) {
-                                        calendar.add(Calendar.DATE, 1);
-                                    }
-                                        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-                                        int code = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1));
-                                        Intent intent = ApplicationTools.broadcastIntentGenerator(getApplicationContext(),
-                                                cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)),
-                                                cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)),
-                                                cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)),
-                                                code);
-                                        // PI Flag: PendingIntent.FLAG_UPDATE_CURRENT
-                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), code, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                                        assert alarmManager != null;
-                                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                            calendar.set(Calendar.MILLISECOND, 0);
+                            calendar.set(Calendar.SECOND, 0);
+                            calendar.set(Calendar.MINUTE, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE)) - 1);
+                            calendar.set(Calendar.HOUR_OF_DAY, cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE)));
+                            Log.d("Kevin", "Code: " + cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1)));
+                            if (calendar.before(Calendar.getInstance())) {
+                                calendar.add(Calendar.DATE, 1);
+                            }
+                            AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                            int code = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DB_CODE_1));
+                            Intent intent = ApplicationTools.broadcastIntentGeneratorTest(getApplicationContext(),
+                                    cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_SCHEDULE_ID)),
+                                    cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)),
+                                    cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DESCRIPTION)),
+                                    code);
+                            // PI Flag: PendingIntent.FLAG_UPDATE_CURRENT
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), code, intent, 0);
+                            assert alarmManager != null;
+                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
                         }
 
 
