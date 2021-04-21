@@ -1183,6 +1183,7 @@ drawable googleg_standard_color_18
 drawable ic_add_black_24dp
 drawable ic_add_circle_white_24dp
 drawable ic_capsule
+drawable ic_capsule_green
 drawable ic_cloud
 drawable ic_dropdown_arrow_up_white
 drawable ic_edit
@@ -1455,6 +1456,7 @@ id never
 id new_reminder_cancel
 id new_reminder_create
 id newsCV
+id newsCardView
 id newsContent
 id newsDropIcon
 id newsFilterET
@@ -1519,6 +1521,7 @@ id right_side
 id save_image_matrix
 id save_non_transition_alpha
 id save_scale_type
+id scheduleDialogHeader
 id scheduleItemMenuLL
 id scheduleRecyclerView
 id screen
@@ -1605,11 +1608,11 @@ id theme3LL
 id themesCV
 id themesDropIcon
 id themesTV
-id thirdCardView
 id third_daily_reminder
 id third_daily_reminder_rl
 id third_daily_reminder_text
 id time
+id timeCardView
 id timeLL
 id timeZone
 id title
@@ -1617,7 +1620,6 @@ id titleDividerNoCustom
 id title_template
 id toolbar
 id top
-id topCardView
 id topLinearLayout
 id topLinearLayoutNews
 id topLinearLayoutThemes
@@ -1642,6 +1644,7 @@ id up
 id useLogo
 id view_offset_helper
 id visible
+id weatherCardView
 id weatherIcon
 id weatherLinearLayout
 id weatherLinearLayout2

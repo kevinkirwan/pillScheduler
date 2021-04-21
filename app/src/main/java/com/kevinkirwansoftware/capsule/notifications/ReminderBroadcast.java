@@ -29,23 +29,11 @@ public class ReminderBroadcast extends BroadcastReceiver {
         int code = intent.getIntExtra("code", 0);
 
         ApplicationTools.showNotification(Objects.requireNonNull(context), intent.getStringExtra("title"+tag), intent.getStringExtra("desc"+tag), tag, code);
-        /*
-        final Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        try{
-            assert v != null;
-            if(Build.VERSION.SDK_INT >= 26){
-
-                //v.vibrate(VibrationEffect. );
-            } else {
-                v.vibrate(3000);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-         */
-
-
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        long[] vibePattern = {1000, 0, 1000, 0, 1000};
+        VibrationEffect ve = VibrationEffect.createWaveform(vibePattern, 2);
+        assert vibrator != null;
+        vibrator.vibrate(ve);
         //ApplicationTools.showFsNotification(Objects.requireNonNull(context), intent.getStringExtra("title"+tag), intent.getStringExtra("desc"+tag), tag, intent.getIntExtra("code", 0));
         Log.d(TAG, "Received");
     }

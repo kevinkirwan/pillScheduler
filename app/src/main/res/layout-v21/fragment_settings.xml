@@ -284,7 +284,7 @@
                         android:textColor="@color/colorPrimary"
                         android:layout_gravity="center_vertical"
                         android:textSize="24sp"
-                        android:text="Units"/>
+                        android:text="Settings"/>
 
                     <ImageView
                         android:id="@+id/unitsDropIcon"

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/colorFour"
+        app:cardBackgroundColor="@color/colorTwo"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -32,20 +33,20 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:backgroundTint="@color/colorPrimary"
                     android:tint="@color/colorPrimary"
                     app:srcCompat="@drawable/ic_capsule"/>
 
                 <TextView
+                    android:id="@+id/scheduleDialogHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTwo"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginLeft="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
                     android:textSize="25sp"
-                    android:text="New Reminder"/>
+                    android:text="-"/>
             </LinearLayout>
 
             <ScrollView
@@ -74,13 +75,16 @@
                             android:layout_height="wrap_content"
                             android:text="Reminder Name"
                             android:layout_centerHorizontal="true"
-                            android:textColor="@color/colorTwo"/>
+                            android:textColor="@color/colorPrimary"/>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/reminderNameTIL"
                             android:layout_below="@+id/reminderNameTV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            app:boxBackgroundColor="@color/colorPrimary"
+                            app:boxStrokeColor="@color/colorPrimary"
+                            app:boxStrokeWidth="4dp"
                             app:boxCornerRadiusBottomEnd="5dp"
                             app:boxCornerRadiusBottomStart="5dp"
                             app:boxCornerRadiusTopEnd="5dp"
@@ -92,8 +96,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50sp"
                                 android:maxLines="1"
-                                android:background="@drawable/layout_border"
-                                android:textColor="@color/colorTwo"
+                                android:background="@drawable/layout_border_theme"
+                                android:textColorHighlight="@color/colorPrimary"
+                                android:textColorLink="@color/colorPrimary"
+                                android:textCursorDrawable="@null"
+                                android:shadowColor="@color/colorPrimary"
+                                android:textColorHint="@color/colorPrimary"
+                                android:backgroundTint="@color/colorThree"
+                                android:textColor="@color/colorPrimary"
                                 android:text=""/>
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,7 +121,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:text="Reminder Description (Optional)"
-                            android:textColor="@color/colorTwo"/>
+                            android:textColor="@color/colorPrimary"/>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/reminderDescTIL"
@@ -129,11 +139,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50sp"
                                 android:maxLines="2"
-                                android:background="@drawable/layout_border"
-                                android:textColorHighlight="@color/gray"
-                                android:textColorLink="@color/colorTwo"
+                                android:background="@drawable/layout_border_theme"
+                                android:textColorHighlight="@color/colorPrimary"
+                                android:textColorLink="@color/colorPrimary"
                                 android:textCursorDrawable="@null"
-                                android:textColor="@color/colorTwo"
+                                android:textColorHint="@color/colorPrimary"
+                                android:backgroundTint="@color/colorThree"
+                                android:textColor="@color/colorPrimary"
                                 android:text=""/>
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,10 +174,10 @@
                                 android:gravity="center"
                                 android:text="One-Time"
                                 android:background="@drawable/theme_background"
-                                android:backgroundTint="@color/colorTwo"
+                                android:backgroundTint="@color/colorPrimary"
                                 android:button="@null"
                                 android:padding="5dp"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/colorThree" />
 
                             <RadioButton
                                 android:id="@+id/recurring_rb"
@@ -178,7 +190,7 @@
                                 android:text="Recurring"
                                 android:button="@null"
                                 android:padding="5dp"
-                                android:textColor="@color/gray"/>
+                                android:textColor="@color/colorTwo"/>
                         </RadioGroup>
 
                     </RelativeLayout>
@@ -199,6 +211,7 @@
                                 android:id="@+id/one_time_picker_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/colorPrimary"
                                 android:text="One-Time Reminder"
                                 android:layout_centerHorizontal="true"/>
 
@@ -209,9 +222,9 @@
                                 android:layout_below="@+id/one_time_picker_tv"
                                 android:layout_marginHorizontal="0dp"
                                 android:layout_marginVertical="10dp"
-                                app:picker_textColor="@color/colorTwo"
-                                app:picker_selectorColor="@color/colorTwo"
-                                app:picker_selectedTextColor="#000000"
+                                app:picker_textColor="@color/colorPrimary"
+                                app:picker_selectorColor="@color/colorThree"
+                                app:picker_selectedTextColor="@color/colorPrimary"
                                 app:picker_curved="false"
                                 app:picker_cyclic="false"
                                 app:picker_dayCount="90"
@@ -243,6 +256,7 @@
 
                                 <RadioGroup
                                     android:id="@+id/recurring_rg"
+                                    android:visibility="gone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="50dp"
@@ -260,7 +274,7 @@
                                         android:gravity="center"
                                         android:text="Daily"
                                         android:background="@drawable/theme_background"
-                                        android:backgroundTint="@color/colorTwo"
+                                        android:backgroundTint="@color/colorPrimary"
                                         android:button="@null"
                                         android:padding="5dp"
                                         android:textColor="@color/white" />
@@ -302,7 +316,7 @@
                                         android:id="@+id/daily_reminders_desc_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="@color/colorTwo"
+                                        android:textColor="@color/colorPrimary"
                                         android:layout_centerHorizontal="true"
                                         android:text="Reminders Per Day"/>
 
@@ -335,7 +349,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="1"
                                             android:layout_centerInParent="true"
-                                            android:textColor="@color/colorTwo"
+                                            android:textColor="@color/colorPrimary"
                                             android:textStyle="bold"
                                             android:textSize="30sp"/>
 
@@ -360,13 +374,14 @@
                                         android:layout_height="wrap_content"
                                         android:layout_below="@+id/daily_reminder_increment_widget"
                                         android:background="@drawable/layout_border"
-                                        android:layout_marginVertical="10dp">
+                                        android:layout_marginTop="10dp">
 
                                         <TextView
                                             android:id="@+id/first_daily_reminder_text"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="Daily Reminder #2"
+                                            android:text="Daily Reminder #1"
+                                            android:textColor="@color/colorPrimary"
                                             android:layout_centerHorizontal="true"/>
 
                                         <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
@@ -376,16 +391,17 @@
                                             android:layout_marginVertical="10dp"
                                             android:layout_marginHorizontal="0dp"
                                             android:layout_below="@+id/first_daily_reminder_text"
-                                            app:picker_textColor="@color/colorTwo"
-                                            app:picker_selectorColor="@color/colorTwo"
-                                            app:picker_selectedTextColor="#000000"
+                                            app:picker_textColor="@color/colorPrimary"
+                                            app:picker_selectorColor="@color/colorThree"
+                                            app:picker_selectedTextColor="@color/colorPrimary"
+                                            app:picker_displayDays="false"
                                             app:picker_curved="false"
                                             app:picker_cyclic="false"
                                             app:picker_dayCount="90"
                                             app:picker_textSize="15sp"
                                             app:picker_itemSpacing="5dp"
                                             app:picker_selectorHeight="20dp"
-                                            app:picker_mustBeOnFuture="true"
+                                            app:picker_mustBeOnFuture="false"
                                             app:picker_textAlign="left"
                                             app:picker_visibleItemCount="5" />
 
@@ -403,6 +419,7 @@
                                             android:id="@+id/second_daily_reminder_text"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:textColor="@color/colorPrimary"
                                             android:text="Daily Reminder #2"
                                             android:layout_centerHorizontal="true"/>
 
@@ -413,16 +430,93 @@
                                             android:layout_marginVertical="10dp"
                                             android:layout_marginHorizontal="0dp"
                                             android:layout_below="@+id/second_daily_reminder_text"
-                                            app:picker_textColor="@color/colorTwo"
-                                            app:picker_selectorColor="@color/colorTwo"
-                                            app:picker_selectedTextColor="#000000"
+                                            app:picker_textColor="@color/colorPrimary"
+                                            app:picker_selectorColor="@color/colorThree"
+                                            app:picker_selectedTextColor="@color/colorPrimary"
+                                            app:picker_displayDays="false"
                                             app:picker_curved="false"
                                             app:picker_cyclic="false"
                                             app:picker_dayCount="90"
                                             app:picker_textSize="15sp"
                                             app:picker_itemSpacing="5dp"
                                             app:picker_selectorHeight="20dp"
-                                            app:picker_mustBeOnFuture="true"
+                                            app:picker_mustBeOnFuture="false"
+                                            app:picker_textAlign="left"
+                                            app:picker_visibleItemCount="5" />
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:id="@+id/third_daily_reminder_rl"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/second_daily_reminder_rl"
+                                        android:background="@drawable/layout_border"
+                                        android:layout_marginTop="10dp">
+
+                                        <TextView
+                                            android:id="@+id/third_daily_reminder_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/colorPrimary"
+                                            android:text="Daily Reminder #3"
+                                            android:layout_centerHorizontal="true"/>
+
+                                        <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+                                            android:id="@+id/third_daily_reminder"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="120dp"
+                                            android:layout_marginVertical="10dp"
+                                            android:layout_marginHorizontal="0dp"
+                                            android:layout_below="@+id/third_daily_reminder_text"
+                                            app:picker_textColor="@color/colorPrimary"
+                                            app:picker_selectorColor="@color/colorThree"
+                                            app:picker_selectedTextColor="@color/colorPrimary"
+                                            app:picker_displayDays="false"
+                                            app:picker_curved="false"
+                                            app:picker_cyclic="false"
+                                            app:picker_dayCount="90"
+                                            app:picker_textSize="15sp"
+                                            app:picker_itemSpacing="5dp"
+                                            app:picker_selectorHeight="20dp"
+                                            app:picker_mustBeOnFuture="false"
+                                            app:picker_textAlign="left"
+                                            app:picker_visibleItemCount="5" />
+                                    </RelativeLayout>
+
+                                    <RelativeLayout
+                                        android:id="@+id/fourth_daily_reminder_rl"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@+id/third_daily_reminder_rl"
+                                        android:background="@drawable/layout_border"
+                                        android:layout_marginTop="10dp">
+
+                                        <TextView
+                                            android:id="@+id/fourth_daily_reminder_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/colorPrimary"
+                                            android:text="Daily Reminder #4"
+                                            android:layout_centerHorizontal="true"/>
+
+                                        <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+                                            android:id="@+id/fourth_daily_reminder"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="120dp"
+                                            android:layout_marginVertical="10dp"
+                                            android:layout_marginHorizontal="0dp"
+                                            android:layout_below="@+id/fourth_daily_reminder_text"
+                                            app:picker_textColor="@color/colorPrimary"
+                                            app:picker_selectorColor="@color/colorThree"
+                                            app:picker_selectedTextColor="@color/colorPrimary"
+                                            app:picker_displayDays="false"
+                                            app:picker_curved="false"
+                                            app:picker_cyclic="false"
+                                            app:picker_dayCount="90"
+                                            app:picker_textSize="15sp"
+                                            app:picker_itemSpacing="5dp"
+                                            app:picker_selectorHeight="20dp"
+                                            app:picker_mustBeOnFuture="false"
                                             app:picker_textAlign="left"
                                             app:picker_visibleItemCount="5" />
                                     </RelativeLayout>
@@ -480,7 +574,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:backgroundTint="@color/colorTwo"
+                    android:backgroundTint="@color/colorPrimary"
                     android:text="Create New Reminder"
                     android:textColor="@color/white"
                     android:background="@drawable/button_round"
@@ -490,5 +584,12 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
 
 </RelativeLayout>

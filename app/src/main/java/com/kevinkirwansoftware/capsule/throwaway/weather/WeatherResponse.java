@@ -2,7 +2,7 @@ package com.kevinkirwansoftware.capsule.throwaway.weather;
 
 import android.database.Cursor;
 
-import com.kevinkirwansoftware.capsule.WeatherData;
+import com.kevinkirwansoftware.capsule.throwaway.weather.*;
 
 import org.json.JSONObject;
 

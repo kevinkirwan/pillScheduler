@@ -30,7 +30,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true" >
         <activity
-            android:name="com.kevinkirwansoftware.capsule.ThrowawayActivity"
+            android:name="com.kevinkirwansoftware.capsule.throwaway.ThrowawayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_wake_up"
             android:theme="@style/FullscreenTheme" />
@@ -46,9 +46,9 @@
         </activity>
 
         <service
-            android:name="com.kevinkirwansoftware.capsule.ReminderCheckJobService"
+            android:name="com.kevinkirwansoftware.capsule.notifications.ReminderCheckJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service android:name="com.kevinkirwansoftware.capsule.ThrowawayService" />
+        <service android:name="com.kevinkirwansoftware.capsule.throwaway.ThrowawayService" />
 
         <meta-data
             android:name="preloaded_fonts"

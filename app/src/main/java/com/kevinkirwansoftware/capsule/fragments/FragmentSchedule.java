@@ -1,9 +1,6 @@
 package com.kevinkirwansoftware.capsule.fragments;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,31 +19,25 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kevinkirwansoftware.capsule.general.MainActivity;
-import com.kevinkirwansoftware.capsule.notifications.NotificationHelper;
 import com.kevinkirwansoftware.capsule.R;
 import com.kevinkirwansoftware.capsule.database.RecurringDbHelper;
 import com.kevinkirwansoftware.capsule.RecurringReminder;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
-import com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast;
 import com.kevinkirwansoftware.capsule.ScheduleAdapter;
-import com.kevinkirwansoftware.capsule.ScheduleDialog;
+import com.kevinkirwansoftware.capsule.dialogs.ScheduleDialog;
 import com.kevinkirwansoftware.capsule.ScheduleItem;
 import com.kevinkirwansoftware.capsule.SingleReminder;
 import com.kevinkirwansoftware.capsule.general.ApplicationFlags;
 import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 
 public class FragmentSchedule extends Fragment {
     private static String TAG = "FragmentSchedule.java";
@@ -176,24 +167,7 @@ public class FragmentSchedule extends Fragment {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 if(scheduleDialog.getUpdateNeeded()){
-
                     String id;
-                    /*
-                    mScheduleItems.remove(position);
-                    mScheduleAdapter.notifyItemRemoved(position);
-                    if(scheduleDialog.isOneTime){
-                        mScheduleItems.add(position, scheduleDialog.getSingleItem());
-                        id = scheduleDialog.getSingleItem().getScheduleID();
-                    } else {
-                        mScheduleItems.add(position, scheduleDialog.getRecurringItem());
-                        id = scheduleDialog.getRecurringItem().getScheduleID();
-                    }
-                    mScheduleAdapter.notifyItemInserted(position);
-                    mScheduleItems.get(position).setMenuVisible(false);
-                    ApplicationFlags.setReminderDatasetItemChangedFlag(id);
-                    saveScheduleItemsToDatabase();
-
-                     */
                     if(scheduleDialog.isOneTime){
                         mScheduleItems.set(position, scheduleDialog.getSingleItem());
                         id = scheduleDialog.getSingleItem().getScheduleID();
@@ -273,17 +247,7 @@ public class FragmentSchedule extends Fragment {
                     tempArray[1][2] = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_THREE));
                     tempArray[0][3] = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_FOUR));
                     tempArray[1][3] = cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_FOUR));
-                     /*
-                    tempArray[0][0] = 0;
-                    tempArray[1][0] = 0;
-                    tempArray[0][1] = 0;
-                    tempArray[1][1] = 0;
-                    tempArray[0][2] = 0;
-                    tempArray[1][2] = 0;
-                    tempArray[0][3] = 0;
-                    tempArray[1][3] = 0;
 
-                      */
                     ((RecurringReminder) mScheduleItems.get(j)).setMultiRemindersArray(tempArray, true);
                     ((RecurringReminder) mScheduleItems.get(j)).setDailyReminders(cursor.getInt(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS)));
 
@@ -377,8 +341,6 @@ public class FragmentSchedule extends Fragment {
         addReminderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //launchNewReminderPopOut();
-
                 addReminderInfoNeeded = false;
                 final ScheduleDialog scheduleDialog = new ScheduleDialog(getContext(), ScheduleDialog.SchedulePopOutType.NEW, null);
                 scheduleDialog.show();
@@ -405,8 +367,6 @@ public class FragmentSchedule extends Fragment {
                 });
             }
         });
-
-
     }
 
     private void saveScheduleItemsToDatabase(){
@@ -496,7 +456,6 @@ public class FragmentSchedule extends Fragment {
                     }
                 }
             }
-
              */
         }
         // Case where hard reset of database is needed
@@ -526,8 +485,6 @@ public class FragmentSchedule extends Fragment {
         ApplicationTools.scheduleJobService(getContext());
     }
 
-
-
     private void timingHandler(){
         final Handler timeDateHandler = new Handler();
         Timer timeDateScheduler = new Timer();
@@ -548,7 +505,7 @@ public class FragmentSchedule extends Fragment {
                             // Logic to display flashing Add Reminder Button
                             if (addReminderInfoNeeded){
                                 addReminderInfoLL.setVisibility(View.VISIBLE);
-                                int testColor = getContext().getResources().getColor(R.color.colorThree);
+                                int testColor = getContext().getResources().getColor(R.color.colorPrimary);
                             if (addReminderInfoCounter < 2250) {
                                 if ((addReminderInfoCounter % 500) < 250) {
                                     addReminderArrowIV.setImageAlpha(250 - (addReminderInfoCounter % 500));

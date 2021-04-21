@@ -8,26 +8,22 @@ import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.TextView;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.google.android.gms.common.api.Api;
 import com.kevinkirwansoftware.capsule.R;
 import com.kevinkirwansoftware.capsule.RecurringReminder;
-import com.kevinkirwansoftware.capsule.ReminderCheckJobService;
-import com.kevinkirwansoftware.capsule.WakeUpActivity;
+import com.kevinkirwansoftware.capsule.notifications.ReminderCheckJobService;
+import com.kevinkirwansoftware.capsule.notifications.WakeUpActivity;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
 import com.kevinkirwansoftware.capsule.SingleReminder;
 import com.kevinkirwansoftware.capsule.notifications.NotificationClickedBroadcast;
 import com.kevinkirwansoftware.capsule.notifications.ReminderBroadcast;
 import com.kevinkirwansoftware.capsule.notifications.ThrowawayBroadcast;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,7 +45,6 @@ public class ApplicationTools {
     public static int MAX_REMINDER_NAME_STRING_LENGTH = 30;
     public static int MAX_REMINDER_DESC_STRING_LENGTH = 100;
     public static String CHANNEL_ID = "notification";
-
 
     public static String getWeatherApiKey(){
         return ApiKeys.POST_WEATHER_API_KEY;
@@ -95,21 +90,6 @@ public class ApplicationTools {
                 PendingIntent.getBroadcast(context, code, snoozeIntent, 0);
 
         collapsedView.setOnClickPendingIntent(R.id.collapsedButton, snoozePI);
-        /*
-        if(Build.VERSION.SDK_INT >= 29) {
-            collapsedView.setOnClickResponse(R.id.collapsedButton, RemoteViews.RemoteResponse.fromPendingIntent(snoozePI));
-        } else {
-            collapsedView.setOnClickPendingIntent(R.id.collapsedButton, snoozePI);
-        }
-
-         */
-
-
-        /*
-        RemoteViews expandedView = new RemoteViews(context.getPackageName(),
-                R.layout.expanded_notification);
-
-         */
 
         Intent intent = new Intent("Notification deleted");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, code, intent, 0);
@@ -120,18 +100,17 @@ public class ApplicationTools {
                 //.setCustomBigContentView(expandedView)
                 // THIS IS THE KEY
                 .setOngoing(true)
+                .setLights(Color.BLUE, 500, 500)
+                .setVibrate(ChannelGenerator.vibrationPattern)
                 //.setDeleteIntent(pendingIntent)
                 .build();
 
-        Log.d("Kevin", "code" + code);
         notificationManager.notify(code, notification);
     }
 
     public static void showFsNotification(Context context, String titleText, String descriptionText, String notificationTag, int code){
         Log.d(TAG, "showNotification() Notification displayed...");
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-
-        Log.d("Kevin", "AppTools " + titleText);
 
         // Initialize Collapsed View
         RemoteViews collapsedView = new RemoteViews(context.getPackageName(),
@@ -209,7 +188,6 @@ public class ApplicationTools {
     public static String getDateForApiCall(){
         SimpleDateFormat twoCharDateFormat = new SimpleDateFormat("YYYY-MM-dd");
         String day = twoCharDateFormat.format(new Date());
-        Log.d("Kevin", "Date for API:" + day + ":");
         return day;
     }
 
@@ -234,14 +212,12 @@ public class ApplicationTools {
         boolean foundSpace = true;
 
         for(int i = 0; i < charArray.length; i++) {
-
             if(Character.isLetter(charArray[i])) {
                 if(foundSpace) {
                     charArray[i] = Character.toUpperCase(charArray[i]);
                     foundSpace = false;
                 }
             }
-
             else {
                 foundSpace = true;
             }
@@ -250,7 +226,6 @@ public class ApplicationTools {
         String ucString = String.valueOf(charArray);
         return ucString;
     }
-
 
     public static boolean isSQLiteStringValid(String inputString){
         String[] checker = getListOfInvalidSQLiteChars();

@@ -83,10 +83,7 @@ public class FragmentSettings extends Fragment {
         newsFilterET = settingsView.findViewById(R.id.newsFilterET);
 
         fragmentSettingsInit();
-
     }
-
-
 
     private void fragmentSettingsInit(){
         initAppPreferences();
@@ -110,7 +107,6 @@ public class FragmentSettings extends Fragment {
             public void onClick(View v) {
                 timeFormatFlag = true;
                 set12hourChecked();
-
             }
         });
 
@@ -119,7 +115,6 @@ public class FragmentSettings extends Fragment {
             public void onClick(View v) {
                 timeFormatFlag = true;
                 set24hourChecked();
-
             }
         });
 

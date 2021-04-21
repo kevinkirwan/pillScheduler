@@ -52,8 +52,6 @@ public class FragmentInventory extends Fragment {
             }
         });
 
-
-
         mInventoryRecyclerView = view.findViewById(R.id.inventoryRecyclerView);
         mInventoryRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -62,19 +60,4 @@ public class FragmentInventory extends Fragment {
         mInventoryRecyclerView.setLayoutManager(mLayoutManager);
         mInventoryRecyclerView.setAdapter(mInventoryAdapter);
     }
-
-    /*
-    public void addData(String newEntry){
-        boolean insertData = mDatabaseHelper.addData(newEntry);
-
-        if(insertData){
-            Toast.makeText(getContext(), "Data Successfully Inserted", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getContext(), "Something Went Wrong", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-     */
-
 }

@@ -7,20 +7,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ComponentInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
-import com.kevinkirwansoftware.capsule.ReminderCheckJobService;
-import com.kevinkirwansoftware.capsule.fragments.FragmentInventory;
 import com.kevinkirwansoftware.capsule.fragments.FragmentSchedule;
 import com.kevinkirwansoftware.capsule.fragments.FragmentSettings;
 import com.kevinkirwansoftware.capsule.fragments.FragmentToday;
@@ -59,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new FragmentToday()).commit();
         navigationView.setCheckedItem(R.id.itemA);
-
     }
 
     @Override
@@ -74,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new FragmentInventory()).commit();
                 break;
-
                  */
             case R.id.itemC:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -84,21 +73,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new FragmentSettings()).commit();
                 break;
-                /*
-            case R.id.single_item_a:
-                Toast.makeText(getApplicationContext(), "Single Item A Selected", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.single_item_b:
-                Toast.makeText(getApplicationContext(), "Single Item B Selected", Toast.LENGTH_SHORT).show();
-                break;
-
-                 */
         }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     @Override
     public void onBackPressed(){
@@ -107,9 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
-
     }
-
 
     @Override
     protected void onStop() {
@@ -117,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ApplicationTools.scheduleJobService(this);
         super.onStop();
     }
-
 
     @Override
     protected void onDestroy() {

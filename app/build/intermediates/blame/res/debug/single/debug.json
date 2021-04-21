@@ -204,6 +204,10 @@
         "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher_foreground.png"
     },
     {
+        "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_capsule_green.xml.flat",
+        "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\ic_capsule_green.xml"
+    },
+    {
         "merged": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\res\\merged\\debug\\drawable_ic_launcher_background.xml.flat",
         "source": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\src\\main\\res\\drawable\\ic_launcher_background.xml"
     },

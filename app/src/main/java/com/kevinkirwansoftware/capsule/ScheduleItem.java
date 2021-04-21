@@ -60,7 +60,6 @@ public class ScheduleItem {
         } else{
             return -1;
         }
-
     }
 
     public String getScheduleID(){

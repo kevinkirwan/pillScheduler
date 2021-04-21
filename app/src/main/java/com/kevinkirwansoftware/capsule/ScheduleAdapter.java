@@ -75,10 +75,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                         if(position != RecyclerView.NO_POSITION){
                             listener.onItemClick(position);
                         }
-
                     }
-
-
                 }
             });
 
@@ -90,7 +87,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                         if(position != RecyclerView.NO_POSITION){
                             listener.onLongClick(position);
                         }
-
                     }
                     return false;
                 }
@@ -134,14 +130,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                     }
                 }
             });
-
         }
     }
-
-
-
-
-
 
     @NonNull
     @Override
@@ -158,6 +148,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
             holder.reminderNameTV.setText(currentItem.getReminderName());
             holder.reminderDescTV.setText(currentItem.getReminderDescription());
             holder.reminderTimeTV.setText(currentItem.getTimeSingleAsString());
+            holder.reminderTimeTV.setTextSize(24);
             holder.reminderDataLineTwo.setText(currentItem.getDateSingleAsString());
             holder.typeTV.setText(currentItem.getTypeString());
             holder.mActivationCB.setText(currentItem.getActiveString());
@@ -226,17 +217,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                 holder.mScheduleIcon.setColorFilter(context.getResources().getColor(R.color.gray));
             }
         }
-
-        /*
-        holder.reminderNameTV.setText(currentItem.getReminderName());
-        holder.reminderDescTV.setText(currentItem.getReminderDescription());
-
-         */
-
-
-
-
-
     }
 
     @Override

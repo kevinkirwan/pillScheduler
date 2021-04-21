@@ -1,19 +1,13 @@
 package com.kevinkirwansoftware.capsule.notifications;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationManagerCompat;
 
-import com.kevinkirwansoftware.capsule.ThrowawayActivity;
-import com.kevinkirwansoftware.capsule.ThrowawayService;
-import com.kevinkirwansoftware.capsule.general.MainActivity;
+import com.kevinkirwansoftware.capsule.throwaway.ThrowawayService;
 
 
 public class NotificationClickedBroadcast extends BroadcastReceiver {

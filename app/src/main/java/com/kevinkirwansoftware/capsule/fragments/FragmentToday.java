@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Image;
-import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,28 +19,22 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.kevinkirwansoftware.capsule.R;
-import com.kevinkirwansoftware.capsule.RetrofitApiInterface;
-import com.kevinkirwansoftware.capsule.RetrofitDummyClient;
-import com.kevinkirwansoftware.capsule.RetrofitNewsClient;
-import com.kevinkirwansoftware.capsule.RetrofitWeatherClient;
-import com.kevinkirwansoftware.capsule.WeatherData;
+import com.kevinkirwansoftware.capsule.retrofit.RetrofitApiInterface;
+import com.kevinkirwansoftware.capsule.retrofit.RetrofitDummyClient;
+import com.kevinkirwansoftware.capsule.retrofit.RetrofitNewsClient;
+import com.kevinkirwansoftware.capsule.retrofit.RetrofitWeatherClient;
 import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
 import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 import com.kevinkirwansoftware.capsule.throwaway.Headlines;
 import com.kevinkirwansoftware.capsule.throwaway.Post;
 import com.kevinkirwansoftware.capsule.throwaway.weather.WeatherResponse;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.util.List;
 import java.util.Locale;
@@ -63,6 +55,7 @@ public class FragmentToday extends Fragment {
     private ImageView weatherIcon, newsIcon;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private RetrofitApiInterface retrofitNewsApi, retrofitWeatherApi, retrofitDummyApi;
+    CardView weatherCardView, newsCardView;
     private static int STORAGE_PERMISSION_CODE = 1;
     private static int FULL_SCREEN_PERMISSION_CODE = 6;
 
@@ -97,6 +90,9 @@ public class FragmentToday extends Fragment {
         weatherIcon = todayView.findViewById(R.id.weatherIcon);
         newsIcon = todayView.findViewById(R.id.newsIcon);
 
+        weatherCardView = todayView.findViewById(R.id.weatherCardView);
+        newsCardView = todayView.findViewById(R.id.newsCardView);
+
         Retrofit retrofitNewsInstance = RetrofitNewsClient.getInstance();
         Retrofit retrofitWeatherInstance = RetrofitWeatherClient.getInstance();
         Retrofit retrofitDummyInstance = RetrofitDummyClient.getInstance();
@@ -109,8 +105,28 @@ public class FragmentToday extends Fragment {
         date.setText(ApplicationTools.getDateData());
         timeZone.setText(ApplicationTools.getTimeZoneData());
 
-
         fetchData();
+        initClicks();
+    }
+
+    private void initClicks(){
+        weatherCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isLocPermissionGranted()){
+                    pollWeather();
+                } else {
+                    requestLocationPermission();
+                }
+            }
+        });
+
+        newsCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pollNews();
+            }
+        });
     }
 
     private void updateData(){
@@ -128,7 +144,6 @@ public class FragmentToday extends Fragment {
             currentTimeDisplay.setFormat12Hour(format);
             currentTimeDisplay.setFormat24Hour(format);
         }
-
         fetchData();
     }
 
@@ -143,12 +158,11 @@ public class FragmentToday extends Fragment {
     }
 
     private void displayWeatherFail(){
-        String tempString = "-";
+        String tempString = "Click to retry";
         String summaryString = "Weather data not available";
         currentWeatherSummary.setText(ApplicationTools.weatherDescriptionFormatted(summaryString));
         currentWeatherTemp.setText(tempString);
     }
-
 
     private void dummyProcessingPass(List<Post> postList){
         newsHeadline.setText(postList.get(0).getTitle());
@@ -180,29 +194,15 @@ public class FragmentToday extends Fragment {
             Glide.with(Objects.requireNonNull(getContext())).load(headlines.getImageUrl(0)).into(newsIcon);
         } catch (Exception e){
             Log.e("Kevin", "Image not found", e.fillInStackTrace());
-            newsIcon.setImageResource(R.drawable.foliage);
             newsIcon.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);;
         }
-
-
     }
 
     private void populateNewsStoriesFail(){
         String headlineString = "Unable to load news";
-        String contentString = "-";
+        String contentString = "Click to Retry";
         newsHeadline.setText(headlineString);
         newsContent.setText(contentString);
-    }
-
-
-    private void displayData(JSONObject response) throws JSONException {
-        JSONObject mainObject = response.getJSONObject("main");
-        JSONArray array = response.getJSONArray("weather");
-        JSONObject object = array.getJSONObject(0);
-        String temp = String.valueOf(mainObject.getDouble("temp"));
-        String description = object.getString("description");
-        String city = response.getString("name");
-
     }
 
     private void checkPermission(){
@@ -221,40 +221,59 @@ public class FragmentToday extends Fragment {
                 }
             }
         } else {
-            requestStoragePermission();
+            requestLocationPermission();
         }
-        if ((ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.USE_FULL_SCREEN_INTENT) == PackageManager.PERMISSION_GRANTED)) {
-            Log.d(TAG, "Full screen Permission has already been granted");
-        } else {
-            requestFullScreenPermission();
-        }
-
-
     }
 
-    private void fetchData() {
-            // Working weather call
-            compositeDisposable.add(retrofitWeatherApi.getCurrentWeatherData(latitude, longitude,
-                    ApplicationPreferences.getTempUnitSystemString(),
-                    "hourly,daily,minutely",
-                    ApplicationTools.getWeatherApiKey())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<WeatherResponse>() {
-                        @Override
-                        public void accept(WeatherResponse weatherResponse) throws Exception {
-                            displayWeatherPass(weatherResponse);
-                            Log.d("Kevin", "json test: timezone: " + weatherResponse.timezone);
-                        }
-                    }, new Consumer<Throwable>() {
-                        @Override
-                        public void accept(Throwable throwable) throws Exception {
-                            displayWeatherFail();
-                        }
-                    }));
+    private boolean isLocPermissionGranted(){
+        return (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                && (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    }
 
+    private void pollWeather() {
+        compositeDisposable.clear();
+        if ((ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                && (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+            Log.d(TAG, "Location Permission has already been granted");
+            LocationManager lm = (LocationManager) Objects.requireNonNull(getContext()).getSystemService(Context.LOCATION_SERVICE);
+            if(lm != null) {
+                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if(location != null){
+                    longitude = Double.toString((int) Math.rint(location.getLongitude()));
+                    latitude = Double.toString((int) Math.rint(location.getLatitude()));
+                    Log.d("Kevin", "Latitude: " + latitude + " Long" + longitude);
+                }
+            }
+        } else {
+            requestLocationPermission();
+        }
+        compositeDisposable.add(retrofitWeatherApi.getCurrentWeatherData(latitude, longitude,
+                ApplicationPreferences.getTempUnitSystemString(),
+                "hourly,daily,minutely",
+                ApplicationTools.getWeatherApiKey())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<WeatherResponse>() {
+                    @Override
+                    public void accept(WeatherResponse weatherResponse) throws Exception {
+                        displayWeatherPass(weatherResponse);
+                        Log.d("Kevin", "json test: timezone: " + weatherResponse.timezone);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        displayWeatherFail();
+                        Log.d("Kevin", "Failed to display weather");
+                    }
+                }));
+    }
 
+    private void pollNews(){
+        /*
         compositeDisposable.add(retrofitDummyApi.getPosts("sa")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -269,9 +288,7 @@ public class FragmentToday extends Fragment {
                         dummyProcessingFail();
                     }
                 }));
-
-
-
+         */
 
         compositeDisposable.add(retrofitNewsApi.getTopByLanguage(ApplicationTools.getNewsApiKey(),
                 "en", "us")
@@ -280,14 +297,19 @@ public class FragmentToday extends Fragment {
                 .subscribe(new Consumer<Headlines>() {
                     @Override
                     public void accept(Headlines headlines) throws Exception {
-                    populateNewsStoriesPass(headlines);
-                }
-            }, new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable throwable) throws Exception {
-                    populateNewsStoriesFail();
-                }
-            }));
+                        populateNewsStoriesPass(headlines);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        populateNewsStoriesFail();
+                    }
+                }));
+    }
+    private void fetchData() {
+            // Working weather call
+        pollWeather();
+        pollNews();
     }
 
     private void requestFullScreenPermission(){
@@ -301,6 +323,7 @@ public class FragmentToday extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()).getParent(),
                                     new String[] {Manifest.permission.USE_FULL_SCREEN_INTENT}, FULL_SCREEN_PERMISSION_CODE);
+
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -316,17 +339,21 @@ public class FragmentToday extends Fragment {
         }
     }
 
-    private void requestStoragePermission() {
+    private void requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) && ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION )) {
             new AlertDialog.Builder(getContext())
                     .setTitle("Permission needed")
-                    .setMessage("This permission is needed because of this and that")
+                    .setMessage("Location needs to be enabled to access weather data")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            /*
                             ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()).getParent(),
+                                    new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, STORAGE_PERMISSION_CODE);
+                             */
+                            ActivityCompat.requestPermissions(getActivity(),
                                     new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, STORAGE_PERMISSION_CODE);
                         }
                     })
@@ -340,6 +367,7 @@ public class FragmentToday extends Fragment {
         } else {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, STORAGE_PERMISSION_CODE);
+            //pollWeather();
         }
     }
 
@@ -357,7 +385,7 @@ public class FragmentToday extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //updateData();
+        updateData();
     }
 
     @Override

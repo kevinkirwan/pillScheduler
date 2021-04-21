@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical"
+    android:paddingTop="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorTwo">
 
@@ -13,8 +14,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/themesCV"
+            android:visibility="gone"
             android:layout_margin="5dp"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorTwo"
@@ -144,6 +145,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/newsCV"
+            android:visibility="gone"
             android:layout_margin="5dp"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -282,7 +284,7 @@
                         android:textColor="@color/colorPrimary"
                         android:layout_gravity="center_vertical"
                         android:textSize="24sp"
-                        android:text="Units"/>
+                        android:text="Settings"/>
 
                     <ImageView
                         android:id="@+id/unitsDropIcon"
@@ -309,7 +311,7 @@
                         android:id="@+id/unit1LL"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginVertical="5dp"
+                        android:layout_marginVertical="10dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -320,20 +322,21 @@
                             android:layout_gravity="center"
                             android:textSize="16sp"
                             android:textColor="@color/colorPrimary"
-                            android:text="Test"/>
+                            android:text="Time Format"/>
 
                         <RadioGroup
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:layout_marginHorizontal="50dp"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="0dp"
                             android:backgroundTint="@color/colorTwo"
+                            android:background="@drawable/theme_background_none"
                             android:gravity="center"
                             android:layout_centerInParent="true"
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/one_time_rb"
+                                android:id="@+id/hour_12_rb"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -346,7 +349,7 @@
                                 android:textColor="@color/colorThree" />
 
                             <RadioButton
-                                android:id="@+id/recurring_rb"
+                                android:id="@+id/hour_24_rb"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -360,7 +363,123 @@
                         </RadioGroup>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ampmLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorPrimary"
+                            android:text="Display AM/PM?"/>
+
+                        <RadioGroup
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="0dp"
+                            android:backgroundTint="@color/colorTwo"
+                            android:background="@drawable/theme_background_none"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/ampm_yes_rb"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Yes"
+                                android:background="@drawable/theme_background"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:button="@null"
+                                android:padding="5dp"
+                                android:textColor="@color/colorThree" />
+
+                            <RadioButton
+                                android:id="@+id/ampm_no_rb"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/theme_background_none"
+                                android:backgroundTint="@color/colorTwo"
+                                android:gravity="center"
+                                android:text="No"
+                                android:button="@null"
+                                android:padding="5dp"
+                                android:textColor="@color/colorThree"/>
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tempUnitsLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorPrimary"
+                            android:text="Temperature"/>
+
+                        <RadioGroup
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginHorizontal="0dp"
+                            android:backgroundTint="@color/colorTwo"
+                            android:background="@drawable/theme_background_none"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/temp_f_rb"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="°F"
+                                android:background="@drawable/theme_background"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:button="@null"
+                                android:padding="5dp"
+                                android:textColor="@color/colorThree" />
+
+                            <RadioButton
+                                android:id="@+id/temp_c_rb"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/theme_background_none"
+                                android:backgroundTint="@color/colorTwo"
+                                android:gravity="center"
+                                android:text="°C"
+                                android:button="@null"
+                                android:padding="5dp"
+                                android:textColor="@color/colorThree"/>
+                        </RadioGroup>
+
+                    </LinearLayout>
                 </LinearLayout>
+
+
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

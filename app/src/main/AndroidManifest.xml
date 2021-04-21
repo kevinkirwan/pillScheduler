@@ -9,8 +9,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -24,7 +22,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".ThrowawayActivity"
+            android:name=".throwaway.ThrowawayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_wake_up"
             android:theme="@style/FullscreenTheme"></activity>
@@ -40,10 +38,10 @@
         </activity>
 
         <service
-            android:name=".ReminderCheckJobService"
+            android:name=".notifications.ReminderCheckJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name=".ThrowawayService"/>
+        <service android:name=".throwaway.ThrowawayService"/>
 
 
 

@@ -37,7 +37,7 @@
         -->
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/topCardView"
+        android:id="@+id/timeCardView"
         android:layout_margin="5dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -156,7 +156,7 @@
         -->
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/secondCardView"
+        android:id="@+id/weatherCardView"
         android:layout_margin="5dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -164,7 +164,7 @@
         android:background="@color/colorTwo"
         app:cardBackgroundColor="@color/colorThree"
         app:cardCornerRadius="4dp"
-        android:layout_below="@+id/topCardView">
+        android:layout_below="@+id/timeCardView">
 
 
         <LinearLayout
@@ -224,7 +224,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/thirdCardView"
+        android:id="@+id/newsCardView"
         android:layout_margin="5dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -232,7 +232,7 @@
         android:background="@color/colorTwo"
         app:cardBackgroundColor="@color/colorThree"
         app:cardCornerRadius="4dp"
-        android:layout_below="@+id/secondCardView">
+        android:layout_below="@+id/weatherCardView">
 
         <LinearLayout
             android:id="@+id/newsLinearLayout"

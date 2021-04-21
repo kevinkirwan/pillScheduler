@@ -40,36 +40,4 @@ public class SingleDbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SingleReminderEntry.TABLE_NAME);
         onCreate(db);
     }
-
-    /*
-    public boolean addData(String name, String desc, String type){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL0, name);
-        contentValues.put(COL1, desc);
-        contentValues.put(COL2, type);
-
-        Log.d("Kevin", "addData: Adding " + name + " to " + TABLE_NAME );
-
-        long result = db.insert(TABLE_NAME, null, contentValues);
-
-        if(result == -1){
-            return false;
-        } else {
-            return true;
-        }
-
-
-    }
-
-    public Cursor getData(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + TABLE_NAME;
-        Cursor data = db.rawQuery(query, null);
-        return data;
-    }
-
-     */
-
-
 }

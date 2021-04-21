@@ -1,34 +1,12 @@
 package com.kevinkirwansoftware.capsule.notifications;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
 
-import com.kevinkirwansoftware.capsule.R;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
-
-import com.kevinkirwansoftware.capsule.ThrowawayActivity;
-import com.kevinkirwansoftware.capsule.ThrowawayService;
-import com.kevinkirwansoftware.capsule.WakeUpActivity;
-import com.kevinkirwansoftware.capsule.general.ApplicationTools;
-import com.kevinkirwansoftware.capsule.notifications.NotificationHelper;
-
-import java.util.Objects;
-
+import com.kevinkirwansoftware.capsule.throwaway.ThrowawayService;
 
 
 public class ThrowawayBroadcast extends BroadcastReceiver {
@@ -40,12 +18,6 @@ public class ThrowawayBroadcast extends BroadcastReceiver {
     }
 
     public void startService(Context context, Intent intentIn) {
-        /*
-        Intent serviceIntent = new Intent(context, ThrowawayService.class);
-        serviceIntent.putExtra("inputExtra", "test");
-        context.startService(serviceIntent);
-         */
-
         Intent serviceIntent = new Intent(context, ThrowawayService.class);
         String tag = intentIn.getStringExtra("tag");
         serviceIntent.putExtra("tag", tag);

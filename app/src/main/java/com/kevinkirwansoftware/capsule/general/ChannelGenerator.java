@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.util.Log;
 
 import com.kevinkirwansoftware.capsule.database.RecurringDbHelper;
 import com.kevinkirwansoftware.capsule.database.RecurringReminderColumns;
@@ -18,6 +19,8 @@ public class ChannelGenerator extends Application {
     private static SQLiteDatabase mDatabase;
     public static final String CHANNEL_1 = "exampleChannel1";
     public static final String CHANNEL_2 = "exampleChannel2";
+    public static long[] vibrationPattern = {100, 3000, 1000, 3000, 1000, 3000};
+    public static String TAG = "ChannelGenerator";
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,11 +30,6 @@ public class ChannelGenerator extends Application {
     }
     public static void createNotificationChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            /*
-            if (channelsIds == null) {
-                channelsIds = new ArrayList<>();
-            }
-             */
             Cursor cursor = getAllItems();
             cursor.moveToFirst();
             for (int i = 0; i < cursor.getCount(); i++) {
@@ -41,9 +39,13 @@ public class ChannelGenerator extends Application {
                         cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)),
                         NotificationManager.IMPORTANCE_HIGH
                 );
+                channel.setVibrationPattern(vibrationPattern);
+                channel.enableVibration(true);
+                channel.enableLights(true);
                 NotificationManager manager = context.getSystemService(NotificationManager.class);
                 assert manager != null;
                 manager.createNotificationChannel(channel);
+                Log.d(TAG, "creating notification channels...");
             }
 
             NotificationChannel channel1 = new NotificationChannel(
@@ -64,28 +66,6 @@ public class ChannelGenerator extends Application {
             assert manager2 != null;
             manager2.createNotificationChannel(channel2);
         }
-
-
-
-        /*
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Example Channel",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-
-            NotificationChannel channel2 = new NotificationChannel(
-                    CHANNEL_ID2,
-                    "Example Channel2",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            NotificationManager manager2 = getSystemService(NotificationManager.class);
-            manager2.createNotificationChannel(channel2);
-
-         */
-
     }
 
     private static Cursor getAllItems(){
