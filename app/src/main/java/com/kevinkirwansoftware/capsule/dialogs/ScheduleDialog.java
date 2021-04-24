@@ -29,8 +29,10 @@ import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class ScheduleDialog extends Dialog {
@@ -44,11 +46,11 @@ public class ScheduleDialog extends Dialog {
     private ScheduleItem mItemIn;
     private boolean updateNeeded = false;
 
-    TextView reminderPlus, reminderMinus, dailyReminderCounterTV, scheduleDialogHeader;
+    private TextView reminderPlus, reminderMinus, dailyReminderCounterTV, scheduleDialogHeader, bottomError;
     private TextInputLayout reminderNameTIL;
     private TextInputEditText reminderNameET, reminderDescET;
 
-    Date singleDate;
+    private Date singleDate;
     public boolean isOneTime = true;
     private int dailyReminderCounter = 1;
 
@@ -103,6 +105,7 @@ public class ScheduleDialog extends Dialog {
         reminderMinus = this.findViewById(R.id.reminder_minus);
         dailyReminderCounterTV = this.findViewById(R.id.reminders_per_day_counter);
         scheduleDialogHeader = this.findViewById(R.id.scheduleDialogHeader);
+        bottomError = this.findViewById(R.id.bottomError);
 
         testLL = this.findViewById(R.id.test_ll);
 
@@ -341,23 +344,25 @@ public class ScheduleDialog extends Dialog {
     }
 
     private void createRecurringReminder(){
+        //int dailyReminders = Integer.parseInt(dailyReminderCounterTV.getText().toString());
         if(!commonCheckPass()){
+            return;
+        }
+        if (!recurringReminderCheckPass()){
             return;
         }
         if((mSpot == SchedulePopOutType.NEW) || (mItemIn instanceof SingleReminder)){
             mRecurringItem = new RecurringReminder();
-            mRecurringItem.recurringReminderInit();
+            mRecurringItem.recurringReminderInit(getContext());
             mRecurringItem.setActive(true);
         } else {
-            Log.d("Kevin", "Schedule ID:" + mItemIn.getScheduleID());
             mRecurringItem = (RecurringReminder) mItemIn;
         }
 
         mRecurringItem.setReminderName(reminderNameET.getText().toString());
         mRecurringItem.setReminderDescription(reminderDescET.getText().toString());
         mRecurringItem.setReminderType(ScheduleItem.ReminderType.RECURRING);
-        int dailyReminders = Integer.parseInt(dailyReminderCounterTV.getText().toString());
-        mRecurringItem.setDailyReminders(dailyReminders);
+        mRecurringItem.setDailyReminders(dailyReminderCounter);
 
         int[][] timeArray = new int[2][4];
         for (int[] row: timeArray){
@@ -371,21 +376,21 @@ public class ScheduleDialog extends Dialog {
         timeArray[0][0] = Integer.parseInt(timeArrayString[0]);
         timeArray[1][0] = Integer.parseInt(timeArrayString[1]);
 
-        if(dailyReminders > 1){
+        if(dailyReminderCounter > 1){
             tempDate = dailySdtp2.getDate();
             ts.setTime(tempDate.getTime());
             timeArrayString = formatter.format(ts).split("-");
             timeArray[0][1] = Integer.parseInt(timeArrayString[0]);
             timeArray[1][1] = Integer.parseInt(timeArrayString[1]);
         }
-        if(dailyReminders > 2){
+        if(dailyReminderCounter > 2){
             tempDate = dailySdtp3.getDate();
             ts.setTime(tempDate.getTime());
             timeArrayString = formatter.format(ts).split("-");
             timeArray[0][2] = Integer.parseInt(timeArrayString[0]);
             timeArray[1][2] = Integer.parseInt(timeArrayString[1]);
         }
-        if(dailyReminders > 3){
+        if(dailyReminderCounter > 3){
             tempDate = dailySdtp4.getDate();
             ts.setTime(tempDate.getTime());
             timeArrayString = formatter.format(ts).split("-");
@@ -471,6 +476,43 @@ public class ScheduleDialog extends Dialog {
         }
 
         return (validInputName && validInputDesc);
+    }
+
+    private boolean recurringReminderCheckPass(){
+        //dailyReminderCounter = Integer.parseInt(dailyReminderCounterTV.getText().toString());
+        boolean pass = true;
+        if(dailyReminderCounter == 1){
+            return true;
+        } else if(dailyReminderCounter > 1){
+            if(dailySdtp1.getDate().getTime() == dailySdtp2.getDate().getTime()){
+                pass = false;
+            }
+        } else if(dailyReminderCounter > 2) {
+            if((dailySdtp3.getDate().getTime() == dailySdtp1.getDate().getTime()) || (dailySdtp3.getDate().getTime() == dailySdtp2.getDate().getTime())){
+                pass = false;
+            }
+        } else if(dailyReminderCounter > 3){
+            if((dailySdtp4.getDate().getTime() == dailySdtp1.getDate().getTime()) ||
+                    (dailySdtp4.getDate().getTime() == dailySdtp2.getDate().getTime()) ||
+                    (dailySdtp4.getDate().getTime() == dailySdtp3.getDate().getTime())){
+                pass = false;
+            }
+        }
+        if(!pass){
+            dailySdtp1.setBackground(getContext().getResources().getDrawable(R.drawable.theme_background_error, getContext().getTheme()));
+            dailySdtp2.setBackground(getContext().getResources().getDrawable(R.drawable.theme_background_error, getContext().getTheme()));
+            dailySdtp3.setBackground(getContext().getResources().getDrawable(R.drawable.theme_background_error, getContext().getTheme()));
+            dailySdtp4.setBackground(getContext().getResources().getDrawable(R.drawable.theme_background_error, getContext().getTheme()));
+            String errorMessage = "Can't have two reminders at the same time";
+            setBottomError(errorMessage);
+        }
+
+        return true;
+    }
+
+    private void setBottomError(String errorMessage){
+        bottomError.setText(errorMessage);
+        bottomError.setVisibility(View.VISIBLE);
     }
 
     public boolean getUpdateNeeded(){

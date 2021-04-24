@@ -32,6 +32,7 @@ import com.kevinkirwansoftware.capsule.dialogs.ScheduleDialog;
 import com.kevinkirwansoftware.capsule.ScheduleItem;
 import com.kevinkirwansoftware.capsule.SingleReminder;
 import com.kevinkirwansoftware.capsule.general.ApplicationFlags;
+import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
 import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.util.ArrayList;
@@ -87,8 +88,6 @@ public class FragmentSchedule extends Fragment {
         addReminderInfoLL = view.findViewById(R.id.addReminderInfoLL);
         addReminderArrowTV = view.findViewById(R.id.addReminderArrowTV);
         addReminderArrowIV = view.findViewById(R.id.addReminderArrowIV);
-
-
 
         mScheduleAdapter.setOnItemClickListener(
                 new ScheduleAdapter.OnItemClickListener() {
@@ -280,6 +279,7 @@ public class FragmentSchedule extends Fragment {
         for (int i = 0; i < ApplicationFlags.getRemindersRemovedList().size(); i++){
             Log.d("Kevin", "Removed name: " + ApplicationFlags.getRemindersRemovedList().get(i));
         }
+        ApplicationPreferences.remove(Objects.requireNonNull(getContext()), mScheduleItems.get(position).getScheduleID());
         mScheduleItems.remove(position);
         mScheduleAdapter.notifyItemRemoved(position);
     }
@@ -295,7 +295,7 @@ public class FragmentSchedule extends Fragment {
     }
 
     private void cancelBroadcast(int position){
-        Intent intent1 = ApplicationTools.broadcastIntentGenerator(Objects.requireNonNull(getContext()).getApplicationContext(),
+        Intent intent1 = ApplicationTools.broadcastIntentGeneratorTest(Objects.requireNonNull(getContext()).getApplicationContext(),
                 mScheduleItems.get(position).getScheduleID(),
                 mScheduleItems.get(position).getReminderName(),
                 mScheduleItems.get(position).getReminderDescription(),
@@ -305,7 +305,7 @@ public class FragmentSchedule extends Fragment {
         if(mScheduleItems.get(position) instanceof RecurringReminder){
             RecurringReminder recurringReminder = (RecurringReminder) mScheduleItems.get(position);
             if(recurringReminder.getNumDailyReminders() > 1){
-                Intent intent2 = ApplicationTools.broadcastIntentGenerator(Objects.requireNonNull(getContext()).getApplicationContext(),
+                Intent intent2 = ApplicationTools.broadcastIntentGeneratorTest(Objects.requireNonNull(getContext()).getApplicationContext(),
                         mScheduleItems.get(position).getScheduleID(),
                         mScheduleItems.get(position).getReminderName(),
                         mScheduleItems.get(position).getReminderDescription(),
@@ -313,7 +313,7 @@ public class FragmentSchedule extends Fragment {
                 PendingIntent pendingIntent2 = PendingIntent.getBroadcast(getContext().getApplicationContext(), mScheduleItems.get(position).getDbCode2(), intent2, PendingIntent.FLAG_UPDATE_CURRENT);
                 pendingIntent2.cancel();
             } if(recurringReminder.getNumDailyReminders() > 2){
-                Intent intent3 = ApplicationTools.broadcastIntentGenerator(Objects.requireNonNull(getContext()).getApplicationContext(),
+                Intent intent3 = ApplicationTools.broadcastIntentGeneratorTest(Objects.requireNonNull(getContext()).getApplicationContext(),
                         mScheduleItems.get(position).getScheduleID(),
                         mScheduleItems.get(position).getReminderName(),
                         mScheduleItems.get(position).getReminderDescription(),
@@ -321,7 +321,7 @@ public class FragmentSchedule extends Fragment {
                 PendingIntent pendingIntent3 = PendingIntent.getBroadcast(getContext().getApplicationContext(), mScheduleItems.get(position).getDbCode3(), intent3, PendingIntent.FLAG_UPDATE_CURRENT);
                 pendingIntent3.cancel();
             } if(recurringReminder.getNumDailyReminders() > 3){
-                Intent intent4 = ApplicationTools.broadcastIntentGenerator(Objects.requireNonNull(getContext()).getApplicationContext(),
+                Intent intent4 = ApplicationTools.broadcastIntentGeneratorTest(Objects.requireNonNull(getContext()).getApplicationContext(),
                         mScheduleItems.get(position).getScheduleID(),
                         mScheduleItems.get(position).getReminderName(),
                         mScheduleItems.get(position).getReminderDescription(),

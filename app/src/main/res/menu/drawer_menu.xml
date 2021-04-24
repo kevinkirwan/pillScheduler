@@ -5,24 +5,23 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/itemC"
+            android:id="@+id/scheduleFragment"
             android:icon="@drawable/schedule"
             android:title="@string/medicine_schedule" />
         <item
-            android:id="@+id/itemA"
+            android:id="@+id/todayFragment"
             android:icon="@drawable/clipboard"
-            android:title="@string/item_a" />
+            android:title="@string/today" />
         <item
-            android:id="@+id/itemD"
+            android:id="@+id/graphFragment"
+            android:icon="@drawable/inventory"
+            android:title="@string/graph" />
+        <item
+            android:id="@+id/settingsFragment"
             android:icon="@drawable/settings"
-            android:title="@string/item_d" />
+            android:title="@string/settings" />
 
-        <!--
-       <item
-           android:id="@+id/itemB"
-           android:icon="@drawable/inventory"
-           android:title="@string/item_b" />
-           -->
+
 
     </group>
 </menu>

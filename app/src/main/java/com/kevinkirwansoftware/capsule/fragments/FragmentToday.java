@@ -273,7 +273,6 @@ public class FragmentToday extends Fragment {
     }
 
     private void pollNews(){
-        /*
         compositeDisposable.add(retrofitDummyApi.getPosts("sa")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -288,8 +287,7 @@ public class FragmentToday extends Fragment {
                         dummyProcessingFail();
                     }
                 }));
-         */
-
+        /*
         compositeDisposable.add(retrofitNewsApi.getTopByLanguage(ApplicationTools.getNewsApiKey(),
                 "en", "us")
                 .subscribeOn(Schedulers.io())
@@ -305,6 +303,8 @@ public class FragmentToday extends Fragment {
                         populateNewsStoriesFail();
                     }
                 }));
+
+         */
     }
     private void fetchData() {
             // Working weather call

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.kevinkirwansoftware.capsule.fragments.FragmentGraph;
 import com.kevinkirwansoftware.capsule.fragments.FragmentSchedule;
 import com.kevinkirwansoftware.capsule.fragments.FragmentSettings;
 import com.kevinkirwansoftware.capsule.fragments.FragmentToday;
@@ -45,31 +46,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new FragmentToday()).commit();
-            navigationView.setCheckedItem(R.id.itemA);
+            navigationView.setCheckedItem(R.id.todayFragment);
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new FragmentToday()).commit();
-        navigationView.setCheckedItem(R.id.itemA);
+        navigationView.setCheckedItem(R.id.todayFragment);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
-            case R.id.itemA:
+            case R.id.todayFragment:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new FragmentToday()).commit();
                 break;
-                /*
-            case R.id.itemB:
+            case R.id.graphFragment:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new FragmentInventory()).commit();
+                        new FragmentGraph()).commit();
                 break;
-                 */
-            case R.id.itemC:
+            case R.id.scheduleFragment:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new FragmentSchedule()).commit();
                 break;
-            case R.id.itemD:
+            case R.id.settingsFragment:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new FragmentSettings()).commit();
                 break;

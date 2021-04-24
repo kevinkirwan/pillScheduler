@@ -1,5 +1,6 @@
 package com.kevinkirwansoftware.capsule;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
@@ -10,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 public class RecurringReminder extends ScheduleItem {
@@ -107,12 +109,15 @@ public class RecurringReminder extends ScheduleItem {
         return "Recurring";
     }
 
-    public void recurringReminderInit(){
+    public void recurringReminderInit(Context context){
         setScheduleID(UUID.randomUUID().toString());
         setDbCode1((int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT));
         setDbCode2((int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT));
         setDbCode3((int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT));
         setDbCode4((int) Math.floor(Math.random() * ApplicationTools.MAXIMUM_POSITIVE_INT));
+        List<TimePair> timeList = new ArrayList<>();
+        ApplicationPreferences.setLatencyList(context, getScheduleID(), timeList);
+
     }
 
     public String getFistTimeAsString(){

@@ -86,8 +86,11 @@ public class ApplicationTools {
         Intent snoozeIntent = new Intent(context, NotificationClickedBroadcast.class);
         snoozeIntent.setAction(ACTION_SNOOZE);
         snoozeIntent.putExtra("code", code);
+        long time = Calendar.getInstance().getTimeInMillis();
+        snoozeIntent.putExtra("time", time);
+        snoozeIntent.putExtra("tag", notificationTag);
         PendingIntent snoozePI =
-                PendingIntent.getBroadcast(context, code, snoozeIntent, 0);
+                PendingIntent.getBroadcast(context, code, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         collapsedView.setOnClickPendingIntent(R.id.collapsedButton, snoozePI);
 

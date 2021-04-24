@@ -3,6 +3,13 @@ package com.kevinkirwansoftware.capsule.general;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.kevinkirwansoftware.capsule.TimePair;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
 public class ApplicationPreferences {
     private String TAG = "ApplicationPreferences.java";
     private static String SHARED_PREFERENCES = "shared_preferences";
@@ -26,6 +33,23 @@ public class ApplicationPreferences {
         is24Hour = sharedPreferences.getBoolean(PREF_IS_24_HOUR, false);
         isAmpm = sharedPreferences.getBoolean(PREF_IS_AMPM, true);
         isDegF = sharedPreferences.getBoolean(PREF_IS_F_DEG, true);
+    }
+
+    public static List<TimePair> getLatencyList(Context context, String tag){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(tag, null);
+        Type type = new TypeToken<List<TimePair>>() {}.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public static void setLatencyList(Context context, String tag, List<TimePair> timeList){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(timeList);
+        editor.putString(tag, json);
+        editor.apply();
     }
 
     public static boolean is24Hour(){
@@ -58,5 +82,12 @@ public class ApplicationPreferences {
         } else {
             return "C";
         }
+    }
+
+    public static void remove(Context context, String key){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(key);
+        editor.apply();
     }
 }

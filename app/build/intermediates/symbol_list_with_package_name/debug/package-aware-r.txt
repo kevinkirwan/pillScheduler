@@ -1228,6 +1228,8 @@ drawable regal
 drawable schedule
 drawable settings
 drawable theme_background
+drawable theme_background_color_primary
+drawable theme_background_error
 drawable theme_background_none
 drawable theme_background_zero_thickness
 drawable tooltip_frame_dark
@@ -1302,8 +1304,6 @@ id actions
 id activationCheckBox
 id activity_chooser_view_content
 id add
-id addMedicineInfoLL
-id addMedicineItem
 id addReminderArrowIV
 id addReminderArrowTV
 id addReminderButton
@@ -1323,6 +1323,7 @@ id barrier
 id beginning
 id blocking
 id bottom
+id bottomError
 id bottom_sheet_background
 id buttonOk
 id buttonPanel
@@ -1399,6 +1400,9 @@ id fullscreen_content_controls
 id ghost_view
 id glide_custom_view_target_tag
 id gone
+id graph
+id graphFragment
+id graphSpinner
 id group_divider
 id groups
 id home
@@ -1417,9 +1421,6 @@ id info
 id inventoryRecyclerView
 id invisible
 id italic
-id itemA
-id itemC
-id itemD
 id item_touch_helper_previous_elevation
 id labeled
 id largeLabel
@@ -1443,6 +1444,7 @@ id menuUnitsLL
 id message
 id middle
 id mini
+id minutesLateTV
 id minutesPicker
 id miscInfoLL
 id monthPicker
@@ -1522,8 +1524,10 @@ id save_image_matrix
 id save_non_transition_alpha
 id save_scale_type
 id scheduleDialogHeader
+id scheduleFragment
 id scheduleItemMenuLL
 id scheduleRecyclerView
+id scheduledTimeTV
 id screen
 id scroll
 id scrollIndicatorDown
@@ -1547,6 +1551,7 @@ id second_daily_reminder_rl
 id second_daily_reminder_text
 id select_dialog_listview
 id selected
+id settingsFragment
 id sheetContentLayout
 id sheetTitle
 id sheetTitleLayout
@@ -1589,6 +1594,7 @@ id tag_transition_group
 id tag_unhandled_key_event_manager
 id tag_unhandled_key_listeners
 id tag_window_insets_animation_callback
+id takenTimeTV
 id tempUnitsLL
 id temp_c_rb
 id temp_f_rb
@@ -1618,11 +1624,11 @@ id timeZone
 id title
 id titleDividerNoCustom
 id title_template
+id todayFragment
 id toolbar
 id top
 id topLinearLayout
 id topLinearLayoutNews
-id topLinearLayoutThemes
 id topPanel
 id topThemesRL
 id topUnitsRL
@@ -1732,7 +1738,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
 layout expanded_notification
-layout fragment_inventory
+layout fragment_graph
 layout fragment_schedule
 layout fragment_settings
 layout fragment_today
@@ -1820,6 +1826,7 @@ string dummy_button
 string dummy_content
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
+string graph
 string hide_bottom_view_on_scroll_behavior
 string item_a
 string item_b
@@ -1839,10 +1846,12 @@ string picker_pm
 string picker_today
 string press_when_medicine_is_taken
 string search_menu_title
+string settings
 string single_a
 string single_b
 string status_bar_notification_info_overflow
 string title_activity_wake_up
+string today
 string update
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
