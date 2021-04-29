@@ -1200,6 +1200,7 @@ drawable ic_rain
 drawable ic_rain_unlicensed
 drawable ic_recurring
 drawable ic_right_arrow_24dp
+drawable ic_scatter_plot
 drawable ic_snow
 drawable ic_sun
 drawable ic_trash
@@ -1362,6 +1363,7 @@ id daysPicker
 id decor_content_parent
 id default_activity_button
 id deleteIcon
+id descriptionCV
 id design_bottom_sheet
 id design_menu_item_action_area
 id design_menu_item_action_area_stub
@@ -1401,8 +1403,17 @@ id ghost_view
 id glide_custom_view_target_tag
 id gone
 id graph
+id graphCV
+id graphDropIcon
 id graphFragment
+id graphMaxET
+id graphMaxLL
+id graphMaxTIL
 id graphSpinner
+id graphTV
+id graphThresholdET
+id graphThresholdLL
+id graphThresholdTIL
 id group_divider
 id groups
 id home
@@ -1438,6 +1449,7 @@ id medicine_dosage
 id medicine_dosage_unit
 id medicine_name
 id medicine_taken_button
+id menuGraphLL
 id menuNewsLL
 id menuThemesLL
 id menuUnitsLL
@@ -1508,6 +1520,7 @@ id reminderDescET
 id reminderDescRL
 id reminderDescTIL
 id reminderDescTV
+id reminderInfoTV
 id reminderName
 id reminderNameET
 id reminderNameRL
@@ -1627,6 +1640,7 @@ id title_template
 id todayFragment
 id toolbar
 id top
+id topGraphRL
 id topLinearLayout
 id topLinearLayoutNews
 id topPanel

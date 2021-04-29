@@ -21,12 +21,14 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.kevinkirwansoftware.capsule.R;
 import com.kevinkirwansoftware.capsule.general.ApplicationFlags;
 import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -42,13 +44,15 @@ import io.reactivex.schedulers.TestScheduler;
 public class FragmentSettings extends Fragment {
 
     private View settingsView;
-    private RelativeLayout topThemesRL, topUnitsRL;
-    private LinearLayout menuThemesLL, menuUnitsLL, ampmLL;
-    private ImageView themesDropIcon, unitsDropIcon;
+    private RelativeLayout topThemesRL, topUnitsRL, topGraphRL;
+    private LinearLayout menuThemesLL, menuUnitsLL, ampmLL, menuGraphLL;
+    private ImageView themesDropIcon, unitsDropIcon, graphDropIcon;
     private EditText newsFilterET;
     private RadioButton hour12RB, hour24RB, ampmYesRB, ampmNoRB, fDegRB, cDegRB;
     private boolean timeFormatFlag = false, ampmFlag = false, degFlag = false;
     private boolean is24HourChecked, isAmpmChecked, isFdegChecked;
+    private TextInputEditText latencyThresholdET, graphMinsLimitET;
+    private int latencyThreshold, graphMinsLimit;
 
     @Nullable
     @Override
@@ -66,10 +70,12 @@ public class FragmentSettings extends Fragment {
     private void settingsInit(){
         topThemesRL = settingsView.findViewById(R.id.topThemesRL);
         topUnitsRL = settingsView.findViewById(R.id.topUnitsRL);
+        topGraphRL = settingsView.findViewById(R.id.topGraphRL);
 
         menuThemesLL = settingsView.findViewById(R.id.menuThemesLL);
         menuUnitsLL = settingsView.findViewById(R.id.menuUnitsLL);
         ampmLL = settingsView.findViewById(R.id.ampmLL);
+        menuGraphLL = settingsView.findViewById(R.id.menuGraphLL);
 
         hour12RB = settingsView.findViewById(R.id.hour_12_rb);
         hour24RB = settingsView.findViewById(R.id.hour_24_rb);
@@ -80,7 +86,10 @@ public class FragmentSettings extends Fragment {
 
         themesDropIcon = settingsView.findViewById(R.id.themesDropIcon);
         unitsDropIcon = settingsView.findViewById(R.id.unitsDropIcon);
+        graphDropIcon = settingsView.findViewById(R.id.graphDropIcon);
         newsFilterET = settingsView.findViewById(R.id.newsFilterET);
+        latencyThresholdET = settingsView.findViewById(R.id.graphThresholdET);
+        graphMinsLimitET = settingsView.findViewById(R.id.graphMaxET);
 
         fragmentSettingsInit();
     }
@@ -99,6 +108,13 @@ public class FragmentSettings extends Fragment {
             @Override
             public void onClick(View v) {
                 menuUnitsCheck();
+            }
+        });
+
+        topGraphRL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuGraphCheck();
             }
         });
 
@@ -150,6 +166,7 @@ public class FragmentSettings extends Fragment {
                 getContext().setTheme(R.style.ForestTheme);
             }
         });
+
     }
 
     private void initAppPreferences(){
@@ -170,6 +187,12 @@ public class FragmentSettings extends Fragment {
         } else {
             setCdegChecked();
         }
+
+        String latency = String.valueOf(ApplicationPreferences.getLatencyThreshold());
+        String limit = String.valueOf(ApplicationPreferences.getGraphMinsLimit());
+
+        latencyThresholdET.setText(latency);
+        graphMinsLimitET.setText(limit);
     }
 
     private void setFdegChecked(){
@@ -297,6 +320,16 @@ public class FragmentSettings extends Fragment {
 
     }
 
+    private void menuGraphCheck(){
+        if(menuGraphLL.getVisibility() == View.VISIBLE){
+            menuGraphLL.setVisibility(View.GONE);
+            graphDropIcon.setRotation(90.0f);
+        } else {
+            menuGraphLL.setVisibility(View.VISIBLE);
+            graphDropIcon.setRotation(-90.0f);
+        }
+    }
+
     private void menuThemesCheck(){
         if(menuThemesLL.getVisibility() == View.VISIBLE){
             menuThemesLL.setVisibility(View.GONE);
@@ -333,10 +366,20 @@ public class FragmentSettings extends Fragment {
         }
     }
 
+    private void updateGraphSettings(){
+        ApplicationPreferences.setLatencyThreshold(Integer.parseInt(Objects.requireNonNull(latencyThresholdET.getText()).toString()));
+        ApplicationPreferences.setGraphMinsLimit(Integer.parseInt(Objects.requireNonNull(graphMinsLimitET.getText()).toString()));
+    }
+
+    private void updateAllPreferences(){
+        updateUnits();
+        updateGraphSettings();
+    }
+
     @Override
     public void onPause() {
         super.onPause();
-        updateUnits();
+        updateAllPreferences();
     }
 
     @Override

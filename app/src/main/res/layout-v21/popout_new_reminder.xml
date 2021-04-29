@@ -167,30 +167,32 @@
                             android:orientation="horizontal">
 
                             <RadioButton
+                                android:id="@+id/recurring_rb"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/theme_background"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:gravity="center"
+                                android:text="Recurring"
+                                android:button="@null"
+                                android:padding="5dp"
+                                android:textColor="@color/colorThree"/>
+
+                            <RadioButton
                                 android:id="@+id/one_time_rb"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:text="One-Time"
-                                android:background="@drawable/theme_background"
-                                android:backgroundTint="@color/colorPrimary"
-                                android:button="@null"
-                                android:padding="5dp"
-                                android:textColor="@color/colorThree" />
-
-                            <RadioButton
-                                android:id="@+id/recurring_rb"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:background="@drawable/theme_background_none"
                                 android:backgroundTint="@color/colorThree"
-                                android:gravity="center"
-                                android:text="Recurring"
                                 android:button="@null"
                                 android:padding="5dp"
-                                android:textColor="@color/colorTwo"/>
+                                android:textColor="@color/colorTwo" />
+
+
                         </RadioGroup>
 
                     </RelativeLayout>

@@ -35,6 +35,7 @@ import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.kevinkirwansoftware.capsule.GraphItem;
 import com.kevinkirwansoftware.capsule.InventoryAdapter;
@@ -65,7 +66,7 @@ public class FragmentGraph extends Fragment {
     private SQLiteDatabase mRecurringDatabase;
     private RecurringDbHelper mRecurringDbHelper;
 
-    private TextView takenTimeTV, scheduledTimeTV, minutesLateTV;
+    private TextView takenTimeTV, scheduledTimeTV, minutesLateTV, reminderInfoTV;
 
     @Nullable
     @Override
@@ -92,6 +93,7 @@ public class FragmentGraph extends Fragment {
         scheduledTimeTV = view.findViewById(R.id.scheduledTimeTV);
         takenTimeTV = view.findViewById(R.id.takenTimeTV);
         minutesLateTV = view.findViewById(R.id.minutesLateTV);
+        reminderInfoTV = view.findViewById(R.id.reminderInfoTV);
 
         initializeSpinner();
 
@@ -129,6 +131,7 @@ public class FragmentGraph extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GraphItem graphItem = (GraphItem) parent.getSelectedItem();
                 initializeChart(graphItem.getTag());
+                updateBottomCard();
                 clearTextViews();
             }
 
@@ -144,45 +147,80 @@ public class FragmentGraph extends Fragment {
         return  (GraphItem) spinner.getSelectedItem();
     }
 
+    private void updateBottomCard(){
+        String info;
+        GraphItem graphItem = getSelectedItem(getView());
+        if(timeList.size() == 0){
+            info = "No past alarms for " + graphItem.getName();
+        } else {
+            info = "Displaying last " + timeList.size() + " reminders for: " + graphItem.getName();
+        }
+        reminderInfoTV.setText(info);
+    }
+
     private void populateChart(){
 
     }
 
     private void initializeChart(String id){
+        List<Entry> entriesBelow = new ArrayList<>();
+        List<Entry> entriesAbove = new ArrayList<>();
         List<Entry> entries = new ArrayList<>();
          timeList = ApplicationPreferences.getLatencyList(Objects.requireNonNull(getContext()), id);
         for(int i = 0; i < timeList.size(); i++){
+            if(timeList.get(i).getTimeDifferenceMinutes() > ApplicationPreferences.getLatencyThreshold() -1 ){
+                entriesAbove.add(new Entry((float) i + 1, timeList.get(i).getTimeDifferenceMinutes()));
+            } else {
+                entriesBelow.add(new Entry((float) i + 1, timeList.get(i).getTimeDifferenceMinutes()));
+            }
             entries.add(new Entry((float) i + 1, timeList.get(i).getTimeDifferenceMinutes()));
+
         }
 
-        ScatterDataSet dataSet = new ScatterDataSet(entries, "Minutes late");
-        dataSet.setDrawValues(false);
-        dataSet.setColor(Color.BLACK);
-        dataSet.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
+        ScatterDataSet dataSetBelow = new ScatterDataSet(entriesBelow, "On-Time");
+        dataSetBelow.setDrawValues(false);
+        dataSetBelow.setColor(getContext().getResources().getColor(R.color.colorPrimary, getContext().getTheme()));
+        dataSetBelow.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
 
-        ScatterData scatterData = new ScatterData(dataSet);
+        ScatterDataSet dataSetAbove = new ScatterDataSet(entriesAbove, "Late");
+        dataSetAbove.setDrawValues(false);
+        dataSetAbove.setColor(Color.RED);
+        dataSetAbove.setScatterShape(ScatterChart.ScatterShape.X);
+
+        /*
+        ScatterData scatterDataBelow = new ScatterData(dataSetBelow);
+        ScatterData scatterDataAbove = new ScatterData(dataSetAbove);
+
+         */
+
+        ArrayList<IScatterDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSetBelow);
+        dataSets.add(dataSetAbove);
+
+        ScatterData scatterData = new ScatterData(dataSets);
         graph.setData(scatterData);
+
         graph.invalidate();
         graph.setPinchZoom(false);
         graph.setDoubleTapToZoomEnabled(false);
         graph.setScaleXEnabled(false);
         graph.setScaleYEnabled(false);
         graph.setDrawBorders(true);
-        graph.getDescription().setText("Minutes late - last " + timeList.size() + " reminders");
+        graph.getDescription().setText("");
         graph.getDescription().setPosition(500f, 100f);
 
         graph.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         graph.setDrawGridBackground(false);
         graph.getAxisRight().setDrawLabels(false);
         graph.getAxisRight().setDrawGridLines(false);
-        graph.setBackgroundColor(getContext().getResources().getColor(R.color.colorTwo, getContext().getTheme()));
+        graph.setBackgroundColor(getContext().getResources().getColor(R.color.colorThree, getContext().getTheme()));
 
         YAxis yAxis = graph.getAxisLeft();
         yAxis.setLabelCount(5);
         yAxis.setDrawGridLines(false);
         yAxis.setDrawLabels(true);
-        yAxis.setAxisMaximum(100f);
-        yAxis.setAxisMinimum(-5f);
+        yAxis.setAxisMaximum(ApplicationPreferences.getGraphMinsLimit());
+        yAxis.setAxisMinimum(-1.0f*(ApplicationPreferences.getGraphMinsLimit()/20.0f));
 
         XAxis xAxis = graph.getXAxis();
         xAxis.setLabelCount(timeList.size());
@@ -211,6 +249,16 @@ public class FragmentGraph extends Fragment {
         takenTimeTV.setText(timeList.get(position).getDismissedTimeString());
         String minutesLate = Integer.toString(timeList.get(position).getTimeDifferenceMinutes());
         minutesLateTV.setText(minutesLate);
+        if(timeList.get(position).getTimeDifferenceMinutes() > ApplicationPreferences.getLatencyThreshold() -1 ){
+            minutesLateTV.setTextColor(Color.RED);
+            scheduledTimeTV.setTextColor(Color.RED);
+            takenTimeTV.setTextColor(Color.RED);
+        } else {
+            minutesLateTV.setTextColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.colorPrimary, getContext().getTheme()));
+            takenTimeTV.setTextColor(getContext().getResources().getColor(R.color.colorPrimary, getContext().getTheme()));
+            scheduledTimeTV.setTextColor(getContext().getResources().getColor(R.color.colorPrimary, getContext().getTheme()));
+        }
+
     }
 
     private void clearTextViews(){
@@ -231,4 +279,5 @@ public class FragmentGraph extends Fragment {
         );
 
     }
+
 }

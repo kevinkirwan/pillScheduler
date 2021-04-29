@@ -402,7 +402,7 @@ public class FragmentSchedule extends Fragment {
                             if(mScheduleItems.get(j) instanceof RecurringReminder){
                                 mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
                                         null,
-                                        ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(j)));
+                                        ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(j), false));
                             } else if(mScheduleItems.get(j) instanceof SingleReminder){
                                 mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
                                         null,
@@ -472,7 +472,7 @@ public class FragmentSchedule extends Fragment {
                 if(mScheduleItems.get(j) instanceof RecurringReminder){
                     mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
                             null,
-                            ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(j)));
+                            ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(j), true));
                 }
                 if(mScheduleItems.get(j) instanceof SingleReminder){
                     mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,

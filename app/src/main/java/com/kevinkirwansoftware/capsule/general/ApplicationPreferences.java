@@ -17,7 +17,12 @@ public class ApplicationPreferences {
     private static String PREF_IS_24_HOUR = "is_24_hour";
     private static String PREF_IS_AMPM = "is_ampm";
     private static String PREF_IS_F_DEG = "is_f_deg";
+
+    private static String PREF_LATENCY_THRESHOLD = "latency_threshold";
+    private static String PREF_GRAPH_MINS_LIMIT = "graph_mins_limit";
+
     private static boolean is24Hour, isAmpm, isDegF;
+    private static int latencyThreshold, graphMinsLimit;
 
     public static void savePreferenceData(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
@@ -25,6 +30,10 @@ public class ApplicationPreferences {
         editor.putBoolean(PREF_IS_24_HOUR, is24Hour);
         editor.putBoolean(PREF_IS_AMPM, isAmpm);
         editor.putBoolean(PREF_IS_F_DEG, isDegF);
+
+        editor.putInt(PREF_LATENCY_THRESHOLD, latencyThreshold);
+        editor.putInt(PREF_GRAPH_MINS_LIMIT, graphMinsLimit);
+
         editor.apply();
     }
 
@@ -33,6 +42,10 @@ public class ApplicationPreferences {
         is24Hour = sharedPreferences.getBoolean(PREF_IS_24_HOUR, false);
         isAmpm = sharedPreferences.getBoolean(PREF_IS_AMPM, true);
         isDegF = sharedPreferences.getBoolean(PREF_IS_F_DEG, true);
+
+        latencyThreshold = sharedPreferences.getInt(PREF_LATENCY_THRESHOLD, 10);
+        graphMinsLimit = sharedPreferences.getInt(PREF_GRAPH_MINS_LIMIT, 100);
+
     }
 
     public static List<TimePair> getLatencyList(Context context, String tag){
@@ -82,6 +95,22 @@ public class ApplicationPreferences {
         } else {
             return "C";
         }
+    }
+
+    public static int getLatencyThreshold(){
+        return latencyThreshold;
+    }
+
+    public static int getGraphMinsLimit(){
+        return graphMinsLimit;
+    }
+
+    public static void setLatencyThreshold(int latencyThreshold){
+        ApplicationPreferences.latencyThreshold = latencyThreshold;
+    }
+
+    public static void setGraphMinsLimit(int graphMinsLimit){
+        ApplicationPreferences.graphMinsLimit = graphMinsLimit;
     }
 
     public static void remove(Context context, String key){

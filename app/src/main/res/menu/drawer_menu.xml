@@ -14,7 +14,7 @@
             android:title="@string/today" />
         <item
             android:id="@+id/graphFragment"
-            android:icon="@drawable/inventory"
+            android:icon="@drawable/ic_scatter_plot"
             android:title="@string/graph" />
         <item
             android:id="@+id/settingsFragment"

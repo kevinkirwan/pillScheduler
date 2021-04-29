@@ -105,6 +105,7 @@ public class ApplicationTools {
                 .setOngoing(true)
                 .setLights(Color.BLUE, 500, 500)
                 .setVibrate(ChannelGenerator.vibrationPattern)
+                .setSound(ChannelGenerator.soundUri)
                 //.setDeleteIntent(pendingIntent)
                 .build();
 
@@ -280,7 +281,11 @@ public class ApplicationTools {
 
     }
 
-    public static ContentValues setRecurringReminderCV(RecurringReminder holderItem){
+    public static ContentValues setRecurringReminderCV(RecurringReminder holderItem, boolean changed){
+        int offset = 0;
+        if(!changed){
+            offset = 1;
+        }
         ContentValues cv = new ContentValues();
         int[][] multiRemindersArray = holderItem.getMultiRemindersArray();
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME, holderItem.getReminderName());
@@ -290,13 +295,13 @@ public class ApplicationTools {
         Log.d("Kevin", "setRecurringReminderCV: " + multiRemindersArray[1][0]);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAILY_REMINDERS, holderItem.getNumDailyReminders());
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_ONE, multiRemindersArray[0][0]);
-        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, multiRemindersArray[1][0]+1);
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_ONE, multiRemindersArray[1][0]+offset);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_TWO, multiRemindersArray[0][1]);
-        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_TWO, multiRemindersArray[1][1]+1);
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_TWO, multiRemindersArray[1][1]+offset);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_THREE, multiRemindersArray[0][2]);
-        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_THREE, multiRemindersArray[1][2]+1);
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_THREE, multiRemindersArray[1][2]+offset);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_HOUR_FOUR, multiRemindersArray[0][3]);
-        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_FOUR, multiRemindersArray[1][3]+1);
+        cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_REMINDER_MINUTE_FOUR, multiRemindersArray[1][3]+offset);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_YEAR, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_MONTH, -1);
         cv.put(RecurringReminderColumns.RecurringReminderEntry.COLUMN_DAY, -1);

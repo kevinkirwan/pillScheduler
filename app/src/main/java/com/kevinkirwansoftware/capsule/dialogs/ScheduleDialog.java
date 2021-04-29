@@ -51,7 +51,7 @@ public class ScheduleDialog extends Dialog {
     private TextInputEditText reminderNameET, reminderDescET;
 
     private Date singleDate;
-    public boolean isOneTime = true;
+    public boolean isOneTime = false;
     private int dailyReminderCounter = 1;
 
     private LinearLayout testLL;
@@ -121,6 +121,8 @@ public class ScheduleDialog extends Dialog {
         }  else {
             scheduleDialogHeader.setText("New Reminder");
         }
+
+        recurringRBUpdate();
 
         updateReminderCounter();
 
