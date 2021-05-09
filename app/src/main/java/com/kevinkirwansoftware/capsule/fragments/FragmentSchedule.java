@@ -36,6 +36,7 @@ import com.kevinkirwansoftware.capsule.general.ApplicationPreferences;
 import com.kevinkirwansoftware.capsule.general.ApplicationTools;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -95,6 +96,7 @@ public class FragmentSchedule extends Fragment {
                     public void onLongClick(int position) {
                         toggleMenu(position);
                     }
+
                     @Override
                     public void onItemClick(int position) {
                         toggleMenu(position);
@@ -155,32 +157,6 @@ public class FragmentSchedule extends Fragment {
 
     public void showDeleteOption(int position){
         removeItem(position);
-    }
-
-    public void launchEditMenu(int position){
-
-        final ScheduleDialog scheduleDialog = new ScheduleDialog(getContext(), ScheduleDialog.SchedulePopOutType.EDIT, mScheduleItems.get(position));
-        scheduleDialog.show();
-
-        scheduleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                if(scheduleDialog.getUpdateNeeded()){
-                    String id;
-                    if(scheduleDialog.isOneTime){
-                        mScheduleItems.set(position, scheduleDialog.getSingleItem());
-                        id = scheduleDialog.getSingleItem().getScheduleID();
-                    } else {
-                        mScheduleItems.set(position, scheduleDialog.getRecurringItem());
-                        id = scheduleDialog.getRecurringItem().getScheduleID();
-                    }
-                    mScheduleAdapter.notifyItemChanged(position);
-                    mScheduleItems.get(position).setMenuVisible(false);
-                    ApplicationFlags.setReminderDatasetItemChangedFlag(id);
-                    saveScheduleItemsToDatabase();
-                }
-            }
-        });
     }
 
     private void getScheduleItemsFromDb(){
@@ -254,8 +230,6 @@ public class FragmentSchedule extends Fragment {
                 default:
                     mScheduleItems.add(new ScheduleItem());
                     rt_enum = ScheduleItem.ReminderType.NONE;
-                    Log.e("Kevin", "ERROR WITH LOADING");
-                    Toast.makeText(getContext(),"Kevin THIS SHOULD NOT BE POSSIBLE", Toast.LENGTH_SHORT).show();
 
             }
             mScheduleItems.get(j).setReminderType(rt_enum);
@@ -276,9 +250,6 @@ public class FragmentSchedule extends Fragment {
         cancelBroadcast(position);
         ApplicationFlags.setReminderDatasetItemRemovedFlag(mScheduleItems.get(position).getScheduleID());
         Log.d("Kevin", "Deleted Items: ");
-        for (int i = 0; i < ApplicationFlags.getRemindersRemovedList().size(); i++){
-            Log.d("Kevin", "Removed name: " + ApplicationFlags.getRemindersRemovedList().get(i));
-        }
         ApplicationPreferences.remove(Objects.requireNonNull(getContext()), mScheduleItems.get(position).getScheduleID());
         mScheduleItems.remove(position);
         mScheduleAdapter.notifyItemRemoved(position);
@@ -357,14 +328,46 @@ public class FragmentSchedule extends Fragment {
                             } else {
                                 mScheduleItems.add(scheduleDialog.getRecurringItem());
                                 id = scheduleDialog.getRecurringItem().getScheduleID();
+                                if(mScheduleItems.get(mScheduleItems.size() - 1) instanceof RecurringReminder){
+                                    ((RecurringReminder) mScheduleItems.get(mScheduleItems.size() - 1)).setChanged(true);
+                                }
                             }
-
                             mScheduleAdapter.notifyItemInserted(mScheduleItems.size() - 1);
                             ApplicationFlags.setReminderDatasetItemAddedFlag(id);
                             saveScheduleItemsToDatabase();
                         }
                     }
                 });
+            }
+        });
+    }
+
+    public void launchEditMenu(int position){
+
+        final ScheduleDialog scheduleDialog = new ScheduleDialog(getContext(), ScheduleDialog.SchedulePopOutType.EDIT, mScheduleItems.get(position));
+        scheduleDialog.show();
+
+        scheduleDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if(scheduleDialog.getUpdateNeeded()){
+                    String id;
+                    if(scheduleDialog.isOneTime){
+                        mScheduleItems.set(position, scheduleDialog.getSingleItem());
+                        id = scheduleDialog.getSingleItem().getScheduleID();
+                    } else {
+                        mScheduleItems.set(position, scheduleDialog.getRecurringItem());
+                        id = scheduleDialog.getRecurringItem().getScheduleID();
+                        if(mScheduleItems.get(position) instanceof RecurringReminder){
+                            ((RecurringReminder) mScheduleItems.get(position)).setChanged(true);
+                        }
+
+                    }
+                    mScheduleAdapter.notifyItemChanged(position);
+                    mScheduleItems.get(position).setMenuVisible(false);
+                    ApplicationFlags.setReminderDatasetItemChangedFlag(id);
+                    saveScheduleItemsToDatabase();
+                }
             }
         });
     }
@@ -463,6 +466,7 @@ public class FragmentSchedule extends Fragment {
             Cursor cursor = getAllItems();
             for(int i = cursor.getCount() - 1; i >= 0; i--){
                 cursor.moveToPosition(i);
+                Log.d("Kevin", "hard reset of : " +  cursor.getString(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry.COLUMN_NAME)));
                 long id = cursor.getLong(cursor.getColumnIndex(RecurringReminderColumns.RecurringReminderEntry._ID));
                 mRecurringDatabase.delete(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
                         RecurringReminderColumns.RecurringReminderEntry._ID + "=" + id,
@@ -470,9 +474,17 @@ public class FragmentSchedule extends Fragment {
             }
             for(int j = mScheduleItems.size() - 1; j >= 0; j--){
                 if(mScheduleItems.get(j) instanceof RecurringReminder){
-                    mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
-                            null,
-                            ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(j), true));
+                    // TODO undo the following line
+                    if(((RecurringReminder) mScheduleItems.get(j)).isChanged()){
+                        mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
+                                null,
+                                ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(j), false));
+                    } else {
+                        mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
+                                null,
+                                ApplicationTools.setRecurringReminderCV((RecurringReminder) mScheduleItems.get(j), true));
+                    }
+
                 }
                 if(mScheduleItems.get(j) instanceof SingleReminder){
                     mRecurringDatabase.insert(RecurringReminderColumns.RecurringReminderEntry.TABLE_NAME,
@@ -548,7 +560,6 @@ public class FragmentSchedule extends Fragment {
     public void onDestroyView() {
         Log.d("Kevin", "View Destroyed");
         timerNeeded = false;
-        saveScheduleItemsToDatabase();
         super.onDestroyView();
     }
 
@@ -557,20 +568,20 @@ public class FragmentSchedule extends Fragment {
     public void onPause(){
         Log.d("Kevin", "View Paused");
         timerNeeded = false;
+        saveScheduleItemsToDatabase();
         super.onPause();
     }
 
     @Override
     public void onResume() {
         Log.d("Kevin", "onResume Called");
-        //getScheduleItemsFromDb();
+        getScheduleItemsFromDb();
         super.onResume();
     }
 
     @Override
     public void onStart() {
         Log.d("Kevin", "onStart Called");
-        getScheduleItemsFromDb();
         super.onStart();
     }
 

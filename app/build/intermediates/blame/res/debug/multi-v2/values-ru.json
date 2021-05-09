@@ -4,20 +4,20 @@
             "outputFile": "C:\\Users\\kevin\\OneDrive\\Desktop\\kevinkirwansoftware.com\\Android\\capsule\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ru\\values-ru.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-2\\files-2.1\\e12d24fa497678e4c2bd17935c5c9d8b\\jetified-play-services-basement-17.5.0\\res\\values-ru\\values.xml",
+                    "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-2\\files-2.1\\d75c8d3d3d00515b969c036b6aea8275\\core-1.6.0-alpha03\\res\\values-ru\\values-ru.xml",
                     "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "247",
-                        "endColumns": "215",
-                        "endOffsets": "462"
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
                     },
                     "to": {
-                        "startLines": "37",
+                        "startLines": "51",
                         "startColumns": "4",
-                        "startOffsets": "3979",
-                        "endColumns": "215",
-                        "endOffsets": "4190"
+                        "startOffsets": "5796",
+                        "endColumns": "100",
+                        "endOffsets": "5892"
                     }
                 },
                 {
@@ -72,20 +72,20 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-2\\files-2.1\\b4c09967f0e5ebbabeab239210f84344\\core-1.6.0-alpha02\\res\\values-ru\\values-ru.xml",
+                    "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-2\\files-2.1\\5e065c5d8e749d2ae4414ef1c6acfc4d\\jetified-play-services-basement-17.5.0\\res\\values-ru\\values.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "215",
+                        "endOffsets": "462"
                     },
                     "to": {
-                        "startLines": "51",
+                        "startLines": "37",
                         "startColumns": "4",
-                        "startOffsets": "5796",
-                        "endColumns": "100",
-                        "endOffsets": "5892"
+                        "startOffsets": "3979",
+                        "endColumns": "215",
+                        "endOffsets": "4190"
                     }
                 }
             ]

@@ -33,7 +33,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
 
 public class ScheduleDialog extends Dialog {
     View scheduleView;
@@ -187,6 +191,9 @@ public class ScheduleDialog extends Dialog {
                 reminderPlusUpdate();
             }
         });
+
+
+
     }
 
     private void reminderPlusUpdate(){

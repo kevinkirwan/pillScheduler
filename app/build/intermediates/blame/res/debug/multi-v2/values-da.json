@@ -21,23 +21,6 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-2\\files-2.1\\b4c09967f0e5ebbabeab239210f84344\\core-1.6.0-alpha02\\res\\values-da\\values-da.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "49",
-                        "startColumns": "4",
-                        "startOffsets": "5574",
-                        "endColumns": "100",
-                        "endOffsets": "5670"
-                    }
-                },
-                {
                     "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-2\\files-2.1\\c21030fe1b90659a80183a0f3b655ddb\\jetified-singledateandtimepicker-2.2.8\\res\\values-da\\values-da.xml",
                     "from": {
                         "startLines": "2",
@@ -55,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-2\\files-2.1\\e12d24fa497678e4c2bd17935c5c9d8b\\jetified-play-services-basement-17.5.0\\res\\values-da\\values.xml",
+                    "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-2\\files-2.1\\5e065c5d8e749d2ae4414ef1c6acfc4d\\jetified-play-services-basement-17.5.0\\res\\values-da\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -86,6 +69,23 @@
                         "startOffsets": "2757,2865,3057,3186,3297,3499,3626,3776,4096,4311,4419,4612,4741,4945,5153,5249,5341",
                         "endColumns": "107,191,128,110,201,126,149,133,214,107,192,128,203,207,95,91,106",
                         "endOffsets": "2860,3052,3181,3292,3494,3621,3771,3905,4306,4414,4607,4736,4940,5148,5244,5336,5443"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\kevin\\.gradle\\caches\\transforms-2\\files-2.1\\d75c8d3d3d00515b969c036b6aea8275\\core-1.6.0-alpha03\\res\\values-da\\values-da.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "49",
+                        "startColumns": "4",
+                        "startOffsets": "5574",
+                        "endColumns": "100",
+                        "endOffsets": "5670"
                     }
                 }
             ]

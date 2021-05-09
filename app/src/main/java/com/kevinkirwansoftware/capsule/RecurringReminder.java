@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class RecurringReminder extends ScheduleItem {
-    public boolean mDaily;
+    public boolean mDaily, mChanged = false;
     private int mDailyReminders;
     private int[][] mMultiRemindersArray;
     private Calendar calendar1, calendar2, calendar3, calendar4;
@@ -51,6 +51,14 @@ public class RecurringReminder extends ScheduleItem {
                 returnString  = "Unknown";
         }
         return returnString + "\nDaily\nReminders";
+    }
+
+    public void setChanged(boolean isChanged){
+        mChanged = isChanged;
+    }
+
+    public boolean isChanged(){
+        return mChanged;
     }
 
     public boolean isDaily(){
